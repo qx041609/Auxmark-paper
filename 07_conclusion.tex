@@ -1,0 +1,16 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We present \name{}, a behavioral watermarking framework to track the unauthorized distillation of LLM agents. \name{} inserts useful extra tool calls after normal core actions. To verify if the watermark is copied, it uses paired real and fake probes along with a card-level sign test. This design supports both model-level detection and trace-level tracking.In experiments across three benchmarks, two teacher models, and four student architectures, \name{} successfully detects all 24 distilled students with zero false positives on 48 clean models. It also remains highly effective under data flooding, rewriting, truncation, and adaptive cleaning attacks. Future work will extend this evaluation to more teacher models, cleaning tools, and training methods.
+
+
+\section*{AI use statement}
+In this work, we used generative AI tools for research execution, generating synthetic datasets, and code generation. Specifically, large language models were employed to generate agent-interaction trajectories, construct paired verification probes for our evaluations, and assist with implementation. We have not used generative AI tools for drafting core sections of the paper or proving mathematical claims, and the rest of the required disclosure tasks are not applicable to this work. Additionally, we used generative AI tools (Gemini 3.1 Pro) for aiding and polishing the English writing of the manuscript.
+We have reviewed all AI-assisted work. The authors manually assessed AI-assisted research ideas through a literature survey and technical discussion. For the synthetic datasets, the LLM-generated agent trajectories and verification probes were programmatically validated and manually sampled to ensure they form valid, executable tool-use sequences that strictly adhere to the predefined tool schemas and task objectives. All AI-generated code was reviewed, tested, and, where necessary, revised by the authors before use. For the writing assistance, all AI-polished text was thoroughly reviewed and edited by the authors to guarantee it accurately reflects our original scientific intent, methodology, and conclusions without introducing hallucinations or overclaims. We take responsibility for the final content of this work, including text, claims, or artifacts produced with the aid of generative AI.
+
+
+
+
+\section*{Reproducibility Statement}
+
+To ensure the full reproducibility of our results, we have made our complete source code, benchmark adapters, and evaluation scripts publicly available via an anonymous repository (\href{https://github.com/qx041609/Auxmark}{https://github.com/qx041609/Auxmark}). Additionally, all trained student model weights (e.g., LoRA adapters) necessary to replicate our detection and trace-level attribution experiments are hosted on Hugging Face (\href{https://huggingface.co/AuxMark/AuxMark/tree/main}{huggingface.co/AuxMark/AuxMark/tree/main}). 

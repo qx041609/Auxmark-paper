@@ -1,0 +1,95 @@
+\documentclass[conference,compsoc]{IEEEtran}
+% IEEE Symposium on Security and Privacy / Computer Society conference layout.
+% The manuscript remains split across the original section files.
+\IEEEoverridecommandlockouts
+
+% Optional math commands from https://github.com/goodfeli/dlbook_notation.
+\input{math_commands.tex}
+
+% Preserve the citation commands already used throughout the manuscript.
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{url}
+\usepackage{dashrule}
+\usepackage{xcolor}
+\newcommand{\partitle}[1]{ \noindent \textbf{#1.}}
+\newcommand{\name}{{\tt AuxMark}}
+
+
+
+
+
+
+
+\title{AuxMark: Defending Against Unauthorized Agent Distillation via Auxiliary Behavioral Watermarking}
+
+\author{
+\IEEEauthorblockN{
+Yiqing Feng\IEEEauthorrefmark{1},
+Haozhe Feng\IEEEauthorrefmark{2},
+Shunan Shang\IEEEauthorrefmark{1},
+Xiaoyu Zhang\IEEEauthorrefmark{1},
+Jian Lou\IEEEauthorrefmark{3},
+\textbf{Haodong Zhao}\IEEEauthorrefmark{4}, and
+\textbf{Mingxun Zhou}\IEEEauthorrefmark{5}\thanks{Corresponding author.}}
+\IEEEauthorblockA{\IEEEauthorrefmark{1}Xidian University}
+\IEEEauthorblockA{\IEEEauthorrefmark{2}Zhejiang University}
+\IEEEauthorblockA{\IEEEauthorrefmark{3}Sun Yat-sen University}
+\IEEEauthorblockA{\IEEEauthorrefmark{4}Shanghai Jiao Tong University}
+\IEEEauthorblockA{\IEEEauthorrefmark{5}HKUST}
+}
+
+\newcommand{\tableRate}[3]{#1 / #2 (#3\%)}
+\newcommand{\tablePval}[2]{\ensuremath{#1 \times 10^{#2}}}
+\definecolor{colorLLM4}{HTML}{EAF3E2}
+\definecolor{colorLLM3}{HTML}{B4DEB6}
+\definecolor{colorLLM2}{HTML}{7BC6BE}
+\definecolor{colorLLM1}{HTML}{439CC4}
+\newcommand{\robustnessModelLegend}{bar colors denote \textcolor{colorLLM4}{$\blacksquare$} Mistral-24B, \textcolor{colorLLM3}{$\blacksquare$} GLM-4.7-Flash, \textcolor{colorLLM2}{$\blacksquare$} Qwen3-14B, and \textcolor{colorLLM1}{$\blacksquare$} Qwen3-32B}
+\newcommand{\robustnessPanelWidth}{0.31\textwidth}
+% 算法排版必需的宏包
+\usepackage{algorithm}
+\usepackage{algpseudocode} 
+
+% 数学公式和符号支持（如果还没加的话）
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{makecell}
+\usepackage{threeparttable}
+\usepackage{colortbl}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\usepackage{placeins}
+
+% Load hyperlinks last so references use the IEEE layout correctly.
+\usepackage{hyperref}
+\begin{document}
+
+
+\maketitle
+
+\begin{abstract}
+\input{00_abstract.tex}
+\end{abstract}
+\input{01_intro.tex}
+\input{02_prelim.tex}
+\input{03_construction.tex}
+\input{04_experiment.tex}
+\input{07_conclusion.tex}
+
+
+
+
+
+\bibliographystyle{IEEEtranN}
+\bibliography{09_reference}
+
+\appendices
+\input{08_appendix.tex}
+
+
+\end{document}

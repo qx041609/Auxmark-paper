@@ -1,0 +1,43 @@
+\section{Introduction}
+
+\label{sec:introduction}
+Large language model (LLM) agents can solve complex tasks by interacting with external environments and using tools~\citep{anthropic2026opus48, team2025kimi, xu2026deepseek}. However, training models with these advanced skills requires huge costs and computing resources. For example, training frontier models like OpenAI's GPT requires tens of thousands of GPUs and costs tens of millions of dollars~\cite{singh2025openai, sajadieh2026artificial}. 
+
+% fix: define the distillation cleaner and more maturely. Define the players in the game,
+% their roles, objectives, and interactions in the distillation process.
+Agent distillation is a widely used and low-cost method to improve model performance~\cite{liu2026structured, kang2026distilling}. This process involves two main parties: a model owner and an attacker. The model owner provides a powerful teacher agent as a service. To save money, the attacker systematically queries this teacher agent to collect high-quality interaction trajectories. By using this data to train their own student model, the attacker can easily copy the teacher's capabilities and avoid the high cost of training a model from scratch.
+
+This unauthorized knowledge transfer severely violates the service agreement and harms the intellectual property of model developers. There are wide range of evidences showing that leading AI companies (e.g., OpenAI, Google) have already found massive illegal distillation behaviors in their traffic~\cite{OpenAIkey, googleGTIGThreat, anthropicDetectingPreventing}. Furthermore, recent industry disputes and studies have exposed widespread trajectory copying, showing that many models display ``behavioral homogenization" that closely mimics the proprietary teachers~\cite{yang2026agents}. 
+
+% make a categorization without going too deep on the limitations
+% post-hoc
+% active watermarking embedding
+
+To protect model intellectual property against unauthorized distillation, existing methods can be mainly divided into two categories: active watermark embedding and post-hoc detection. First, active watermark embedding methods proactively modify the model's outputs to leave tracking marks. This approach includes watermarks designed for general Large Language Models (LLMs)~\cite{savani2026antidistillation, xu2026antidistillation, ma2026protecting}, which typically alter text tokens or reasoning steps and are therefore unsuitable for agent systems; it also includes watermarking schemes specifically designed for agent systems~\cite{wang2026protecting}. Second, post-hoc detection methods aim to identify distillation behavior after the model is trained. For example, some studies~\cite{yang2026agents, rawat2026reference, panfilov2026stealing} attempt to verify ownership by checking the execution process or behavioral similarity of the models.
+
+% \subsection{Our Contribution}
+
+% our contribution in this work is two-fold: 1) we systematically revisited the post-hoc distillation detection and existing active anti-distillation watermarking methods and discovered failure cases and limitations for these approaches; 
+% 2) we propose a novel behavioral watermarking framework to effectively trace agent distillation while preserving task utility.
+
+% paragraph: discussion on the  detection methods;
+
+% paragraph: discussion on our wateramrking methods.
+% Our main insight is to consider a specific threat model that is inspired by recent security reports from  the Ai providers (anthopic, etc): 1 - 2 sentences
+% Under this threat model, what's the most novel / powerful methods? basically, what's the difference?
+% intro on our method
+
+% empirically, xxxx. Compared yyy, our method demonstrates xxxx
+
+
+justify our threat model
+
+In this work, we propose \name{}, a behavioral watermarking framework to trace agent distillation. Our main insight stems from the multi-step nature of agent interactions and the behavioral homogenization during distillation. Instead of modifying the core actions required for the task, \name{} injects extra auxiliary actions into the trajectory and saves these interaction as private evidence. To align with deployments in the real world, we introduce a more practical threat model: model owners can identify suspicious distillation behaviors via traffic monitoring (existing studies show that such traffic anomaly detection can achieve around 90\% recall with extremely low false positive rates~\cite{liu2026embarrassingly, huh2025preventing, chiang2024chatbot}), and extract the corresponding evidence for targeted verification. For this verification, we introduce a paired-probe detection protocol. It compares the suspect model's responses on real probes built from the evidence against fake probes where the core actions are semantically altered. This strict comparison effectively isolates the watermarked behavior from natural contextual choices. Empirically, our evaluation demonstrates that \name{} achieves highly reliable detection while preserving the agent's task utility. Across three agent benchmarks, two teacher models, and four student architectures, our method successfully detects all 24 distilled student models with zero false positives. Furthermore, \name{} remains highly robust against various adversarial attacks.
+
+\textbf{Key contributions of this paper include:}
+
+\begin{itemize}
+    \item We formulate a highly practical threat model for agent distillation. By combining suspicious target identification via traffic monitoring with targeted verification using private evidence, this model provides a closed-loop solution for tracing intellectual property theft in the real world scenarios.
+    \item We design a novel behavioral watermarking framework and a paired-probe detection protocol. This architecture exploits multi-step interactions to embed auxiliary actions in real time, and provides strong statistical guarantees for verification and trace-level attribution by comparing responses on real and fake probes alongside a card-level sign test.
+    \item We conduct comprehensive experiments across multiple benchmarks and model architectures. The results demonstrate that \name{} achieves a 100\% detection rate and zero false positives while preserving the agent's task utility, and exhibits strong robustness against various data-processing operations and adaptive cleaning attacks.
+\end{itemize}
