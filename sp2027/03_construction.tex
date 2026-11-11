@@ -2,11 +2,11 @@
 
 \subsection{Overview}
 
-During agent distillation, the distilled students and their teachers share similar interaction trajectories~\cite{yang2026agents, lyu2025correction, gudibande2023false}. Based on this property, we proposed a watermark scheme \name{} as illustrated in Figure~\ref{fig:overview}. Firstly, the owner embeds the watermark by dynamically inserting auxiliary(aux) behaviors into the teacher's trajectories and privately saves evidence. Once suspicious traffic is identified, the corresponding records are extracted to form an evidence pool in Section~\ref{sec:watermark_embedding}. Next, the owner uses this evidence to construct paired real and fake probes, applying statistical tests to verify if the suspect model reproduces the watermark in Section~\ref{Detection}. Finally, trace-level attribution in Section~\ref{subsec:trace_level} to evaluate which suspicious trajectories are most likely to have been used in the attacker's training set.
+During distillation, the distilled students and their teachers share similar interaction trajectories~\cite{yang2026agents, lyu2025correction, gudibande2023false}. Based on this property, we proposed a watermark scheme \name{} as illustrated in Figure~\ref{fig:overview}. Firstly, the owner embeds the watermark by dynamically inserting auxiliary(aux) behaviors into the teacher's trajectories and privately saves evidence. Once suspicious traffic is identified, the corresponding records are extracted to form an evidence pool in Section~\ref{sec:watermark_embedding}. Next, the owner uses this evidence to construct paired real and fake probes, applying statistical tests to verify if the suspect model reproduces the watermark in Section~\ref{Detection}. Finally, trace-level attribution in Section~\ref{subsec:trace_level} to evaluate which suspicious trajectories are most likely to have been used in the attacker's training set.
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=0.85\columnwidth]{figure/overview.pdf}
+\includegraphics[width=0.95\columnwidth]{figure/overview.pdf}
 \caption{Overview of \name{}. \textbf{Phase 1:} the owner embeds the watermark by inserting aux behaviors; \textbf{Phase 2:} the owner retrieves the private evidence to construct paired real and fake probes and verify a suspect student model. \textcolor[HTML]{BDD7EE}{\rule{0.85em}{0.85em}} denotes watermarked thing.}
 \label{fig:overview}
 \end{figure}
