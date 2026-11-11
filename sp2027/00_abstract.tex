@@ -1,10 +1,12 @@
 In unauthorized model distillation, distillers use outputs from proprietary models to train student models without the providers' permission.
-We systematize existing defenses based on traffic screening, model watermarking, and passive post-hoc fingerprinting, and identify new limitations in these approaches.
-A practical defense must combine high detection rates, strong evidence of training use, low operational cost, and robustness to data cleaning, but existing approaches only partially meet these goals.
-We therefore study a setting in which providers coordinate defenses across the model-serving pipeline.
-In this setting, we introduce \name{}, a behavioral watermarking method for detecting unauthorized distillation of language model agents.
+A practical anti-distillation mechanism must reliably trace distillation and provide strong evidence that a suspect model was trained on the provider's outputs, while adding little operational overhead.
+We systematize existing anti-distillation techniques and show that they only partially meet these requirements.
+We provide new empirical evidence of these limitations in several prominent tracing methods.
+These findings motivate a setting in which providers coordinate the anti-distillation mechanism across the full model-serving pipeline.
+In this setting, we introduce \name{}, a behavioral watermarking method for tracing unauthorized distillation of language model agents.
 \name{} inserts safe auxiliary tool calls into teacher trajectories to embed behaviors that students can learn during distillation.
-The provider then uses traffic screening to select suspicious trajectories and targeted probes to test whether a suspect student has learned these behaviors.
-We evaluate \name{} on three agent benchmarks with eight different teacher-student model pairs. 
-It detects all 24 distilled students with no false positives in 48 control models.
-Our experiments also show that \name{} preserves task utility and remains effective under data mixing, paraphrasing, truncation, and adaptive cleaning, demonstrating its practicality in real-world use scenarios.
+Traffic screening then identifies suspicious trajectories for further investigation.
+The provider constructs targeted probes from these trajectories to test whether a suspect student has learned the embedded behaviors.
+In our evaluation covering three agent benchmarks and eight teacher-student model pairs,
+\name{} detects all 24 distilled students with no false positives in 48 evaluations of clean models.
+It preserves task utility while remaining effective under the evaluated common procedures, demonstrating its practicality in real-world deployments.
