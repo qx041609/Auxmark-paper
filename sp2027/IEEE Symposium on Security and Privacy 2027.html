@@ -1,0 +1,2312 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://sp2027.ieee-security.org/cfpapers.html -->
+<html lang="en" style=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>:export{fadeTransitionTime:.7s;slideTransitionTime:.4s}.osano-cm-window{font-family:Helvetica,Arial,Hiragino Sans GB,STXihei,Microsoft YaHei,WenQuanYi Micro Hei,Hind,MS Gothic,Apple SD Gothic Neo,NanumBarunGothic,sans-serif;font-size:16px;font-smooth:always;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothingz:auto;display:block;left:0;line-height:1;position:absolute;top:0;width:100%;z-index:2147483638}.osano-cm-window--context_amp{height:100%}.osano-cm-window{--fade-transition-time:700ms;--slide-transition-time:400ms;--osano-focus-outline:3px solid var(--osano-focus-outline-color);--osano-focus-outline-offset:2px}.osano-visually-hidden{height:1px;left:-10000px;margin:-1px;opacity:0;overflow:hidden;position:absolute;width:1px}.osano-cm-button{background-color:var(--osano-button-background-color);border-color:var(--osano-button-border-color);border-radius:.25em;border-style:solid;border-width:thin;color:var(--osano-button-foreground-color);cursor:pointer;flex:1 1 auto;font-size:1em;font-weight:700;line-height:1;margin:.125em;min-width:6em;padding:.5em .75em;transition-duration:.2s;transition-property:background-color;transition-timing-function:ease-out}.osano-cm-button:hover{--osano-button-background-color:var(--osano-button-background-color-hover)}.osano-cm-button:focus-visible{--osano-button-background-color:var(--osano-button-background-color-hover);outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset)}.osano-cm-button--type_accept,.osano-cm-button--type_accept-all{--osano-button-background-color:var(--osano-button-accept-background-color);--osano-button-border-color:var(--osano-button-accept-border-color);--osano-button-foreground-color:var(--osano-button-accept-foreground-color)}.osano-cm-button--type_accept-all:focus-visible,.osano-cm-button--type_accept-all:hover,.osano-cm-button--type_accept:focus-visible,.osano-cm-button--type_accept:hover{--osano-button-background-color:var(--osano-button-accept-background-color-hover)}.osano-cm-button--type_deny{--osano-button-background-color:var(--osano-button-deny-background-color);--osano-button-border-color:var(--osano-button-deny-border-color);--osano-button-foreground-color:var(--osano-button-deny-foreground-color)}.osano-cm-button--type_deny:focus-visible,.osano-cm-button--type_deny:hover{--osano-button-background-color:var(--osano-button-deny-background-color-hover)}.osano-cm-button--type_denyAll{--osano-button-background-color:var(--osano-button-reject-all-background-color);--osano-button-border-color:var(--osano-button-reject-all-border-color);--osano-button-foreground-color:var(--osano-button-reject-all-foreground-color)}.osano-cm-button--type_denyAll:focus-visible,.osano-cm-button--type_denyAll:hover{--osano-button-background-color:var(
+      --osano-button-reject-all-background-color-hover
+  )}.osano-cm-button--type_manage{--osano-button-background-color:var(--osano-button-manage-background-color);--osano-button-border-color:var(--osano-button-manage-border-color);--osano-button-foreground-color:var(--osano-button-manage-foreground-color)}.osano-cm-button--type_manage:focus-visible,.osano-cm-button--type_manage:hover{--osano-button-background-color:var(--osano-button-manage-background-color-hover)}.osano-cm-close{--osano-button-close-background-color:transparent;--osano-button-close-stroke-color:var(--osano-button-close-color);background-color:var(--osano-button-close-background-color);border-color:var(--osano-button-close-background-color);border-radius:50%;border-style:solid;border-width:2px;box-sizing:content-box;color:var(--osano-button-close-stroke-color);cursor:pointer;display:flex;height:20px;justify-content:center;line-height:normal;margin:.5em;min-height:20px;min-width:20px;order:0;overflow:hidden;padding:0;stroke:var(--osano-button-close-stroke-color);stroke-width:1px;text-decoration:none;transform:rotate(0deg);transition-duration:.2s;transition-property:transform,color,background-color,stroke,stroke-width;transition-timing-function:ease-out;width:20px;z-index:2}.osano-cm-close:focus-visible{--osano-button-close-background-color:var(--osano-button-close-color);--osano-button-close-stroke-color:var(--osano-dialog-background-color);outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset);stroke-width:2px;transform:rotate(90deg)}.osano-cm-close:hover{stroke-width:2px;transform:rotate(90deg)}.ccpa-opt-out-icon{display:flex;flex:1 1 auto}.ccpa-opt-out-icon svg{max-width:40px}.osano-cm-powered-by__logo{display:block;height:auto;max-width:100%;width:14em}.osano-cm-powered-by{align-items:center;display:flex;flex-direction:column;font-weight:700;justify-content:center;margin:1em 0}.osano-cm-powered-by__link{font-size:.625em;text-decoration:none}.osano-cm-powered-by__link:hover{text-decoration:underline}.osano-cm-powered-by__link:focus-visible{outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset);text-decoration:underline}.osano-cm-link{color:var(--osano-link-color);cursor:pointer;text-decoration:underline;transition-duration:.2s;transition-property:color;transition-timing-function:ease-out}.osano-cm-link:active,.osano-cm-link:hover,.osano-cm-link:visited{color:var(--osano-link-color-contrast);outline:none}.osano-cm-link:focus-visible{color:var(--osano-link-color-contrast);font-weight:700;outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset)}.osano-cm-link--type_feature,.osano-cm-link--type_purpose,.osano-cm-link--type_specialFeature,.osano-cm-link--type_specialPurpose{cursor:help;display:block;font-weight:400;-webkit-text-decoration:dashed;text-decoration:dashed}.osano-cm-link--type_feature:active,.osano-cm-link--type_feature:hover,.osano-cm-link--type_purpose:active,.osano-cm-link--type_purpose:hover,.osano-cm-link--type_specialFeature:active,.osano-cm-link--type_specialFeature:hover,.osano-cm-link--type_specialPurpose:active,.osano-cm-link--type_specialPurpose:hover{font-weight:400;text-decoration:underline}.osano-cm-link--type_feature:focus-visible,.osano-cm-link--type_purpose:focus-visible,.osano-cm-link--type_specialFeature:focus-visible,.osano-cm-link--type_specialPurpose:focus-visible{font-weight:400;outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset);text-decoration:underline}.osano-cm-link--type_denyAll{display:block;text-align:right}[dir=rtl] .osano-cm-link--type_denyAll{text-align:left}.osano-cm-link--type_link,.osano-cm-link--type_vendor{display:block}.osano-cm-link-separator:before{content:"|";padding:0 .5em}.osano-cm-vendor-link{font-size:.75em}button.osano-cm-link{-webkit-appearance:none;-moz-appearance:none;appearance:none;background:transparent;border:0;cursor:pointer;font:inherit;margin:0;padding:0;text-align:inherit}.osano-cm-link__count:before{content:"("}.osano-cm-link__count:after{content:")"}.osano-cm-list-item{margin:0}.osano-cm-list-item--type_term{border-top-style:solid;border-top-width:1px;font-size:.875rem;font-weight:400;margin-bottom:.25em;margin-top:.5em;padding:.5em .75rem 0;position:relative;top:-1px}.osano-cm-list-item--type_description{font-size:.75rem;font-weight:lighter;padding:0 .75rem}.osano-cm-list{list-style-position:outside;list-style-type:none;margin:0;padding:0}.osano-cm-list__list-item{text-indent:0}.osano-cm-list--type_description{margin:0 -1em}.osano-cm-list:first-of-type .osano-cm-list__list-item:first-of-type{border-top-width:0;margin-top:0;padding-top:0}label.osano-cm-toggle{min-height:24px}.osano-cm-toggle{align-items:center;display:flex;flex-direction:row-reverse;justify-content:flex-start;margin:.25em 0;pointer-events:auto;position:relative;--osano-toggle-track-color:var(--osano-toggle-off-track-color);--osano-toggle-thumb-color:var(--osano-toggle-off-thumb-color);--osano-toggle-border-color:transparent}.osano-cm-toggle:hover{cursor:pointer}.osano-cm-toggle--disabled:hover{cursor:default}.osano-cm-toggle__label{margin:0 .5em 0 0}[dir=rtl] .osano-cm-toggle__label{margin:0 0 0 .5em}.osano-cm-toggle__pill{display:none}.osano-cm-toggle__switch{background-color:var(--osano-toggle-track-color);border-color:var(--osano-toggle-track-color);border-radius:14px;border-style:solid;border-width:2px;box-sizing:content-box;color:transparent;display:block;flex-shrink:0;height:20px;line-height:0;margin:0;position:relative;text-indent:-9999px;transition-duration:.2s;transition-property:background-color,filter,border-color;transition-timing-function:ease-out;width:40px}.osano-cm-toggle__switch:hover{cursor:pointer}.osano-cm-toggle__switch:after{background-color:var(--osano-toggle-thumb-color);border-color:var(--osano-toggle-thumb-color);border-radius:10px;border-width:0;height:20px;left:0;top:0;width:20px}.osano-cm-toggle__switch:before{border-color:var(--osano-toggle-border-color);border-radius:16px;border-width:2px;bottom:-6px;box-sizing:border-box;left:-6px;right:-6px;top:-6px}.osano-cm-toggle__switch:after,.osano-cm-toggle__switch:before{border-style:solid;content:"";margin:0;position:absolute;transform:translateX(0);transition-duration:.3s;transition-property:transform,left,border-color;transition-timing-function:ease-out}.osano-cm-toggle__switch:after:active,.osano-cm-toggle__switch:before:active{transition-duration:.1s}.osano-cm-toggle__switch:after:active{width:26px}.osano-cm-toggle__switch:before:active{width:34px}[dir=rtl] .osano-cm-toggle__switch:after{left:100%;transform:translateX(-100%)}.osano-cm-toggle__input{height:1px;left:-10000px;margin:-1px;opacity:0;overflow:hidden;position:absolute;width:1px}[dir=rtl] .osano-cm-toggle__input{left:0;right:-10000px}.osano-cm-toggle__input:disabled{cursor:default}.osano-cm-toggle--type_checkbox .osano-cm-toggle__switch{border-radius:4px;border-style:solid;border-width:1px;height:22px;width:22px}.osano-cm-toggle--type_checkbox .osano-cm-toggle__switch:after{background-color:transparent!important;border-bottom-width:2px;border-left-width:2px;border-radius:0;content:none;height:6px;left:3px;top:3px;transform:rotate(-45deg);transition-property:color;transition-timing-function:ease-out;width:12px}.osano-cm-toggle--type_opt-out .osano-cm-toggle__switch{border-radius:4px;border-style:solid;border-width:1px;height:22px;width:22px}.osano-cm-toggle--type_opt-out .osano-cm-toggle__switch:after,.osano-cm-toggle--type_opt-out .osano-cm-toggle__switch:before{background-color:transparent!important;border-bottom-width:1px;border-radius:0;border-top-width:1px;content:none;height:0;left:-3px;top:7px;transition-property:color;transition-timing-function:ease-out;width:12px}.osano-cm-toggle--type_opt-out .osano-cm-toggle__switch:after{transform:translate(50%,50%) rotate(-45deg)}.osano-cm-toggle--type_opt-out .osano-cm-toggle__switch:before{transform:translate(50%,50%) rotate(45deg)}.osano-cm-toggle__input:checked+.osano-cm-toggle__switch{--osano-toggle-track-color:var(--osano-toggle-on-track-color);--osano-toggle-thumb-color:var(--osano-toggle-on-thumb-color)}.osano-cm-toggle__input:checked+.osano-cm-toggle__switch:after{left:100%;transform:translateX(-100%)}[dir=rtl] .osano-cm-toggle__input:checked+.osano-cm-toggle__switch:after{left:0;transform:translateX(0)}.osano-cm-toggle__input:focus-visible+.osano-cm-toggle__switch,.osano-cm-toggle__input:hover+.osano-cm-toggle__switch{--osano-toggle-track-color:var(--osano-toggle-off-track-color-hover);--osano-toggle-thumb-color:var(--osano-toggle-off-thumb-color-hover)}.osano-cm-toggle__input:focus-visible+.osano-cm-toggle__switch:before{--osano-toggle-border-color:var(--osano-toggle-off-track-color-hover)}.osano-cm-toggle__input:disabled+.osano-cm-toggle__switch{cursor:default}.osano-cm-toggle--type_checkbox .osano-cm-toggle__input:checked+.osano-cm-toggle__switch:after{content:"";left:3px;top:3px;transform:rotate(-45deg)}.osano-cm-toggle--type_opt-out .osano-cm-toggle__input:checked+.osano-cm-toggle__switch:after,.osano-cm-toggle--type_opt-out .osano-cm-toggle__input:checked+.osano-cm-toggle__switch:before{content:"";left:-1px;top:9px}.osano-cm-toggle--type_opt-out .osano-cm-toggle__input:checked+.osano-cm-toggle__switch:after{transform:translate(50%,50%) rotate(-45deg)}.osano-cm-toggle--type_opt-out .osano-cm-toggle__input:checked+.osano-cm-toggle__switch:before{transform:translate(50%,50%) rotate(45deg)}.osano-cm-toggle--type_checkbox .osano-cm-toggle__input:disabled+.osano-cm-toggle__switch,.osano-cm-toggle--type_opt-out .osano-cm-toggle__input:disabled+.osano-cm-toggle__switch{opacity:.3}.osano-cm-toggle__input:checked:focus-visible+.osano-cm-toggle__switch,.osano-cm-toggle__input:checked:hover+.osano-cm-toggle__switch{--osano-toggle-track-color:var(--osano-toggle-on-track-color-hover);--osano-toggle-thumb-color:var(--osano-toggle-on-thumb-color-hover)}.osano-cm-toggle__input:checked:focus-visible+.osano-cm-toggle__switch:before{--osano-toggle-border-color:var(--osano-toggle-on-track-color-hover)}.osano-cm-toggle__input:disabled+.osano-cm-toggle__switch,.osano-cm-toggle__input:disabled:focus-visible+.osano-cm-toggle__switch,.osano-cm-toggle__input:disabled:hover+.osano-cm-toggle__switch{--osano-toggle-track-color:var(--osano-toggle-off-track-color-disabled)}.osano-cm-toggle__input:disabled+.osano-cm-toggle__switch:after,.osano-cm-toggle__input:disabled:focus-visible+.osano-cm-toggle__switch:after,.osano-cm-toggle__input:disabled:hover+.osano-cm-toggle__switch:after{--osano-toggle-thumb-color:var(--osano-toggle-off-thumb-color-disabled)}.osano-cm-toggle__input:disabled+.osano-cm-toggle__switch:before,.osano-cm-toggle__input:disabled:focus-visible+.osano-cm-toggle__switch:before,.osano-cm-toggle__input:disabled:hover+.osano-cm-toggle__switch:before{--osano-toggle-border-color:transparent}.osano-cm-toggle__input:disabled:checked+.osano-cm-toggle__switch,.osano-cm-toggle__input:disabled:checked:focus-visible+.osano-cm-toggle__switch,.osano-cm-toggle__input:disabled:checked:hover+.osano-cm-toggle__switch{--osano-toggle-track-color:var(--osano-toggle-on-track-color-disabled)}.osano-cm-toggle__input:disabled:checked+.osano-cm-toggle__switch:after,.osano-cm-toggle__input:disabled:checked:focus-visible+.osano-cm-toggle__switch:after,.osano-cm-toggle__input:disabled:checked:hover+.osano-cm-toggle__switch:after{--osano-toggle-thumb-color:var(--osano-toggle-on-thumb-color-disabled)}.osano-cm-toggle__input:disabled:checked+.osano-cm-toggle__switch:before,.osano-cm-toggle__input:disabled:checked:focus-visible+.osano-cm-toggle__switch:before,.osano-cm-toggle__input:disabled:checked:hover+.osano-cm-toggle__switch:before{--osano-toggle-border-color:transparent}.osano-cm-widget{background:none;border:none;bottom:12px;cursor:pointer;height:40px;opacity:.9;outline:none;padding:0;position:fixed;transition:transform .1s linear 0s,opacity .2s linear 0s,visibility 0s linear 0s;visibility:visible;width:40px;z-index:2147483636}.osano-cm-widget--position_right{right:12px}.osano-cm-widget--position_left{left:12px}.osano-cm-widget:focus-visible{opacity:1;outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset);transform:scale(1.1)}.osano-cm-widget:hover{opacity:1;transform:scale(1.1)}.osano-cm-widget--hidden{opacity:0;visibility:hidden}.osano-cm-widget--hidden:focus-visible,.osano-cm-widget--hidden:hover{opacity:0;transform:scale(1)}.osano-cm-widget__outline{fill:var(--osano-widget-fill-color);stroke:var(--osano-widget-outline-color)}.osano-cm-widget__dot{fill:var(--osano-widget-color)}.osano-cm-dialog{--osano-gpc-color:var(--osano-dialog-gpc-color);--osano-gpc-border-color:var(--osano-dialog-gpc-border-color);--osano-gpc-background-color:var(--osano-dialog-gpc-background-color);--osano-gpc-foreground-color:var(--osano-dialog-gpc-foreground-color);align-items:center;background:var(--osano-dialog-background-color);box-sizing:border-box;color:var(--osano-dialog-foreground-color);font-size:1em;line-height:1.25;max-height:100vh;overflow:auto;padding:1.5em;position:fixed;transition-delay:0s,0s;transition-duration:.7s,0s;transition-property:opacity,visibility;visibility:visible;z-index:2147483637}.osano-cm-dialog--hidden{opacity:0;transition-delay:0s,.7s;visibility:hidden}.osano-cm-dialog--type_bar{box-sizing:border-box;display:flex;flex-direction:column;left:0;right:0}.osano-cm-dialog--type_bar .osano-cm-button{flex:none;margin:.125em auto;width:80%}@media screen and (min-width:768px){.osano-cm-dialog--type_bar{flex-direction:row}.osano-cm-dialog--type_bar .osano-cm-button{flex:1 1 100%;margin:.25em .5em;width:auto}}.osano-cm-dialog--type_box{flex-direction:column;max-height:calc(100vh - 2em);max-width:20em;width:calc(100vw - 2em)}.osano-cm-dialog__close{position:absolute;right:0;top:0}.osano-cm-dialog__list{margin:.5em 0 0;padding:0}.osano-cm-dialog__list .osano-cm-item{display:flex;margin-top:0}.osano-cm-dialog__list .osano-cm-item:last-child{margin-bottom:0}.osano-cm-dialog__list .osano-cm-toggle{flex-direction:row}[dir=rtl] .osano-cm-dialog__list .osano-cm-toggle{flex-direction:row-reverse}.osano-cm-dialog__list .osano-cm-label{white-space:nowrap}[dir=ltr] .osano-cm-dialog__list .osano-cm-label{margin-left:.375em}[dir=rtl] .osano-cm-dialog__list .osano-cm-label{margin-right:.375em}.osano-cm-dialog__buttons{display:flex;flex-wrap:wrap}.osano-cm-dialog--type_bar .osano-cm-dialog__content{flex:5;margin-bottom:.25em;width:100%}.osano-cm-dialog--type_bar .osano-cm-powered-by{align-items:flex-start;margin:1em 0 0}.osano-cm-dialog--type_box .osano-cm-dialog__content{display:flex;flex-direction:column;flex-grow:0.0001;transition:flex-grow 1s linear}.osano-cm-dialog--type_box .osano-cm-link-separator:before{content:"";padding:0}.osano-cm-dialog--type_box .osano-cm-content__link{margin-bottom:.5em}.osano-cm-dialog--type_bar .osano-cm-dialog__list{display:flex;flex-direction:column;flex-wrap:wrap;justify-content:flex-start;margin:.75em auto}@media screen and (min-width:376px){.osano-cm-dialog--type_bar .osano-cm-dialog__list{flex-direction:row}}@media screen and (min-width:768px){.osano-cm-dialog--type_bar .osano-cm-dialog__list{margin:.5em 0 0 auto}[dir=rtl] .osano-cm-dialog--type_bar .osano-cm-dialog__list{margin:.5em auto 0 0}}[dir=ltr] .osano-cm-dialog--type_bar .osano-cm-dialog__list .osano-cm-item{margin-right:.5em}[dir=rtl] .osano-cm-dialog--type_bar .osano-cm-dialog__list .osano-cm-item{margin-left:.5em}.osano-cm-dialog--type_bar .osano-cm-dialog__list .osano-cm-label{padding-top:0}.osano-cm-dialog--type_bar .osano-cm-dialog__buttons{flex:1;justify-content:flex-end;margin:0;width:100%}@media screen and (min-width:768px){.osano-cm-dialog--type_bar .osano-cm-dialog__buttons{margin:0 0 0 .5em;max-width:30vw;min-width:16em;position:sticky;top:0;width:auto}[dir=rtl] .osano-cm-dialog--type_bar .osano-cm-dialog__buttons{margin:0 .5em 0 0}}.osano-cm-dialog--type_box .osano-cm-dialog__buttons{margin:.5em 0 0}.osano-cm-dialog--type_bar.osano-cm-dialog--position_top{top:0}.osano-cm-dialog--type_bar.osano-cm-dialog--position_bottom{bottom:0}.osano-cm-dialog--type_box.osano-cm-dialog--position_top-left{left:1em;top:1em}.osano-cm-dialog--type_box.osano-cm-dialog--position_top-right{right:1em;top:1em}.osano-cm-dialog--type_box.osano-cm-dialog--position_bottom-left{bottom:1em;left:1em}.osano-cm-dialog--type_box.osano-cm-dialog--position_bottom-right{bottom:1em;right:1em}.osano-cm-dialog--type_box.osano-cm-dialog--position_center{left:50%;top:50%;transform:translate(-50%,-50%)}.osano-cm-dialog--type_box.osano-cm-dialog--wide{max-width:50em}@media screen and (max-height:800px) and (max-width:1200px){.osano-cm-dialog--type_box.osano-cm-dialog--wide{max-width:calc(100vw - 4em)}}.osano-cm-dialog--type_box.osano-cm-dialog--wide .osano-cm-dialog__list{display:flex;flex-wrap:wrap}.osano-cm-dialog--context_amp{height:100%;position:relative}.osano-cm-content__message{margin-bottom:1em;white-space:pre-line;word-break:break-word}.osano-cm-content__cross-device-disclosure{margin:1em 0 .5em;word-break:break-word}.osano-cm-drawer-links{margin:.5em 0 0}.osano-cm-drawer-links__link{display:block}.osano-cm-storage-policy{display:inline-block}.osano-cm-usage-list{margin:0 0 .5em;white-space:pre-line}.osano-cm-usage-list__list{list-style-position:inside;list-style-type:disc}.osano-cm-info-dialog{--osano-dialog-background-color:var(--osano-info-dialog-background-color);--osano-dialog-foreground-color:var(--osano-info-dialog-foreground-color);--osano-toggle-off-track-color:var(--osano-info-dialog-toggle-off-track-color);--osano-toggle-off-thumb-color:var(--osano-info-dialog-toggle-off-thumb-color);--osano-toggle-on-track-color:var(--osano-info-dialog-toggle-on-track-color);--osano-toggle-on-thumb-color:var(--osano-info-dialog-toggle-on-thumb-color);--osano-toggle-off-track-color-hover:var(--osano-info-dialog-toggle-off-track-color-hover);--osano-toggle-off-track-color-focus:var(--osano-info-dialog-toggle-off-track-color-focus);--osano-toggle-off-thumb-color-hover:var(--osano-info-dialog-toggle-off-thumb-color-hover);--osano-toggle-off-thumb-color-focus:var(--osano-info-dialog-toggle-off-thumb-color-focus);--osano-toggle-on-track-color-hover:var(--osano-info-dialog-toggle-on-track-color-hover);--osano-toggle-on-track-color-focus:var(--osano-info-dialog-toggle-on-track-color-focus);--osano-toggle-on-thumb-color-hover:var(--osano-info-dialog-toggle-on-thumb-color-hover);--osano-toggle-on-thumb-color-focus:var(--osano-info-dialog-toggle-on-thumb-color-focus);--osano-toggle-off-track-color-contrast:var(
+      --osano-info-dialog-toggle-off-track-color-contrast
+  );--osano-toggle-off-thumb-color-contrast:var(
+      --osano-info-dialog-toggle-off-thumb-color-contrast
+  );--osano-toggle-on-track-color-contrast:var(--osano-info-dialog-toggle-on-track-color-contrast);--osano-toggle-on-thumb-color-contrast:var(--osano-info-dialog-toggle-on-thumb-color-contrast);--osano-toggle-on-track-color-disabled:var(--osano-info-dialog-toggle-on-track-color-disabled);--osano-toggle-on-thumb-color-disabled:var(--osano-info-dialog-toggle-on-thumb-color-disabled);--osano-toggle-off-track-color-disabled:var(
+      --osano-info-dialog-toggle-off-track-color-disabled
+  );--osano-toggle-off-thumb-color-disabled:var(
+      --osano-info-dialog-toggle-off-thumb-color-disabled
+  );--osano-button-background-color:var(--osano-info-dialog-button-background-color);--osano-button-border-color:var(--osano-info-dialog-button-border-color);--osano-button-foreground-color:var(--osano-info-dialog-button-foreground-color);--osano-button-foreground-color-focus:var(--osano-info-dialog-button-foreground-color-focus);--osano-button-background-color-focus:var(--osano-info-dialog-button-background-color-focus);--osano-button-foreground-color-hover:var(--osano-info-dialog-button-foreground-color-hover);--osano-button-background-color-hover:var(--osano-info-dialog-button-background-color-hover);--osano-button-accept-background-color:var(--osano-info-dialog-button-background-color);--osano-button-accept-border-color:var(--osano-info-dialog-button-border-color);--osano-button-accept-foreground-color:var(--osano-info-dialog-button-foreground-color);--osano-button-accept-foreground-color-focus:var(
+      --osano-info-dialog-button-foreground-color-focus
+  );--osano-button-accept-background-color-focus:var(
+      --osano-info-dialog-button-background-color-focus
+  );--osano-button-accept-foreground-color-hover:var(
+      --osano-info-dialog-button-foreground-color-hover
+  );--osano-button-accept-background-color-hover:var(
+      --osano-info-dialog-button-background-color-hover
+  );--osano-button-deny-background-color:var(--osano-info-dialog-button-background-color);--osano-button-deny-border-color:var(--osano-info-dialog-button-border-color);--osano-button-deny-foreground-color:var(--osano-info-dialog-button-foreground-color);--osano-button-deny-foreground-color-focus:var(
+      --osano-info-dialog-button-foreground-color-focus
+  );--osano-button-deny-background-color-focus:var(
+      --osano-info-dialog-button-background-color-focus
+  );--osano-button-deny-foreground-color-hover:var(
+      --osano-info-dialog-button-foreground-color-hover
+  );--osano-button-deny-background-color-hover:var(
+      --osano-info-dialog-button-background-color-hover
+  );--osano-link-color:var(--osano-info-dialog-link-color);--osano-link-color-contrast:var(--osano-info-dialog-link-color-contrast);--osano-link-color-hover:var(--osano-info-dialog-link-color-hover);--osano-link-color-focus:var(--osano-info-dialog-link-color-focus);--osano-button-close-color:var(--osano-info-dialog-button-close-color);--osano-gpc-color:var(--osano-info-dialog-gpc-color);--osano-gpc-border-color:var(--osano-info-dialog-gpc-border-color);--osano-gpc-background-color:var(--osano-info-dialog-gpc-background-color);--osano-gpc-foreground-color:var(--osano-info-dialog-gpc-foreground-color);background:var(--osano-info-dialog-overlay-color);height:100vh;left:0;position:fixed;top:0;transition-delay:0s,0s;transition-duration:.2s,0s;transition-property:opacity,visibility;visibility:visible;width:100vw;z-index:2147483638}.osano-cm-info-dialog--hidden{opacity:0;transition-delay:0s,.2s;visibility:hidden}.osano-cm-header{background:var(--osano-dialog-background-color);background:linear-gradient(180deg,var(--osano-dialog-background-color) 2.5em,var(--osano-clear-dialog-background) 100%);margin:0 0 -1em;padding:1em 0;position:sticky;top:0;white-space:pre-line;z-index:1}.osano-cm-info{animation:delay-overflow .4s;background:var(--osano-dialog-background-color);bottom:0;box-shadow:0 0 2px 2px #ccc;box-sizing:border-box;color:var(--osano-dialog-foreground-color);max-width:20em;overflow:visible visible;position:fixed;top:0;transition-duration:.4s;transition-property:transform;width:100%}.osano-cm-info--position_left{left:0;transform:translate(-100%)}.osano-cm-info--position_right{right:0;transform:translate(100%)}.osano-cm-info--open{animation:none;overflow:hidden auto;transform:translate(0)}.osano-cm-info--do_not_sell{animation:none;height:-moz-fit-content;height:fit-content;left:50%;max-height:100vh;position:fixed;right:auto;top:50%;transform:translate(-50%,-50%);transition:none}.osano-cm-info--do_not_sell .osano-cm-close{order:-1}.osano-cm-info--do_not_sell .osano-cm-header{box-sizing:content-box;display:block;flex:none}.osano-cm-info-views{align-items:flex-start;display:flex;flex-direction:row;flex-wrap:nowrap;height:100%;transition-duration:.4s;transition-property:transform;width:100%}[dir=rtl] .osano-cm-info-views{flex-direction:row-reverse}.osano-cm-info-views__view{box-sizing:border-box;flex-shrink:0;width:100%}.osano-cm-info-views--position_0>:not(:first-of-type),.osano-cm-info-views--position_1>:not(:nth-of-type(2)){max-height:100%;overflow:hidden}.osano-cm-info-views--position_1{transform:translateX(-100%)}.osano-cm-info-views--position_2>:not(:nth-of-type(3)){max-height:100%;overflow:hidden}.osano-cm-info-views--position_2{transform:translateX(-200%)}.osano-cm-info--do_not_sell .osano-cm-info-views{height:-moz-fit-content;height:fit-content}.osano-cm-view{height:0;padding:0 .75em 1em;transition-delay:.4s;transition-duration:0s;transition-property:height,visibility;visibility:hidden;width:100%}.osano-cm-view__button{font-size:.875em;margin:1em 0 0;width:100%}.osano-cm-view--active{height:auto;transition-delay:0s;visibility:visible}.osano-cm-description{font-size:.75em;font-weight:300;line-height:1.375;margin:1em 0 0;white-space:pre-line}.osano-cm-description:first-child{margin:0}.osano-cm-description:last-of-type{margin-bottom:1em}.osano-cm-drawer-toggle .osano-cm-label{font-size:.875em;line-height:1.375em;margin:0 auto 0 0}[dir=rtl] .osano-cm-drawer-toggle .osano-cm-label{margin:0 0 0 auto}.osano-cm-info-dialog-header{align-items:center;background:var(--osano-dialog-background-color);background:linear-gradient(180deg,var(--osano-dialog-background-color) 2.5em,var(--osano-clear-dialog-background) 100%);display:flex;flex-direction:row-reverse;left:auto;min-height:3.25em;position:sticky;top:0;width:100%;z-index:1}[dir=rtl] .osano-cm-info-dialog-header{flex-direction:row}.osano-cm-info-dialog-header__header{align-items:center;display:flex;flex:1 1 auto;font-size:1em;justify-content:flex-start;margin:0;order:1;padding:1em .75em}.osano-cm-info-dialog-header__description{font-size:.75em;line-height:1.375}.osano-cm-back,.osano-cm-info-dialog-header__close{position:relative}.osano-cm-back{flex:0 1 auto;margin:0 0 0 .5em;min-width:0;order:2;width:auto;z-index:2}[dir=rtl] .osano-cm-back{margin:0 .5em 0 0}@keyframes delay-overflow{0%{overflow:hidden auto}}.osano-cm-drawer-iab-button-container{display:flex;gap:.5em;justify-content:center;margin-bottom:2em}.osano-cm-illustrations__list>.osano-cm-list-item--type_description{padding:.2rem 1rem}.osano-cm-drawer-item.osano-cm-description__list li{padding-top:.75em}.osano-cm-consent-id-box{align-items:center;background:rgba(0,0,0,.02);border-color:var(--osano-button-border-color);border-radius:.25em;border-style:solid;border-width:thin;cursor:pointer;display:flex;gap:.5em;margin:1em 0;padding:.5em}.osano-cm-consent-id-box:focus-visible{outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset)}.osano-cm-consent-id-box__content{display:flex;flex:5;flex-direction:column;min-width:0}.osano-cm-consent-id-box__label{font-size:.625em;font-weight:700;margin-bottom:.25em}.osano-cm-consent-id-box__uuid{font-family:monospace;font-size:.75em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.osano-cm-consent-id-box__button{flex-shrink:0;font-size:.75em;margin:0;min-width:0;padding:.25em .3em;width:auto}.osano-cm-consent-id-box__button--copied{--osano-button-background-color:var(--osano-button-accept-background-color-hover);--osano-button-border-color:var(--osano-button-accept-background-color-hover);--osano-button-foreground-color:var(--osano-button-accept-foreground-color-hover)}.osano-cm-tcf-purpose__label{border-bottom:1px solid rgba(0,0,0,.1);display:block;margin-bottom:.5em;padding:.25em 0 .5em}.osano-cm-tcf-purpose__toggle{accent-color:var(--osano-toggle-on-track-color);float:right;margin-right:.5em}.osano-cm-opt-out-honored-wrapper{align-items:center;background:none;border:1px solid;border-radius:1em;display:flex;gap:.5em;margin:0 0 1em;max-width:-moz-max-content;max-width:max-content;outline:none;padding:.5em;position:relative}.osano-cm-opt-out-honored-wrapper__label{font-size:.75em;font-style:normal;font-weight:400;letter-spacing:.0625em;line-height:1.25;margin-right:.25em;white-space:pre-line}.osano-cm-opt-out-honored-wrapper__additional-label{color:inherit;font-size:.75em;font-weight:400;line-height:1.5;margin:.5em 0 0;white-space:pre-line}.osano-cm-opt-out-honored-wrapper__tooltip{background:#fff;border-radius:.25em;bottom:calc(100% + 12px);box-shadow:0 1px 10px rgba(0,0,0,.12),0 4px 5px rgba(0,0,0,.14),0 2px 4px rgba(0,0,0,.2);color:#333;max-width:calc(100vw - 4em);opacity:0;padding:1rem;position:absolute;transition:opacity .2s linear 0s,visibility .2s linear .2s;visibility:hidden;white-space:normal;width:14rem;z-index:2147483636}.osano-cm-opt-out-honored-wrapper__tooltip:before{background:#fff;bottom:-6px;box-shadow:2px 2px 4px rgba(0,0,0,.1);content:"";height:12px;left:15%;position:absolute;transform:translateX(-50%) rotate(45deg);width:12px}.osano-cm-opt-out-honored-wrapper__tooltip{align-items:flex-start;display:flex;gap:.5rem}.osano-cm-opt-out-honored-wrapper__tooltip-icon{flex-shrink:0}.osano-cm-opt-out-honored-wrapper__tooltip-icon svg{display:block}.osano-cm-opt-out-honored-wrapper__tooltip-content{display:flex;flex:1;flex-direction:column;gap:.25rem}.osano-cm-opt-out-honored-wrapper__tooltip-title{color:#333;font-size:.875em;font-weight:600;line-height:1.25;margin:.125em 0;white-space:pre-line}.osano-cm-opt-out-honored-wrapper__tooltip-subtitle{color:#666;font-size:.75em;font-weight:400;line-height:1.25;margin:0;white-space:pre-line}.osano-cm-opt-out-honored-wrapper--position_right{bottom:1em;right:.75em}.osano-cm-opt-out-honored-wrapper--position_left{bottom:1em;left:.75em}.osano-cm-opt-out-honored-wrapper--position_left,.osano-cm-opt-out-honored-wrapper--position_right{background:var(--osano-gpc-background-color, );border-color:var(--osano-gpc-border-color);color:var(--osano-gpc-foreground-color);margin:0;max-width:calc(100vw - 2.5em);opacity:.9;position:fixed;transition:opacity .2s linear 0s,visibility 0s linear 0s;visibility:visible;z-index:2147483636}.osano-cm-opt-out-honored-wrapper--position_left:hover,.osano-cm-opt-out-honored-wrapper--position_right:hover{background:var(--osano-gpc-background-color-hover);opacity:1}.osano-cm-opt-out-honored-wrapper--position_right.osano-cm-opt-out-honored-wrapper--has-main-widget{bottom:1em;right:4em}.osano-cm-opt-out-honored-wrapper--position_left.osano-cm-opt-out-honored-wrapper--has-main-widget{bottom:1em;left:4em}.osano-cm-opt-out-honored-wrapper--clickable{cursor:pointer}.osano-cm-opt-out-honored-wrapper--hidden{opacity:0;transition-delay:0s,.2s;visibility:hidden}.osano-cm-opt-out-honored-wrapper--context_description,.osano-cm-opt-out-honored-wrapper--context_dialog,.osano-cm-opt-out-honored-wrapper--context_list-item{background:var(--osano-gpc-background-color);border-color:var(--osano-gpc-border-color);color:var(--osano-gpc-foreground-color)}.osano-cm-opt-out-honored-wrapper--context_description,.osano-cm-opt-out-honored-wrapper--context_dialog{cursor:default;margin:0 0 .5em;opacity:1;position:static;z-index:auto}.osano-cm-opt-out-honored-wrapper--context_description .osano-cm-opt-out-honored-wrapper__label,.osano-cm-opt-out-honored-wrapper--context_dialog .osano-cm-opt-out-honored-wrapper__label{color:inherit}.osano-cm-opt-out-honored-wrapper--context_description .osano-cm-opt-out-honored-wrapper__tooltip,.osano-cm-opt-out-honored-wrapper--context_dialog .osano-cm-opt-out-honored-wrapper__tooltip{display:none}.osano-cm-opt-out-honored-wrapper--tooltip-active:focus-within .osano-cm-opt-out-honored-wrapper__tooltip,.osano-cm-opt-out-honored-wrapper--tooltip-active:hover .osano-cm-opt-out-honored-wrapper__tooltip{opacity:1;transition-delay:0s,0s;visibility:visible}.osano-cm-opt-out-honored-wrapper--clickable:focus-visible{outline:2px solid var(--osano-gpc-border-color,#06c);outline-offset:2px}.osano-cm-dialog .osano-cm-opt-out-honored-wrapper{margin:0 0 .5em}.osano-cm-opt-out-honored-wrapper__dot{fill:var(--osano-gpc-color)}.osano-cm-floating-container{bottom:12px;max-width:calc(100vw - 24px);pointer-events:none;position:fixed;z-index:2147483636}.osano-cm-floating-container>*{pointer-events:auto}.osano-cm-floating-container--position_right{right:12px}.osano-cm-floating-container--position_left{left:12px}.osano-cm-floating-container--has-widget{bottom:64px}.osano-cm-cross-device-notice{align-items:start;background:var(--osano-dialog-background-color);border-radius:.75em;box-shadow:0 2px 12px rgba(0,0,0,.2);box-sizing:border-box;color:var(--osano-dialog-foreground-color);-moz-column-gap:.75em;column-gap:.75em;display:grid;font-size:1em;grid-template-columns:auto 1fr;line-height:1.4;max-width:100%;overflow:hidden;padding:1.25em 1.5em 1.5em;position:relative;transition-delay:0s,0s;transition-duration:.7s,0s;transition-property:opacity,visibility;visibility:visible;width:380px}.osano-cm-cross-device-notice--hidden{opacity:0;transition-delay:0s,.7s;visibility:hidden}.osano-cm-cross-device-notice__icon{color:var(--osano-link-color);margin-top:.1em}.osano-cm-cross-device-notice__text{margin:0}.osano-cm-cross-device-notice .osano-cm-link{font-weight:700;grid-column:2;justify-self:start;margin-top:.5em}.osano-cm-cross-device-notice__countdown{animation:osano-cm-cross-device-notice-countdown var(--osano-notice-seconds) linear forwards;background:var(--osano-link-color);bottom:0;height:4px;left:0;position:absolute;right:0;transform-origin:left}.osano-cm-cross-device-notice--hidden .osano-cm-cross-device-notice__countdown{animation:none;transform:scaleX(0)}[dir=rtl] .osano-cm-cross-device-notice__countdown{transform-origin:right}.osano-cm-cross-device-notice:focus-within .osano-cm-cross-device-notice__countdown,.osano-cm-cross-device-notice:hover .osano-cm-cross-device-notice__countdown{animation-play-state:paused}@media (prefers-reduced-motion:reduce){.osano-cm-cross-device-notice__countdown{animation:none}}@keyframes osano-cm-cross-device-notice-countdown{to{transform:scaleX(0)}}.osano-cm-expansion-panel{border-bottom:1px solid rgba(0,0,0,.1);display:block;font-size:.75em;margin:0 -1.5em 1em;padding:1.5em 1.5em 0}.osano-cm-expansion-panel--expanded{border-bottom:none}.osano-cm-expansion-panel--empty,.osano-cm-expansion-panel--empty:not([open]){border-bottom:1px solid rgba(0,0,0,.1);padding-bottom:0}.osano-cm-expansion-panel__body{background-color:rgba(0,0,0,.1);line-height:1.25;list-style:none;margin:0 -1.5em;max-height:0;overflow:hidden;padding:0 1.5em;transition-delay:0s,0s,0s,.3s;transition-duration:.3s,.3s,.3s,0s;transition-property:max-height,padding-top,padding-bottom,visibility;transition-timing-function:ease-out;visibility:hidden}.osano-cm-expansion-panel__toggle{color:var(--osano-link-color);cursor:pointer;display:block;line-height:1.25;margin:0 auto 1em 0;position:relative}.osano-cm-expansion-panel__toggle:active,.osano-cm-expansion-panel__toggle:hover{color:var(--osano-link-color-hover);outline:none}.osano-cm-expansion-panel__toggle:focus-visible{color:var(--osano-link-color-focus);outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset)}[dir=rtl] .osano-cm-expansion-panel__toggle{margin:0 0 1em auto}.osano-cm-expansion-panel--expanded .osano-cm-expansion-panel__body{max-height:none;padding:1.25em 1.5em 1em;transition-delay:0s,0s,0s,0s;visibility:visible}.osano-cm-disclosure-item__title{border:0;clear:both;display:block;flex:0 1 30%;font-size:1em;font-weight:700;line-height:1.375;margin:0 0 .5em;padding:0}.osano-cm-disclosure-item__description{flex:0 1 70%;font-size:1em;line-height:1.375;margin:0 0 .5em;overflow:hidden;padding:0;text-overflow:ellipsis;white-space:pre-line}.osano-cm-disclosure{border-bottom:none;display:block;font-size:.75em;margin:0 -1.5em 1em;padding:1.5em 1.5em 0}.osano-cm-disclosure--collapse{border-bottom:1px solid rgba(0,0,0,.1);padding-bottom:1em}.osano-cm-disclosure--empty,.osano-cm-disclosure--empty:not([open]){border-bottom:1px solid rgba(0,0,0,.1);padding-bottom:0}.osano-cm-disclosure__list{background-color:rgba(0,0,0,.1);line-height:1.25;list-style:none;margin:0 -1.5em;padding:1.25em 1.5em 1em}.osano-cm-disclosure__list:empty{border:none;padding:0 1.5em}.osano-cm-disclosure__list:first-of-type{margin-top:1em;padding:1.25em 1.5em 1em}.osano-cm-disclosure__list:first-of-type:after{background-color:var(--osano-link-color)}.osano-cm-disclosure__list:first-of-type:empty{padding:1.75em 1.5em .75em}.osano-cm-disclosure__list:not(:first-of-type):not(:empty){border-top:1px solid rgba(0,0,0,.1)}.osano-cm-disclosure__list:empty+.osano-cm-disclosure__list:not(:empty){border:none;padding:0 1.5em}.osano-cm-disclosure__list:not(:empty)~.osano-cm-disclosure__list:empty+.osano-cm-disclosure__list:not(:empty){border-top:1px solid rgba(0,0,0,.1)}.osano-cm-disclosure__list>.osano-cm-list-item{line-height:1.25}.osano-cm-disclosure__list>.osano-cm-list-item:not(:first-of-type){border-top:1px solid rgba(0,0,0,.1);margin:1em -1.25em 0;padding:1em 1.25em 0}.osano-cm-disclosure__toggle{-webkit-appearance:none;-moz-appearance:none;appearance:none;background:transparent;border:0;color:var(--osano-link-color);cursor:pointer;display:block;font:inherit;font-weight:700;line-height:1.25;margin:0 auto 0 0;padding:0;position:relative}.osano-cm-disclosure__toggle:hover{text-decoration:underline}.osano-cm-disclosure__toggle:active,.osano-cm-disclosure__toggle:hover{color:var(--osano-link-color)}.osano-cm-disclosure__toggle:focus-visible{color:var(--osano-link-color-contrast);outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset);text-decoration:underline}[dir=rtl] .osano-cm-disclosure__toggle{margin:0 0 0 auto}.osano-cm-disclosure--loading .osano-cm-disclosure__list{height:0;line-height:0;max-height:0}.osano-cm-disclosure--loading .osano-cm-disclosure__list>*{display:none}.osano-cm-disclosure--loading .osano-cm-disclosure__list:after{animation-duration:1s;animation-iteration-count:infinite;animation-name:osano-load-scale;animation-timing-function:ease-in-out;border-radius:100%;content:"";display:block;height:1em;position:relative;top:-.125em;transform:translateY(-50%);width:1em}.osano-cm-disclosure--collapse .osano-cm-disclosure__list{display:none}.osano-cm-disclosure--collapse .osano-cm-disclosure__list:after{content:none}.osano-cm-disclosure-item{display:flex;flex-wrap:wrap;margin:0}.osano-cm-disclosure-item__title:last-of-type{margin-bottom:0}.osano-cm-disclosure-item__description:hover{word-break:break-word}.osano-cm-disclosure-item__description:last-of-type{margin-bottom:0}@keyframes osano-load-scale{0%{transform:translateY(-50%) scale(0)}to{opacity:0;transform:translateY(-50%) scale(1)}}.osano-cm-window--theme_modern{--osano-focus-outline:2px solid var(--osano-focus-outline-color)}.osano-cm-window--theme_modern .osano-cm-disclosure__toggle:focus-visible,.osano-cm-window--theme_modern .osano-cm-link:not(.osano-cm-description__link):focus-visible,.osano-cm-window--theme_modern .osano-cm-powered-by__link:focus-visible{border-radius:4px}.osano-cm-window--theme_modern .osano-cm-tcf-purpose__label:has(.osano-cm-tcf-purpose__toggle:focus-visible){outline:var(--osano-focus-outline);outline-offset:var(--osano-focus-outline-offset)}.osano-cm-window--theme_modern .osano-cm-tcf-purpose__label:has(.osano-cm-tcf-purpose__toggle:focus-visible) .osano-cm-tcf-purpose__toggle{outline:none}.osano-cm-window--theme_modern .osano-cm-dialog{align-items:flex-start;padding:1.5em}.osano-cm-window--theme_modern .osano-cm-dialog:not(.osano-cm-dialog--context_amp){border-radius:1em;box-shadow:0 .125em .5em rgba(0,0,0,.08),0 .25em 1em rgba(0,0,0,.06)}.osano-cm-window--theme_modern .osano-cm-button{font-size:.875em;font-weight:600;line-height:1.4286}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-dialog__content{font-size:.875em;line-height:1.4286}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-dialog__content .osano-cm-powered-by{margin:1.1429em 0 0}.osano-cm-window--theme_modern .osano-cm-dialog__content .osano-cm-powered-by__link{font-size:.7143em}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-content__drawer-links{display:inline-flex;flex-wrap:wrap;gap:1.7143em;margin:0}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-link-separator{display:none}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-content__links{display:flex;flex-wrap:wrap;gap:.5714em 1.7143em}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-content__links>*{margin:0}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-dialog__list{gap:1.7143em}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-toggle{gap:.5714em}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-toggle__switch{border-radius:10px;height:16px;width:32px}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-toggle__switch:after{border-radius:8px;height:16px;width:16px}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-dialog__list .osano-cm-toggle__label{margin:0}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-button,.osano-cm-window--theme_modern .osano-cm-view .osano-cm-button{border-radius:.375em;margin:0;padding:.6429em 1.1429em}.osano-cm-window--theme_modern .osano-cm-dialog__close svg{height:16px;width:16px}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-powered-by{margin:1em 0 0}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-content__message{display:block;margin-bottom:0;max-width:57.1429em}.osano-cm-window--theme_modern .osano-cm-dialog:not(.osano-cm-dialog--implied) .osano-cm-content__message{margin-bottom:1.7143em}.osano-cm-window--theme_modern .osano-cm-dialog .osano-cm-content__cross-device-disclosure{margin:0 0 1.7143em;max-width:57.1429em}.osano-cm-window--theme_modern .osano-cm-dialog--implied .osano-cm-content__cross-device-disclosure{margin:1.7143em 0 0}.osano-cm-window--theme_modern .osano-cm-dialog--type_bar:not(.osano-cm-dialog--context_amp){left:1.5em;right:1.5em}.osano-cm-window--theme_modern .osano-cm-dialog--type_bar:not(.osano-cm-dialog--context_amp).osano-cm-dialog--position_top{top:1.5em}.osano-cm-window--theme_modern .osano-cm-dialog--type_bar:not(.osano-cm-dialog--context_amp).osano-cm-dialog--position_bottom{bottom:1.5em}.osano-cm-window--theme_modern .osano-cm-dialog--type_bar .osano-cm-dialog__content{flex:1 1 auto;margin-bottom:0}.osano-cm-window--theme_modern .osano-cm-dialog--type_bar .osano-cm-dialog__buttons{align-items:stretch;flex-direction:column;flex-wrap:nowrap;gap:.5em;justify-content:flex-start;margin:1em 0 0;width:100%}.osano-cm-window--theme_modern .osano-cm-dialog--type_bar .osano-cm-dialog__buttons .osano-cm-button{flex:0 0 auto;width:100%}.osano-cm-window--theme_modern .osano-cm-dialog--type_bar .osano-cm-dialog__close{align-items:center;border-radius:.375em;box-sizing:border-box;height:1.75em;margin:0;min-height:1.75em;min-width:1.75em;padding:0;top:1.5em;width:1.75em}.osano-cm-window--theme_modern[dir=ltr] .osano-cm-dialog--type_bar .osano-cm-dialog__close{right:1.5em}.osano-cm-window--theme_modern[dir=ltr] .osano-cm-dialog--type_bar .osano-cm-dialog__content{padding-right:3.1429em}.osano-cm-window--theme_modern[dir=rtl] .osano-cm-dialog--type_bar .osano-cm-dialog__close{left:1.5em;right:auto}.osano-cm-window--theme_modern[dir=rtl] .osano-cm-dialog--type_bar .osano-cm-dialog__content{padding-left:3.1429em}@media screen and (min-width:768px){.osano-cm-window--theme_modern .osano-cm-dialog--type_bar .osano-cm-dialog__close{height:2.5em;min-height:2.5em;min-width:2.5em;order:3;position:static;top:auto;width:2.5em}.osano-cm-window--theme_modern[dir=ltr] .osano-cm-dialog--type_bar .osano-cm-dialog__content{padding-right:0}.osano-cm-window--theme_modern[dir=rtl] .osano-cm-dialog--type_bar .osano-cm-dialog__content{padding-left:0}.osano-cm-window--theme_modern .osano-cm-dialog--type_bar .osano-cm-dialog__buttons{flex:0 0 auto;margin:0;max-width:none;min-width:0;position:static;width:15em}.osano-cm-window--theme_modern[dir=ltr] .osano-cm-dialog--type_bar .osano-cm-dialog__buttons{margin-left:1.5em}.osano-cm-window--theme_modern[dir=rtl] .osano-cm-dialog--type_bar .osano-cm-dialog__buttons{margin-right:1.5em}.osano-cm-window--theme_modern[dir=ltr] .osano-cm-dialog--type_bar .osano-cm-dialog__close{margin:0 0 0 .5em}.osano-cm-window--theme_modern[dir=rtl] .osano-cm-dialog--type_bar .osano-cm-dialog__close{margin:0 .5em 0 0}}.osano-cm-window--theme_modern .osano-cm-dialog--type_box{max-height:calc(100vh - 3em);max-width:25em;width:calc(100vw - 3em)}.osano-cm-window--theme_modern .osano-cm-dialog--type_box.osano-cm-dialog--wide{max-width:40em}.osano-cm-window--theme_modern .osano-cm-dialog--type_box .osano-cm-dialog__content{display:block}.osano-cm-window--theme_modern .osano-cm-dialog--type_box .osano-cm-dialog__list{display:flex;flex-wrap:wrap;gap:.5714em 1.7143em}.osano-cm-window--theme_modern .osano-cm-dialog--type_box.osano-cm-dialog--wide .osano-cm-dialog__list{row-gap:1.1429em}.osano-cm-window--theme_modern .osano-cm-dialog--type_box.osano-cm-dialog--position_top-left{left:1.5em;top:1.5em}.osano-cm-window--theme_modern .osano-cm-dialog--type_box.osano-cm-dialog--position_top-right{right:1.5em;top:1.5em}.osano-cm-window--theme_modern .osano-cm-dialog--type_box.osano-cm-dialog--position_bottom-left{bottom:1.5em;left:1.5em}.osano-cm-window--theme_modern .osano-cm-dialog--type_box.osano-cm-dialog--position_bottom-right{bottom:1.5em;right:1.5em}.osano-cm-window--theme_modern .osano-cm-dialog--type_box .osano-cm-dialog__close{align-items:center;border-radius:.375em;box-sizing:border-box;height:1.75em;margin:0;min-height:1.75em;min-width:1.75em;padding:0;top:1.5em;width:1.75em}.osano-cm-window--theme_modern[dir=ltr] .osano-cm-dialog--type_box .osano-cm-dialog__close{right:1.5em}.osano-cm-window--theme_modern[dir=ltr] .osano-cm-dialog--type_box .osano-cm-dialog__content{padding-right:3.1429em}.osano-cm-window--theme_modern[dir=rtl] .osano-cm-dialog--type_box .osano-cm-dialog__close{left:1.5em;right:auto}.osano-cm-window--theme_modern[dir=rtl] .osano-cm-dialog--type_box .osano-cm-dialog__content{padding-left:3.1429em}.osano-cm-window--theme_modern .osano-cm-dialog--type_box .osano-cm-dialog__buttons{flex-direction:column;gap:.5em;margin:1em 0 0;width:100%}.osano-cm-window--theme_modern .osano-cm-dialog--type_box .osano-cm-dialog__buttons .osano-cm-button{width:100%}.osano-cm-window--theme_modern .osano-cm-dialog--type_box.osano-cm-dialog--wide .osano-cm-dialog__buttons{flex-direction:row}.osano-cm-window--theme_modern .osano-cm-dialog--type_box.osano-cm-dialog--wide .osano-cm-dialog__buttons .osano-cm-button{flex:1 1 0;min-width:0;width:auto}.osano-cm-window--theme_modern .osano-cm-info{border:1px solid var(--osano-info-dialog-border-color,hsla(0,0%,50%,.35));box-shadow:0 .25em 1em rgba(0,0,0,.08),0 .5em 2em rgba(0,0,0,.07);max-width:30em}.osano-cm-window--theme_modern .osano-cm-info--position_right{border-radius:.625em 0 0 .625em}.osano-cm-window--theme_modern .osano-cm-info--position_left{border-radius:0 .625em .625em 0}.osano-cm-window--theme_modern .osano-cm-info-dialog-header,.osano-cm-window--theme_modern[dir=rtl] .osano-cm-info-dialog-header{align-items:flex-start;background:var(--osano-dialog-background-color);box-sizing:border-box;flex-direction:column;gap:.25em;min-height:0;padding:1.5em 1.5em .75em}.osano-cm-window--theme_modern .osano-cm-info-dialog-header:after{background:linear-gradient(180deg,var(--osano-dialog-background-color),var(--osano-clear-dialog-background));content:"";height:.75em;left:0;pointer-events:none;position:absolute;right:0;top:100%}.osano-cm-window--theme_modern .osano-cm-info-dialog-header__header{flex:0 0 auto;font-size:1.25em;font-weight:700;letter-spacing:-.02em;line-height:1.2;margin:0;order:2;padding:0}.osano-cm-window--theme_modern .osano-cm-info-dialog-header__close{margin:0;position:absolute;top:1.5em}.osano-cm-window--theme_modern[dir=ltr] .osano-cm-info-dialog-header__close{right:1.5em}.osano-cm-window--theme_modern[dir=rtl] .osano-cm-info-dialog-header__close{left:1.5em}.osano-cm-window--theme_modern .osano-cm-view{padding:.75em 1.5em 1.5em}.osano-cm-window--theme_modern .osano-cm-view .osano-cm-view__description{font-size:.875em;font-weight:400;line-height:1.4286;margin:0 0 1em}.osano-cm-window--theme_modern .osano-cm-view .osano-cm-view__description:last-of-type{margin-bottom:1.5em}.osano-cm-window--theme_modern .osano-cm-info .osano-cm-link,.osano-cm-window--theme_modern .osano-cm-info .osano-cm-link:visited{color:var(--osano-info-dialog-foreground-color,var(--osano-dialog-foreground-color))}.osano-cm-window--theme_modern .osano-cm-info .osano-cm-link:active,.osano-cm-window--theme_modern .osano-cm-info .osano-cm-link:focus-visible,.osano-cm-window--theme_modern .osano-cm-info .osano-cm-link:hover{color:var(--osano-link-color)}.osano-cm-window--theme_modern .osano-cm-disclosure__toggle{color:var(--osano-info-dialog-foreground-color,var(--osano-dialog-foreground-color))}.osano-cm-window--theme_modern .osano-cm-disclosure__toggle:active,.osano-cm-window--theme_modern .osano-cm-disclosure__toggle:focus-visible,.osano-cm-window--theme_modern .osano-cm-disclosure__toggle:hover{color:var(--osano-link-color)}.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-view__list{display:flex;flex-direction:column;gap:1em;margin-top:0}.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-view__list>.osano-cm-list-item{border:1px solid var(--osano-info-dialog-border-color,hsla(0,0%,50%,.35));border-radius:.375em;box-sizing:border-box;padding:1em}.osano-cm-window--theme_modern .osano-cm-consent-id-box{background:none;border-color:var(--osano-info-dialog-border-color,hsla(0,0%,50%,.35));border-radius:.375em}.osano-cm-window--theme_modern .osano-cm-consent-id-box:focus-visible,.osano-cm-window--theme_modern .osano-cm-consent-id-box:hover{background-color:var(--osano-info-dialog-inset-color,hsla(0,0%,50%,.1))}.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-view__list.osano-cm-list:first-of-type>.osano-cm-list-item:first-of-type{border-top-width:1px;padding-top:1em}.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-view__list>.osano-cm-list-item .osano-cm-toggle__label{font-size:1em;font-weight:700;letter-spacing:-.0125em;line-height:1.375}.osano-cm-window--theme_modern .osano-cm-toggle__pill{align-items:center;background:var(--osano-pill-background-color);border-radius:1000px;color:var(--osano-pill-foreground-color);display:inline-flex;flex:0 0 auto;font-size:.75em;font-weight:600;gap:.25em;letter-spacing:.01em;line-height:1.3333;margin:0 .5em;padding:.25em .5em;white-space:nowrap}.osano-cm-window--theme_modern .osano-cm-toggle__pill .osano-cm-lock{fill:var(--osano-pill-foreground-color)}.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-view__list>.osano-cm-list-item .osano-cm-list-item__description{font-weight:500;letter-spacing:.01em;line-height:1.3333}.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-view__list>.osano-cm-list-item .osano-cm-disclosure{margin:0;padding:0}.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-view__list>.osano-cm-list-item .osano-cm-disclosure--collapse{border-bottom:none;padding-bottom:0}.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-view__list>.osano-cm-list-item .osano-cm-disclosure__toggle{align-items:center;display:flex;flex-direction:row;font-size:1.1667em;font-weight:600;gap:.5em;line-height:1.4286;margin:0;width:-moz-fit-content;width:fit-content}.osano-cm-window--theme_modern .osano-cm-disclosure__toggle:before{border-bottom:.125em solid;border-right:.125em solid;content:"";flex:0 0 auto;height:.45em;transform:translateY(-.125em) rotate(45deg);width:.45em}.osano-cm-window--theme_modern .osano-cm-disclosure--collapse .osano-cm-disclosure__toggle:before{transform:rotate(-45deg)}.osano-cm-window--theme_modern[dir=rtl] .osano-cm-disclosure--collapse .osano-cm-disclosure__toggle:before{transform:rotate(135deg)}.osano-cm-window--theme_modern .osano-cm-expansion-panel__toggle{align-items:center;color:var(--osano-info-dialog-foreground-color,var(--osano-dialog-foreground-color));display:flex;flex-direction:row;font-weight:600;gap:.5em;width:-moz-fit-content;width:fit-content}.osano-cm-window--theme_modern .osano-cm-expansion-panel__toggle:active,.osano-cm-window--theme_modern .osano-cm-expansion-panel__toggle:focus-visible,.osano-cm-window--theme_modern .osano-cm-expansion-panel__toggle:hover{color:var(--osano-link-color)}.osano-cm-window--theme_modern .osano-cm-expansion-panel__toggle:before{border-bottom:.125em solid;border-right:.125em solid;content:"";flex:0 0 auto;height:.45em;transform:rotate(-45deg);width:.45em}.osano-cm-window--theme_modern .osano-cm-expansion-panel--expanded .osano-cm-expansion-panel__toggle:before{transform:translateY(-.125em) rotate(45deg)}.osano-cm-window--theme_modern .osano-cm-expansion-panel__disclosures>.osano-cm-list-item--type_term{font-size:1.1667em;font-weight:600;line-height:1.4286}.osano-cm-window--theme_modern .osano-cm-expansion-panel__disclosures>.osano-cm-list-item--type_description{font-size:1em;font-weight:500;line-height:1.3333}.osano-cm-window--theme_modern[dir=rtl] .osano-cm-expansion-panel:not(.osano-cm-expansion-panel--expanded) .osano-cm-expansion-panel__toggle:before{transform:rotate(135deg)}.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-view__list>.osano-cm-list-item .osano-cm-disclosure__list{background:none;border:0;margin:.6667em 0 0;padding:0}.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-view__list>.osano-cm-list-item .osano-cm-disclosure__list>.osano-cm-list-item{background:var(--osano-info-dialog-inset-color,hsla(0,0%,50%,.1));border:0;border-radius:.5em;margin:0 0 .6667em;padding:1em}.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-view__list>.osano-cm-list-item .osano-cm-disclosure__list>.osano-cm-list-item:last-of-type{margin-bottom:0}.osano-cm-window--theme_modern .osano-cm-disclosure-item__description,.osano-cm-window--theme_modern .osano-cm-disclosure-item__title{margin-bottom:.3333em}.osano-cm-window--theme_modern .osano-cm-disclosure-item__description:last-of-type,.osano-cm-window--theme_modern .osano-cm-disclosure-item__title:last-of-type{margin-bottom:0}.osano-cm-window--theme_modern .osano-cm-disclosure-item__title{font-weight:500}.osano-cm-window--theme_modern .osano-cm-view__footer{background:var(--osano-info-dialog-background-color,var(--osano-dialog-background-color));bottom:0;box-shadow:0 -.25em 1em rgba(0,0,0,.08),0 -.5em 2em rgba(0,0,0,.07);margin:1.5em -1.5em -1.5em;padding:1em 1.5em;position:sticky;z-index:1}.osano-cm-window--theme_modern .osano-cm-view__footer .osano-cm-powered-by{margin:1em 0 0}.osano-cm-window--theme_modern .osano-cm-view__iab-links{display:flex;flex-wrap:wrap;gap:.5em;margin-top:1em}.osano-cm-window--theme_modern .osano-cm-view__description .osano-cm-description__link{align-items:center;border:1px solid var(--osano-info-dialog-border-color,hsla(0,0%,50%,.35));border-radius:.375em;color:var(--osano-info-dialog-foreground-color,var(--osano-dialog-foreground-color));display:inline-flex;font-weight:600;gap:.5em;padding:.5714em 1.1429em;text-decoration:none}.osano-cm-window--theme_modern .osano-cm-info .osano-cm-view__description .osano-cm-description__link:active,.osano-cm-window--theme_modern .osano-cm-info .osano-cm-view__description .osano-cm-description__link:focus-visible,.osano-cm-window--theme_modern .osano-cm-info .osano-cm-view__description .osano-cm-description__link:hover{background-color:var(--osano-button-background-color-hover);color:var(--osano-info-dialog-foreground-color,var(--osano-dialog-foreground-color))}.osano-cm-window--theme_modern .osano-cm-view__description .osano-cm-description__link:after{border-bottom:.125em solid;border-right:.125em solid;content:"";flex:0 0 auto;height:.4em;transform:rotate(-45deg);width:.4em}.osano-cm-window--theme_modern[dir=rtl] .osano-cm-view__description .osano-cm-description__link:after{transform:rotate(135deg)}.osano-cm-window--theme_modern .osano-cm-list-item__description .osano-cm-description__list.osano-cm-list>.osano-cm-list-item{align-items:baseline;border:1px solid var(--osano-info-dialog-border-subtle-color,hsla(0,0%,50%,.2));border-radius:.5em;display:flex;flex-wrap:wrap;margin:0 0 .6667em;padding:1em}.osano-cm-window--theme_modern .osano-cm-list-item__description .osano-cm-description__list.osano-cm-list>.osano-cm-list-item:last-of-type{margin-bottom:0}.osano-cm-window--theme_modern .osano-cm-list-item__description .osano-cm-description__list.osano-cm-list{margin-bottom:1.3333em}.osano-cm-window--theme_modern .osano-cm-tcf-purpose__label{align-items:center;background:var(--osano-info-dialog-background-color,var(--osano-dialog-background-color));border:1px solid var(--osano-info-dialog-border-color,hsla(0,0%,50%,.35));border-radius:.4286em;box-sizing:border-box;color:var(--osano-info-dialog-foreground-color,var(--osano-dialog-foreground-color));display:flex;flex:0 0 100%;font-size:1.1667em;font-weight:400;gap:.4286em;line-height:1.4286;margin:.5714em 0 0;padding:.4286em .8571em}.osano-cm-window--theme_modern .osano-cm-link__count.osano-cm-link+.osano-cm-tcf-purpose__label{margin-top:1.1429em}.osano-cm-window--theme_modern .osano-cm-tcf-purpose__toggle{flex:0 0 auto;float:none;margin:0}.osano-cm-window--theme_modern .osano-cm-tcf-purpose__label.osano-cm-label--checked{background:var(--osano-info-dialog-selected-background-color,transparent);border-color:var(--osano-toggle-on-track-color)}.osano-cm-window--theme_modern .osano-cm-tcf-purpose__label{cursor:pointer}.osano-cm-window--theme_modern .osano-cm-tcf-purpose__label:hover{background:var(--osano-info-dialog-selected-background-color,transparent);border-color:var(--osano-toggle-on-track-color)}.osano-cm-window--theme_modern .osano-cm-tcf-purpose__label.osano-cm-label--checked:hover{background:var(--osano-info-dialog-selected-background-color-hover,var(--osano-info-dialog-selected-background-color,transparent))}.osano-cm-window--theme_modern .osano-cm-list-item__link.osano-cm-link--type_purpose{flex:1 1 auto;font-size:1.1667em;font-weight:600;line-height:1.4286;text-decoration:underline}.osano-cm-window--theme_modern .osano-cm-link__count.osano-cm-link{flex:0 0 100%;font-size:1em;font-weight:500;letter-spacing:.01em;line-height:1.3333;margin:.5em 0 0;text-decoration:underline}.osano-cm-window--theme_modern .osano-cm-link__count.osano-cm-link:after,.osano-cm-window--theme_modern .osano-cm-link__count.osano-cm-link:before{content:none}.osano-cm-window--theme_modern .osano-cm-view__footer .osano-cm-drawer-iab-button-container{gap:.5em;margin:0 0 .5em}.osano-cm-window--theme_modern .osano-cm-view__footer .osano-cm-drawer-iab-button-container .osano-cm-button{flex:1 1 0;margin:0;min-width:0}.osano-cm-window--theme_modern .osano-cm-opt-out-honored-wrapper--context_list-item{background:var(--osano-info-dialog-gpc-tint-color,var(--osano-gpc-background-color));border:0;border-radius:.5em .5em 0 0;gap:.5em;margin:0;max-width:none;order:-2;padding:.3333em 1.3333em .3333em .6667em}.osano-cm-window--theme_modern .osano-cm-opt-out-honored-wrapper--context_list-item svg{height:.5em;width:.5em}.osano-cm-window--theme_modern .osano-cm-opt-out-honored-wrapper--context_list-item .osano-cm-opt-out-honored-wrapper__label{color:var(--osano-gpc-foreground-color);font-size:1em;font-weight:600;letter-spacing:.01em;line-height:1.3333;margin:0}.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-list-item__description{display:flex;flex-direction:column}.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-list-item__description>p:first-child{margin-top:0}.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-list-item__description:last-child,.osano-cm-window--theme_modern .osano-cm-view--type_consent .osano-cm-list-item__description:last-child>p:first-child{margin-bottom:0}.osano-cm-window--theme_modern .osano-cm-list-item__description>.osano-cm-opt-out-honored-wrapper__additional-label{background:var(--osano-info-dialog-gpc-tint-color,var(--osano-gpc-background-color));border-radius:0 0 .5em .5em;font-size:1em;font-weight:500;line-height:1.3333;margin:0 0 .6667em;order:-1;padding:.1667em 1.3333em .3333em 1.6667em}.osano-cm-window--theme_modern .osano-cm-info--do_not_sell.osano-cm-info{border-radius:.625em}.osano-cm-window--theme_modern .osano-cm-info--do_not_sell.osano-cm-info .osano-cm-info-dialog-header{align-items:center;flex-direction:row;gap:1em}.osano-cm-window--theme_modern .osano-cm-info--do_not_sell .ccpa-opt-out-icon{flex:0 0 auto;order:3}.osano-cm-window--theme_modern .osano-cm-info--do_not_sell .ccpa-opt-out-icon svg{width:40px}.osano-cm-window--theme_modern .osano-cm-info--do_not_sell .osano-cm-view__footer{background:none;box-shadow:none;margin:1.5em 0 0;padding:0;position:static}.osano-cm-window--theme_modern .osano-cm-view--type_disclosure .osano-cm-view__list{margin:0 0 1em}.osano-cm-window--theme_modern .osano-cm-back{align-items:center;background:transparent;border:0;border-radius:.375em;color:var(--osano-info-dialog-foreground-color,var(--osano-dialog-foreground-color));display:flex;font-size:.875em;font-weight:600;gap:.2857em;line-height:1.4286;margin:0;order:1;padding:.2857em 0;width:-moz-fit-content;width:fit-content}.osano-cm-window--theme_modern[dir=rtl] .osano-cm-back{margin:0}.osano-cm-window--theme_modern .osano-cm-back:hover{text-decoration:underline}.osano-cm-window--theme_modern .osano-cm-back:before{border-bottom:.125em solid;border-right:.125em solid;content:"";flex:0 0 auto;height:.45em;transform:rotate(135deg);width:.45em}.osano-cm-window--theme_modern[dir=rtl] .osano-cm-back:before{transform:rotate(-45deg)}.osano-cm-window--theme_modern .osano-cm-view--type_disclosure .osano-cm-view__list.osano-cm-list>.osano-cm-list-item--type_term{border:1px solid var(--osano-info-dialog-border-color,hsla(0,0%,50%,.35));border-bottom:0;border-radius:.375em .375em 0 0;font-size:1em;font-weight:700;letter-spacing:-.0125em;line-height:1.375;margin:0;padding:1em 1em .25em;position:static}.osano-cm-window--theme_modern .osano-cm-view--type_disclosure .osano-cm-view__list.osano-cm-list>.osano-cm-list-item--type_description{border:1px solid var(--osano-info-dialog-border-color,hsla(0,0%,50%,.35));border-radius:0 0 .375em .375em;border-top:0;font-size:.75em;margin:0 0 1em;padding:0 1.3333em 1.3333em}.osano-cm-window--theme_modern .osano-cm-view--type_disclosure .osano-cm-view__list.osano-cm-list>.osano-cm-list-item--type_description>p{font-weight:500;letter-spacing:.01em;line-height:1.3333;margin:0 0 .3333em}.osano-cm-window--theme_modern .osano-cm-view--type_disclosure .osano-cm-view__list.osano-cm-list>.osano-cm-list-item--type_description>p:empty{margin:0}.osano-cm-window--theme_modern .osano-cm-view--type_disclosure .osano-cm-illustrations__list{border-top:1px solid var(--osano-info-dialog-border-color,hsla(0,0%,50%,.35));margin:1.3333em 0 0;padding:1.3333em 0 0}.osano-cm-window--theme_modern .osano-cm-view--type_disclosure .osano-cm-illustrations__list>.osano-cm-list-item--type_term{font-size:1.1667em;font-weight:600;line-height:1.4286;margin:0 0 .3333em;padding:0}.osano-cm-window--theme_modern .osano-cm-view--type_disclosure .osano-cm-illustrations__list>.osano-cm-list-item--type_description{font-weight:500;letter-spacing:.01em;line-height:1.3333;margin:0 0 .3333em;padding:0}
+:root {
+    --osano-clear-dialog-background: rgba(0,0,0,0);
+    --osano-theme: classic;
+    --osano-button-border-color: var(--osano-button-foreground-color);
+    --osano-dialog-type: bar;
+    --osano-display-position: bottom;
+    --osano-info-dialog-position: left;
+    --osano-widget-position: left;
+    --osano-opt-out-widget-position: left;
+    --osano-button-background-color: #006699;
+    --osano-button-foreground-color: #ffffff;
+    --osano-dialog-background-color: #e6e7e7;
+    --osano-dialog-foreground-color: #000000;
+    --osano-info-dialog-overlay-color: rgba(0,0,0,0.45);
+    --osano-link-color: #006699;
+    --osano-toggle-off-track-color: #e6e7e7;
+    --osano-toggle-off-thumb-color: #848484;
+    --osano-toggle-on-track-color: #006699;
+    --osano-toggle-on-thumb-color: #ffffff;
+    --osano-widget-color: #37cd8f;
+    --osano-widget-outline-color: #29246a;
+    --osano-widget-fill-color: #fff;
+    --osano-focus-outline-color: Highlight;
+    --osano-pill-background-color: #EBE0FE;
+    --osano-pill-foreground-color: #3E1A7F;
+    --osano-button-close-color: var(--osano-dialog-foreground-color);
+    --osano-button-accept-background-color: var(--osano-button-background-color);
+    --osano-button-accept-border-color: var(--osano-button-border-color, var(--osano-button-foreground-color));
+    --osano-button-accept-foreground-color: var(--osano-button-foreground-color);
+    --osano-button-deny-background-color: #00629b;
+    --osano-button-deny-border-color: var(--osano-button-border-color, var(--osano-button-foreground-color));
+    --osano-button-deny-foreground-color: #ffffff;
+    --osano-button-reject-all-background-color: var(--osano-button-background-color);
+    --osano-button-reject-all-background-color-hover: var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast));
+    --osano-button-reject-all-border-color: var(--osano-button-border-color, var(--osano-button-foreground-color));
+    --osano-button-reject-all-foreground-color: var(--osano-button-foreground-color);
+    --osano-button-manage-background-color: var(--osano-button-background-color);
+    --osano-button-manage-border-color: var(--osano-button-border-color, var(--osano-button-foreground-color));
+    --osano-button-manage-foreground-color: var(--osano-button-foreground-color);
+    --osano-info-dialog-link-color: var(--osano-link-color);
+    --osano-info-dialog-button-close-color: var(--osano-info-dialog-foreground-color, var(--osano-dialog-foreground-color));
+    --osano-info-dialog-toggle-off-track-color: var(--osano-toggle-off-track-color);
+    --osano-info-dialog-toggle-off-thumb-color: var(--osano-toggle-off-thumb-color);
+    --osano-info-dialog-toggle-on-track-color: var(--osano-toggle-on-track-color);
+    --osano-info-dialog-toggle-on-thumb-color: var(--osano-toggle-on-thumb-color);
+    --osano-info-dialog-button-background-color: var(--osano-button-background-color);
+    --osano-info-dialog-button-border-color: var(--osano-info-dialog-button-foreground-color, var(--osano-button-foreground-color));
+    --osano-info-dialog-button-foreground-color: var(--osano-button-foreground-color);
+    --osano-dialog-gpc-background-color: var(--osano-dialog-background-color);
+    --osano-dialog-gpc-border-color: var(--osano-dialog-foreground-color);
+    --osano-dialog-gpc-foreground-color: var(--osano-dialog-foreground-color);
+    --osano-dialog-gpc-color: #37cd84;
+    --osano-info-dialog-gpc-background-color: var(--osano-info-dialog-background-color, var(--osano-dialog-background-color));
+    --osano-info-dialog-gpc-border-color: var(--osano-info-dialog-foreground-color, var(--osano-dialog-foreground-color));
+    --osano-info-dialog-gpc-foreground-color: var(--osano-info-dialog-foreground-color, var(--osano-dialog-foreground-color));
+    --osano-info-dialog-gpc-color: var(--osano-dialog-gpc-color);
+    --osano-gpc-background-color: #ffffff;
+    --osano-gpc-border-color: #058a5e;
+    --osano-gpc-foreground-color: #058a5e;
+    --osano-gpc-color: #37cd84;
+    --osano-gpc-background-color-hover: #ffffff;
+    --osano-info-dialog-background-color: var(--osano-dialog-background-color);
+    --osano-info-dialog-foreground-color: var(--osano-dialog-foreground-color);
+    --osano-toggle-off-thumb-color-disabled: #bfbfbf;
+    --osano-toggle-off-background-color: #d2cfff;
+    --osano-toggle-button-off-color: #ffffff;
+    --osano-toggle-on-background-color: #37cd8f;
+    --osano-toggle-button-on-color: #f4f4f4;
+    --osano-button-background-color-contrast: #147aad;
+    --osano-button-foreground-color-contrast: #ebebeb;
+    --osano-button-deny-background-color-contrast: #1476af;
+    --osano-button-deny-foreground-color-contrast: #ebebeb;
+    --osano-dialog-background-color-contrast: #d2d3d3;
+    --osano-dialog-foreground-color-contrast: #141414;
+    --osano-link-color-contrast: #147aad;
+    --osano-toggle-off-track-color-contrast: #d2d3d3;
+    --osano-toggle-off-track-color-disabled: #a6a7a7;
+    --osano-toggle-off-thumb-color-contrast: #707070;
+    --osano-toggle-on-track-color-contrast: #147aad;
+    --osano-toggle-on-track-color-disabled: #40a6d9;
+    --osano-toggle-on-thumb-color-contrast: #ebebeb;
+    --osano-toggle-on-thumb-color-disabled: #bfbfbf;
+    --osano-gpc-background-color-contrast: #ebebeb;
+    --osano-button-background-color-hover: var(--osano-button-background-color-contrast, #147aad);
+    --osano-button-foreground-color-hover: var(--osano-button-foreground-color-contrast, #ebebeb);
+    --osano-button-background-color-focus: var(--osano-button-foreground-color-hover, var(--osano-button-foreground-color-contrast));
+    --osano-button-foreground-color-focus: var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast));
+    --osano-toggle-off-track-color-hover: var(--osano-toggle-off-track-color-contrast, #d2d3d3);
+    --osano-toggle-off-thumb-color-hover: var(--osano-toggle-off-thumb-color-contrast, #707070);
+    --osano-toggle-off-track-color-focus: var(--osano-toggle-off-thumb-color-hover, var(--osano-toggle-off-thumb-color-contrast));
+    --osano-toggle-off-thumb-color-focus: var(--osano-toggle-off-track-color-hover, var(--osano-toggle-off-track-color-contrast));
+    --osano-toggle-on-track-color-hover: var(--osano-toggle-on-track-color-contrast, #147aad);
+    --osano-toggle-on-thumb-color-hover: var(--osano-toggle-on-thumb-color-contrast, #ebebeb);
+    --osano-toggle-on-track-color-focus: var(--osano-toggle-on-thumb-color-hover, var(--osano-toggle-on-thumb-color-contrast));
+    --osano-toggle-on-thumb-color-focus: var(--osano-toggle-on-track-color-hover, var(--osano-toggle-on-track-color-contrast));
+    --osano-button-accept-background-color-contrast: var(--osano-button-background-color-contrast, #147aad);
+    --osano-button-accept-foreground-color-contrast: var(--osano-button-foreground-color-contrast, #ebebeb);
+    --osano-button-accept-background-color-hover: var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast));
+    --osano-button-accept-foreground-color-hover: var(--osano-button-accept-foreground-color-contrast, var(--osano-button-foreground-color-contrast));
+    --osano-button-accept-background-color-focus: var(--osano-button-accept-foreground-color-hover, var(--osano-button-accept-foreground-color-contrast));
+    --osano-button-accept-foreground-color-focus: var(--osano-button-accept-background-color-hover, var(--osano-button-background-color-hover));
+    --osano-button-deny-background-color-hover: var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast));
+    --osano-button-deny-foreground-color-hover: var(--osano-button-deny-foreground-color-contrast, #ebebeb);
+    --osano-button-deny-background-color-focus: var(--osano-button-deny-foreground-color-hover, var(--osano-button-deny-foreground-color-contrast));
+    --osano-button-deny-foreground-color-focus: var(--osano-button-deny-background-color-hover, var(--osano-button-background-color-hover));
+    --osano-button-reject-all-background-color-contrast: var(--osano-button-background-color-contrast, #147aad);
+    --osano-button-reject-all-foreground-color-contrast: var(--osano-button-foreground-color-contrast, #ebebeb);
+    --osano-button-reject-all-foreground-color-hover: var(--osano-button-reject-all-foreground-color-contrast, var(--osano-button-foreground-color-contrast));
+    --osano-button-reject-all-background-color-focus: var(--osano-button-reject-all-foreground-color-hover, var(--osano-button-reject-all-foreground-color-contrast));
+    --osano-button-reject-all-foreground-color-focus: var(--osano-button-reject-all-background-color-hover, var(--osano-button-background-color-hover));
+    --osano-button-manage-background-color-contrast: var(--osano-button-background-color-contrast, #147aad);
+    --osano-button-manage-foreground-color-contrast: var(--osano-button-foreground-color-contrast, #ebebeb);
+    --osano-button-manage-background-color-hover: var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast));
+    --osano-button-manage-foreground-color-hover: var(--osano-button-manage-foreground-color-contrast, var(--osano-button-foreground-color-contrast));
+    --osano-button-manage-background-color-focus: var(--osano-button-manage-foreground-color-hover, var(--osano-button-manage-foreground-color-contrast));
+    --osano-button-manage-foreground-color-focus: var(--osano-button-manage-background-color-hover, var(--osano-button-background-color-hover));
+    --osano-info-dialog-button-background-color-contrast: var(--osano-button-background-color-contrast, #147aad);
+    --osano-info-dialog-button-foreground-color-contrast: var(--osano-button-foreground-color-contrast, #ebebeb);
+    --osano-info-dialog-button-background-color-hover: var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast));
+    --osano-info-dialog-button-foreground-color-hover: var(--osano-info-dialog-button-foreground-color-contrast, var(--osano-button-foreground-color-contrast));
+    --osano-info-dialog-button-background-color-focus: var(--osano-info-dialog-button-foreground-color-hover, var(--osano-info-dialog-button-foreground-color-contrast));
+    --osano-info-dialog-button-foreground-color-focus: var(--osano-info-dialog-button-background-color-hover, var(--osano-button-background-color-hover));
+    --osano-info-dialog-toggle-off-track-color-contrast: var(--osano-toggle-off-track-color-contrast, #d2d3d3);
+    --osano-info-dialog-toggle-off-thumb-color-contrast: var(--osano-toggle-off-thumb-color-contrast, #707070);
+    --osano-info-dialog-toggle-off-track-color-hover: var(--osano-info-dialog-toggle-off-track-color-contrast, var(--osano-toggle-off-track-color-contrast));
+    --osano-info-dialog-toggle-off-thumb-color-hover: var(--osano-info-dialog-toggle-off-thumb-color-contrast, var(--osano-toggle-off-thumb-color-contrast));
+    --osano-info-dialog-toggle-off-track-color-focus: var(--osano-info-dialog-toggle-off-thumb-color-hover, var(--osano-info-dialog-toggle-off-thumb-color-contrast));
+    --osano-info-dialog-toggle-off-thumb-color-focus: var(--osano-info-dialog-toggle-off-track-color-hover, var(--osano-info-dialog-toggle-off-track-color-contrast));
+    --osano-info-dialog-toggle-off-track-color-disabled: var(--osano-toggle-off-track-color-disabled, #a6a7a7);
+    --osano-info-dialog-toggle-off-thumb-color-disabled: var(--osano-toggle-off-thumb-color-disabled);
+    --osano-info-dialog-toggle-on-track-color-contrast: var(--osano-toggle-on-track-color-contrast, #147aad);
+    --osano-info-dialog-toggle-on-thumb-color-contrast: var(--osano-toggle-on-thumb-color-contrast, #ebebeb);
+    --osano-info-dialog-toggle-on-track-color-hover: var(--osano-info-dialog-toggle-on-track-color-contrast, var(--osano-toggle-on-track-color-contrast));
+    --osano-info-dialog-toggle-on-thumb-color-hover: var(--osano-info-dialog-toggle-on-thumb-color-contrast, var(--osano-toggle-on-thumb-color-contrast));
+    --osano-info-dialog-toggle-on-track-color-focus: var(--osano-info-dialog-toggle-on-thumb-color-hover, var(--osano-info-dialog-toggle-on-thumb-color-contrast));
+    --osano-info-dialog-toggle-on-thumb-color-focus: var(--osano-info-dialog-toggle-on-track-color-hover, var(--osano-info-dialog-toggle-on-track-color-contrast));
+    --osano-info-dialog-toggle-on-track-color-disabled: var(--osano-toggle-on-track-color-disabled, #40a6d9);
+    --osano-info-dialog-toggle-on-thumb-color-disabled: var(--osano-toggle-on-thumb-color-disabled, #bfbfbf);
+    --osano-info-dialog-link-color-contrast: var(--osano-link-color-contrast, #147aad);
+}
+.osano-cm-window[dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+}
+.osano-cm-window[dir="ltr"] {
+    direction: ltr;
+    text-align: left;
+}</style>
+      <title>IEEE Symposium on Security and Privacy 2027</title>
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Cookie banner -->
+    <!-- v ieee cookie banner v --> <script src="./IEEE Symposium on Security and Privacy 2027_files/osano.js"></script> <link rel="stylesheet" href="./IEEE Symposium on Security and Privacy 2027_files/ieee-cookie-banner.css" type="text/css"> <!-- ^ ieee cookie banner ^ -->
+
+    <!-- icons -->
+    <link href="https://sp2027.ieee-security.org/images/favicon.png" rel="icon" type="image/png">
+    <link href="https://sp2027.ieee-security.org/images/favicon.png" rel="apple-touch-icon" type="image/png">
+
+    <!-- bootstrap -->
+    <script src="./IEEE Symposium on Security and Privacy 2027_files/jquery-2.1.3.min.js"></script>
+    <script src="./IEEE Symposium on Security and Privacy 2027_files/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./IEEE Symposium on Security and Privacy 2027_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./IEEE Symposium on Security and Privacy 2027_files/bootstrap-theme.min.css">
+
+    <!-- glyphs -->
+    <link rel="stylesheet" href="./IEEE Symposium on Security and Privacy 2027_files/font-awesome.min.css">
+
+    <!-- fonts -->
+    <link rel="stylesheet" href="./IEEE Symposium on Security and Privacy 2027_files/webfonts.css" type="text/css">
+
+    <!-- custom css -->
+    <link href="./IEEE Symposium on Security and Privacy 2027_files/main.css" rel="stylesheet" type="text/css">
+
+    <!-- workaround for ie 7, 8 -->
+    <script type="text/javascript" src="./IEEE Symposium on Security and Privacy 2027_files/css3-mediaqueries.js"></script>
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+    <![endif]-->
+
+    <!-- google analytics -->
+    <!--<script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-80995671-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>-->
+
+	<!--<script src="https://s3-us-west-2.amazonaws.com/ieeeshutpages/gdpr/settings.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+	<script>
+		window.addEventListener("load", function(){
+		 window.cookieconsent.initialise(json)
+		});
+	</script>-->
+  <style>.f1l1o3bf{font-family:Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif, Arial;font-style:normal;font-weight:400}.f1l1o3bf button, .f1l1o3bf input, .f1l1o3bf textarea{font-family:inherit}.f4ofdyf{border:0.5px solid var(--origin-color-border-base-subdued);border-radius:8px;cursor:pointer;height:24px;transition:width 150ms cubic-bezier(0.05, 0.6, 0, 1), height 150ms cubic-bezier(0.05, 0.6, 0, 1), border-radius 150ms cubic-bezier(0.05, 0.6, 0, 1);width:24px}.f137tu7e{flex-shrink:0;transform:scale(1);transition:transform 150ms cubic-bezier(0.05, 0.6, 0, 1)}[data-origin-mode="dark"] .f137tu7e{--origin-color-logo-grammarly-light:var(--origin-color-logo-grammarly-dark);--origin-color-logo-grammarly-primary:var(--origin-color-logo-grammarly-default)}.ftwgcg0{-moz-appearance:none;-webkit-appearance:none;align-items:flex-start;appearance:none;background:transparent;border:none;color:inherit;cursor:pointer;display:flex;font:inherit;height:32px;justify-content:flex-start;padding:0;width:32px}.ftwgcg0:hover .f4ofdyf{border-radius:12px;height:32px;width:32px}.ftwgcg0:hover .f137tu7e{transform:scale(1.25)}.f13cnbb7 .f4ofdyf{border-radius:12px;height:32px;width:32px}.f13cnbb7 .f137tu7e{transform:scale(1.25)}.f8ia88a{--origin-color-button-ghost-content-default:#714cb6;--origin-color-button-ghost-content-states:#533192;--origin-color-button-primary-fill-active:#3f256f;--origin-color-button-primary-fill-default:#714cb6;--origin-color-button-primary-fill-hover:#533192;--origin-font-weight-heading-xsmall:600}[data-origin-mode="dark"] .f8ia88a{--origin-color-button-ghost-content-default:#d4c7ff;--origin-color-button-ghost-content-states:#bea1f5;--origin-color-button-primary-content-default:#141413;--origin-color-button-primary-fill-active:#e8e0ff;--origin-color-button-primary-fill-default:#bea1f5;--origin-color-button-primary-fill-hover:#d4c7ff}.f347vxz{font-weight:600}</style></head>
+  <body onload="updateCfPDeadline()" data-new-gr-c-s-check-loaded="14.1344.0" data-gr-ext-installed=""><div data-nosnippet="" class="osano-cm-window" dir="ltr"><!----> <!--?lit$5790530685$--><div hidden="" class="osano-visually-hidden"> <span id="osano-cm-aria.newWindow"><!--?lit$5790530685$-->Opens in a new window</span> <span id="osano-cm-aria.external"><!--?lit$5790530685$-->Opens an external website</span> <span id="osano-cm-aria.externalNewWindow"><!--?lit$5790530685$-->Opens an external website in a new window</span> </div> <!--?lit$5790530685$--> <div role="dialog" aria-modal="false" id="f8667c9e-30e2-44b2-a4ed-3f04b6cc0774" aria-label="Cookie Consent Banner" aria-describedby="f8667c9e-30e2-44b2-a4ed-3f04b6cc0774__label" class="osano-cm-window__dialog osano-cm-dialog osano-cm-dialog--position_bottom osano-cm-dialog--type_bar osano-cm-dialog--hidden"> <!--?lit$5790530685$--> <div class=" osano-cm-dialog__content osano-cm-content "> <!--?lit$5790530685$--> <!--?lit$5790530685$--> <span id="f8667c9e-30e2-44b2-a4ed-3f04b6cc0774__label" class=" osano-cm-content__message osano-cm-message "> <!--?lit$5790530685$-->This website utilizes technologies such as cookies to enable essential site functionality, as well as for analytics, personalization, and targeted advertising. <!--?lit$5790530685$--> <!--?lit$5790530685$--> </span>  <!--?lit$5790530685$--> <!--?lit$5790530685$--> <!--?lit$5790530685$--><!--?lit$5790530685$--><!--?lit$5790530685$--><a rel="noopener" tabindex="0" href="https://www.ieee.org/security-privacy.html" target="_blank" class=" osano-cm-storage-policy osano-cm-content__link osano-cm-link " aria-describedby="osano-cm-aria.newWindow"><!--?lit$5790530685$-->Privacy Policy</a><!--?--><!--?lit$5790530685$--> <!--?lit$5790530685$--><!--?--> <!--?lit$5790530685$--> <!--?lit$5790530685$--> <!--?lit$5790530685$--> </div> <!--?lit$5790530685$--> <div class="osano-cm-dialog__buttons osano-cm-buttons osano-cm-buttons--disabled"> <!--?lit$5790530685$--><!--?lit$5790530685$--><button class=" osano-cm-accept osano-cm-buttons__button osano-cm-button osano-cm-button--type_accept " tabindex="0"> <!--?lit$5790530685$-->Accept </button><!--?--> <!--?lit$5790530685$--><!--?lit$5790530685$--><button class=" osano-cm-deny osano-cm-buttons__button osano-cm-button osano-cm-button--type_deny " tabindex="0"> <!--?lit$5790530685$-->Deny Non-Essential </button><!--?--> <!--?lit$5790530685$--> <!--?lit$5790530685$--><!--?lit$5790530685$--><button class=" osano-cm-manage osano-cm-buttons__button osano-cm-button osano-cm-button--type_manage " tabindex="0"> <!--?lit$5790530685$-->Manage Preferences </button><!--?--> </div> <!--?lit$5790530685$--> </div>  <!--?lit$5790530685$--> <!--?lit$5790530685$--> <button id="0dbdd80a-35cc-405c-b4d9-91d69c048d04" class="osano-cm-window__widget osano-cm-widget osano-cm-widget--position_left" title="Cookie Preferences" aria-label="Cookie Preferences"> <svg width="40" height="40" viewBox="0 0 71.85 72.23" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"> <path d="m67.6 36.73a6.26 6.26 0 0 1 -3.2-2.8 5.86 5.86 0 0 0 -5.2-3.1h-.3a11 11 0 0 1 -11.4-9.5 6 6 0 0 1 -.1-1.4 9.2 9.2 0 0 1 .4-2.9 8.65 8.65 0 0 0 .2-1.6 5.38 5.38 0 0 0 -1.9-4.3 7.3 7.3 0 0 1 -2.5-5.5 3.91 3.91 0 0 0 -3.5-3.9 36.46 36.46 0 0 0 -15 1.5 33.14 33.14 0 0 0 -22.1 22.7 35.62 35.62 0 0 0 -1.5 10.2 34.07 34.07 0 0 0 4.8 17.6.75.75 0 0 0 .07.12c.11.17 1.22 1.39 2.68 3-.36.47 5.18 6.16 5.65 6.52a34.62 34.62 0 0 0 55.6-21.9 4.38 4.38 0 0 0 -2.7-4.74z" stroke-width="3" class=" osano-cm-widget__outline osano-cm-outline "></path> <path d="m68 41.13a32.37 32.37 0 0 1 -52 20.5l-2-1.56c-2.5-3.28-5.62-7.15-5.81-7.44a32 32 0 0 1 -4.5-16.5 34.3 34.3 0 0 1 1.4-9.6 30.56 30.56 0 0 1 20.61-21.13 33.51 33.51 0 0 1 14.1-1.4 1.83 1.83 0 0 1 1.6 1.8 9.38 9.38 0 0 0 3.3 7.1 3.36 3.36 0 0 1 1.2 2.6 3.37 3.37 0 0 1 -.1 1 12.66 12.66 0 0 0 -.5 3.4 9.65 9.65 0 0 0 .1 1.7 13 13 0 0 0 10.5 11.2 16.05 16.05 0 0 0 3.1.2 3.84 3.84 0 0 1 3.5 2 10 10 0 0 0 4.1 3.83 2 2 0 0 1 1.4 2z" stroke-width="3" class=" osano-cm-widget__outline osano-cm-outline "></path> <g class=" osano-cm-widget__dot osano-cm-dot "> <path d="m26.6 31.43a5.4 5.4 0 1 1 5.4-5.43 5.38 5.38 0 0 1 -5.33 5.43z"></path> <path d="m25.2 53.13a5.4 5.4 0 1 1 5.4-5.4 5.44 5.44 0 0 1 -5.4 5.4z"></path> <path d="m47.9 52.33a5.4 5.4 0 1 1 5.4-5.4 5.32 5.32 0 0 1 -5.24 5.4z"></path> </g> </svg> </button>  <!--?lit$5790530685$--> <!--?lit$5790530685$--><div role="dialog" aria-modal="true" id="27e99ef6-190e-4f92-af0b-757fdf3ed4ec" aria-labelledby="27e99ef6-190e-4f92-af0b-757fdf3ed4ec__label" inert="" class=" osano-cm-window__info-dialog osano-cm-info-dialog osano-cm-info-dialog--hidden "> <!--?lit$5790530685$--><!--?lit$5790530685$--><span tabindex="0" aria-hidden="true" data-focus="first"></span><!--?--> <div role="presentation" class=" osano-cm-info-dialog__info osano-cm-info osano-cm-info--position_left "> <!--?lit$5790530685$--><div role="presentation" class=" osano-cm-info__info-dialog-header osano-cm-info-dialog-header "> <p role="heading" aria-level="1" aria-hidden="true" id="27e99ef6-190e-4f92-af0b-757fdf3ed4ec__label" class=" osano-cm-info-dialog-header__header osano-cm-header "> <!--?lit$5790530685$-->Storage Preferences </p> <!--?lit$5790530685$--> <!--?lit$5790530685$--><button class=" osano-cm-info-dialog-header__close osano-cm-close " aria-label="Close Cookie Preferences"> <!--?lit$5790530685$--><svg width="20px" height="20px" viewBox="0 0 20 20" aria-hidden="true" focusable="false"> <title><!----><!----></title> <line role="presentation" x1="2" y1="2" x2="18" y2="18"></line> <line role="presentation" x1="2" y1="18" x2="18" y2="2"></line> </svg> </button> </div> <div role="presentation" class=" osano-cm-info__info-views osano-cm-info-views osano-cm-info-views--hidden osano-cm-info-views--position_0 "> <!--?lit$5790530685$--> </div> </div> <!--?lit$5790530685$--><!--?lit$5790530685$--><span tabindex="0" aria-hidden="true" data-focus="last"></span><!--?--> </div> </div>
+
+    <!-- https://github.com/twbs/bootstrap/issues/10601 -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="banner">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://sp2027.ieee-security.org/cfpapers.html#">S &amp; P</a>
+        </div>
+        <div class="collapse navbar-collapse" role="navigation">
+          <ul class="nav navbar-nav">
+            <li class=""><a href="https://sp2027.ieee-security.org/index.html"><i class="fa fa-home"></i> &nbsp; Home</a></li>
+
+             
+              <!--<li class="dropdown">
+               
+             
+ <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                Program <i class="fa fa-caret-down"></i>
+              </a>
+             
+              
+             
+
+              <ul class="dropdown-menu">  
+                <li><a href="program.html">Program</a></li>
+                <li><a href="accepted-papers.html">Accepted Papers</a></li>
+                <li><a href="accepted-artifacts.html">Artifacts</a></li>
+                <li><a href="posters.html">Posters</a></li>
+                <li><a href="shorttalks.html">Short Talks</a></li>
+		            <li><a href="presenters.html">Symposium Presenter Information</a></li>
+               </ul>
+
+               
+
+            </li>-->
+            
+
+
+
+            <li class="dropdown active">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="https://sp2027.ieee-security.org/cfpapers.html#">
+                Call For... &nbsp; <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="https://sp2027.ieee-security.org/cfpapers.html">Papers</a></li>
+                <li><a href="https://sp2027.ieee-security.org/cfartifacts.html">Artifacts</a></li>
+                <li><a href="https://forms.gle/CBNNFFTUi6Ko1L9X9" target="_blank">Artifact Evaluators</a></li>
+                <!-- <li><a href="cfshorttalks.html">Short Talks</a></li> -->
+                <!--<li><a href="cfposters.html">Posters</a></li>-->
+                <li><a href="https://sp2027.ieee-security.org/cfworkshops.html">Workshops</a></li>
+                <!-- <li><a href="cfdonors.html">Donors</a></li> -->
+                <!--<li><a href="nominations-cybersecurity-award.html">Nominations: IEEE Cybersecurity Award for Practice</a></li>-->
+              </ul>
+
+            </li>
+
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="https://sp2027.ieee-security.org/cfpapers.html#">
+                Attend &nbsp; <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu">
+               <!-- <li><a href="venue.html">Venue Info</a></li> -->
+               <!--<li><a href="https://na.eventscloud.com/ieeesp2026">Registration</a></li>-->
+               <!--<li><a href="travel_grants.html">Student Travel Grants</a></li>-->
+               <li><a href="https://sp2027.ieee-security.org/codeofconduct.html">Attendee Code of Conduct</a></li>
+              </ul>
+            </li>
+
+            <!--<li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                Awards &nbsp; <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu">
+               <li><a href="awards_papers.html">Papers</a></li>
+               <li><a href="awards_reviewers.html">Reviewers</a></li>
+               <li><a href="awards_artifacts.html">Artifacts</a></li>
+               <li><a href="awards_posters.html">Posters</a></li>
+               <li><a href="awards_ieee.html">IEEE Awards</a></li>
+               <li><a href="awards_tot.html">Test of Time</a></li>
+              </ul>
+            </li>-->
+            <!--<li class=""><a href="workshops.html"></i> 
+                Workshops </a></li>
+              
+             
+
+              <ul class="dropdown-menu">
+                <li><a href="workshops.html">General Info</a></li>
+              </ul>
+		              
+
+            </li>-->
+
+
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+<!-- comment press page
+            <li class="hidden-sm"><a href="press.html">Press</a></li>
+end press -->
+            <li class="hidden-sm">
+              <a href="https://twitter.com/ieeessp">
+                <i class="fa fa-twitter hidden-xs"></i>
+                <span class="visible-xs">Twitter</span>
+              </a>
+            </li>
+
+            <li class="hidden-sm">
+              <a href="https://www.facebook.com/ieeessp">
+                <i class="fa fa-facebook hidden-xs"></i>
+                <span class="visible-xs">Facebook</span>
+              </a>
+            </li>
+            <li class="hidden-sm">
+              <a href="https://www.linkedin.com/company/ieee-symposium-on-security-and-privacy/">
+                <i class="fa fa-linkedin hidden-xs"></i>
+                <span class="visible-xs">LinkedIn</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://sp2027.ieee-security.org/contact.html">
+                <i class="fa fa-envelope hidden-xs"></i>
+                <span class="visible-xs">Contact</span>
+              </a>
+            </li>
+
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="https://sp2027.ieee-security.org/cfpapers.html#">
+                About &nbsp; <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu">
+               <li><a href="https://sp2027.ieee-security.org/past.html">Past Conferences</a></li>
+               <li><a href="https://sp2027.ieee-security.org/organizers.html">Conference Organizers</a></li>
+               <li><a href="https://www.ieee-security.org/index.html">IEEE Technical Community</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="jumbotron">
+      <div class="container">
+        <p class="location">
+          
+              MAY 17-20, 2027 
+               AT
+              LE CENTRE SHERATON MONTREAL HOTEL,
+              MONTREAL, CANADA 
+          
+        </p>
+
+        <p class="title">
+          
+              48th IEEE Symposium on<br>Security and Privacy
+          
+        </p>
+
+        <p class="sponsors hidden-xs">
+          Sponsored by the <a class="jumbotron_link" href="http://ieee-security.org/">IEEE Computer Society's Technical Community on Security and Privacy</a> in cooperation with the <a class="jumbotron_link" href="http://www.iacr.org/">International Association for Cryptologic Research</a>
+        </p>
+<!--        <p class="sponsors">
+          Registration Button
+          <a class="btn btn-default btn-lg">
+            <i class="fa fa-chevron-circle-right fa-lg"></i>&nbsp;&nbsp; Register (not open)
+          </a>
+        </p>
+-->
+      </div>
+    </div>
+
+    <div class="container">
+<h1 id="call-for-papers"><strong>Call for Papers</strong></h1>
+
+<div class="alert alert-info" role="alert">
+  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> For any inquiries about paper submissions (questions regarding the call for papers, conflicts, the submission servers, changes in author affiliations, etc.), please directly contact the program chairs at <a href="mailto:pcchairs-27@sp.ieee-security.org">pcchairs-27@sp.ieee-security.org</a>.
+</div>
+
+<div class="alert alert-warning" role="alert">
+<b>Updates for Cycle 2</b><br>
+<p>We anticipate a significant increase in submissions for Cycle 2. If submissions exceed the tolerances we have planned, we may need to adjust parts of the process in order to protect review quality. These changes may include (but are not limited to):</p>
+<ul>
+  <li>Adjusting dates including the early rejection notifications, rebuttal period and final decision notifications.</li>
+  <li>Applying an aggressive desk-reject procedure (for scope as well as quality) to reduce the number of submissions assigned to PC members for full reviewing. No paper will be desk rejected without agreement from at least one associate chair and at least one PC chair.  * 
+</li>
+</ul>
+<p>We have also noticed a significant increase in submissions that clearly did not receive enough attention from their author(s) to warrant being reviewed by PC members. In addition to desk rejection, such ultra-low-quality submissions may (at the PC chairs’ sole discretion) result in submission bans preventing all authors associated with such submissions from submitting to the conference’s future review cycles.</p>
+<p>We also updated the Research Ethics Considerations section below. The rest of the CFP is unchanged.</p>
+<p>Updated parts are <span class="updated">highlighted</span></p>
+</div>
+
+<p>Since 1980 in Oakland, the IEEE Symposium on Security and Privacy has been the premier forum for computer security research, presenting the latest developments and bringing together researchers and practitioners. We solicit previously unpublished papers offering novel research contributions in any aspect of security or privacy. Papers may present advances in the theory, design, implementation, analysis, verification, or empirical evaluation and measurement of secure systems. Theoretical papers must make a convincing case for the relevance of their results to practice.</p>
+
+<p><strong>Topics of interest include:</strong></p>
+
+<ul>
+  <li>Applied cryptography</li>
+  <li>Attacks with novel insights, techniques, or results</li>
+  <li>Authentication, access control, and authorization</li>
+  <li>Blockchains and distributed ledger security</li>
+  <li>Cloud computing security</li>
+  <li>Cyber physical systems security</li>
+  <li>Distributed systems security</li>
+  <li>Economics of security and privacy</li>
+  <li>Embedded systems security</li>
+  <li>Formal methods and verification</li>
+  <li>Hardware security</li>
+  <li>Hate, Harassment, and online abuse</li>
+  <li>Human-centered security and privacy</li>
+  <li>Intrusion detection and prevention</li>
+  <li>ML - Methods for confidentiality and privacy of data in ML systems</li>
+  <li>ML - Methods for integrity and availability of ML systems</li>
+  <li>ML - Novel attacks on ML systems</li>
+  <li>ML - Verifying security and privacy properties of ML algorithms</li>
+  <li>Malware and unwanted software</li>
+  <li>Network security and measurement</li>
+  <li>Operating systems security</li>
+  <li>Privacy-enhancing technologies, anonymity, and censorship</li>
+  <li>Program and binary analysis</li>
+  <li>Protocol security</li>
+  <li>Security and privacy metrics</li>
+  <li>Security and privacy policies</li>
+  <li>Security architectures</li>
+  <li>Security for at-risk populations</li>
+  <li>Software supply chain security</li>
+  <li>Systems security</li>
+  <li>User studies for security and privacy</li>
+  <li>Web security and privacy</li>
+  <li>Wireless and mobile security/privacy</li>
+</ul>
+
+<p>This topic list is not meant to be exhaustive; S&amp;P is interested in all aspects of computer security and privacy. Papers without a clear application to security or privacy, however, will be considered out of scope and may be rejected without full review.</p>
+
+<h2 id="systematization-of-knowledge-papers"><strong>Systematization of Knowledge Papers</strong></h2>
+
+<p>As in past years, we solicit systematization of knowledge (SoK) papers that evaluate, systematize, and contextualize existing knowledge, as such papers can provide a high value to our community. Suitable papers are those that provide an important new viewpoint on an established, major research area, support or challenge long-held beliefs in such an area with compelling evidence, or present a convincing, comprehensive new taxonomy of such an area. Survey papers without such insights are not appropriate and may be rejected without full review. Submissions will be distinguished by the prefix “SoK:” in the title and a checkbox on the submission form. They will be reviewed by the full PC and held to the same standards as traditional research papers, but they will be accepted based on their treatment of existing work and value to the community, and not based on any new research results they may contain. Accepted papers will be presented at the symposium and included in the proceedings. You can find an overview of recent SoK papers at <a href="https://oaklandsok.github.io/">https://oaklandsok.github.io</a>.</p>
+
+<h2 id="submission-deadlines--decisions"><strong>Submission Deadlines &amp; Decisions</strong></h2>
+
+<p>Similar to 2026, for each submission, one of the following decisions
+will be made:</p>
+
+<ul>
+  <li>
+    <p><strong>Accept:</strong> Papers in this category will be accepted for publication in the proceedings and presentation at the conference. Within one month of acceptance, all accepted papers must submit a camera-ready copy incorporating reviewer feedback. The papers will immediately be published, open access, in the Computer Society’s Digital Library, and they may be cited as “To appear in the IEEE Symposium on Security &amp; Privacy, May 2027”.</p>
+  </li>
+  <li>
+    <p><strong>Reject:</strong> Papers in this category are declined for inclusion in the conference. Rejected papers must wait for one year, from the date of original submission, to resubmit to IEEE S&amp;P. A paper will be judged to be a resubmit (as opposed to a new submission) if the paper is from the same or similar authors, with a very similar intellectual contribution, and a reviewer could write a substantially similar summary of the paper compared with the original submission.  A paper that is completely rewritten and has a new presentation but the same intellectual contribution is considered a resubmission. Small extensions on the same paper or just slightly changing the angle of presentation of the results is considered a resubmission.<br><br>Resubmissions or double-submissions to other conferences will result in submission penalties to all the authors for more than one year. <b>Note that the registration deadline is included in double-submissions – papers that are under submission elsewhere at the time of the registration deadline cannot be registered at S&amp;P, even if they may be rejected from the other venue between the registration and submission deadlines.</b></p>
+  </li>
+</ul>
+
+<p><strong>Public Meta-Reviews:</strong> Similar to 2026, <u>all</u> accepted papers will be published with a <i>meta-review</i> (&lt; 500 words) in the final PDF that lists: (a) the reasons the PC decided to accept the paper and (b) concerns the PC has with the paper. Authors will be given the option to write a <i>response to the meta-review</i> (&lt; 500 words) which will be published as part of the meta-review. Authors will be given a draft meta-review at the time of acceptance. Authors will be given the option of addressing some or all of the concerns while preparing their camera ready. A shepherd will remove concerns from the meta-review if they are sufficiently addressed by the revisions made.
+<br> <br>
+The goal of this process is to provide greater transparency and to better scope change requests made by reviewers. More information about the reasons behind this change can be found on the <a href="https://sp2024.ieee-security.org/changes-cfp.html">2024 IEEE S&amp;P website</a>. 
+<br><br>
+Note that under this acceptance process, there is no conditional acceptance so papers submitted will be reviewed as is and accepted based on the material that was submitted at the paper submission deadline, with the exception of additional material explicitly requested by the reviewers as part of the rebuttal process (see the Rebuttal Format section below).</p>
+
+<h2 id="symposium-event-important-changes"><strong>Symposium Event (Important Changes)</strong></h2>
+<p>The number of papers accepted to IEEE S&amp;P continues to grow substantially each year. Due to conference venue limitations and costs, each accepted paper will have: (a) a short talk presentation (e.g., 5-7 minutes, length determined based on the number of accepted papers) and (b) a poster presentation immediately following the talk session containing the paper. All accepted papers are required to present both a short talk and a poster.</p>
+
+<h2 id="rebuttal-format"><strong>Rebuttal Format</strong></h2>
+
+<p>Papers reaching the second round of reviewing will be given an opportunity to write a rebuttal to reviewer questions. The program committee will assign each paper one of the following two rebuttal options:</p>
+
+<ul>
+  <li>Non-interactive rebuttal (750 words): The authors are invited to submit a 750 word rebuttal that should exclusively focus on factual errors in the reviews and concrete questions posed by the reviewers. New research results or other additional material cannot be provided.</li>
+  <li>Interactive rebuttal (750 words and revised manuscript): The authors are first invited to submit a 750 word rebuttal that should exclusively focus on factual errors in the reviews and concrete questions posed by the reviewers. The authors are then also invited to follow up their rebuttal with a HotCRP comment that provides new research results or other additional material explicitly requested by reviewers. This HotCRP comment must be accompanied by a revised manuscript PDF, as there will not be additional opportunities for reviewing revisions later in the process. The goal of this approach is to allow authors to submit updates directly for reviewers to evaluate, rather than simply describing a revision plan.This rebuttal period will be interactive; that said, not all reviewers may choose to interact with the authors.</li>
+</ul>
+
+<p>More instructions will be sent to the authors at the beginning of the rebuttal period and will indicate clearly which rebuttal option was assigned to the submission. Failure to follow the instructions sent at the beginning of the rebuttal (for example, submitting rebuttals over the word count limit, including new material when a paper was assigned a non-interactive rebuttal, or including new material that was not requested by the reviewers in an interactive rebuttal) will result in immediate rejection. The rebuttal period described here is separate from the meta-review rebuttal given to accepted papers.</p>
+
+<p>Any papers rejected during the rebuttal period must wait for one year, from the date of original submission, to resubmit to IEEE S&amp;P.</p>
+
+<h2 id="important-dates"><strong>Important Dates</strong></h2>
+<p>All deadlines are 23:59:59 AoE (UTC-12).</p>
+
+<p>Abstract registration deadline means full and complete abstract, complete list of authors with their ORCIDs, and conflicts of interest declared on HotCRP. Neither the title, abstract, nor the author list can be changed after the abstract registration deadline. Conflicts of interest will be reviewed by the PC chairs and the authors will be given an opportunity to address any discrepancies identified before the paper submission deadline.</p>
+
+<h4 id="first-deadline"><strong>First deadline</strong></h4>
+<ul>
+  <li>Abstract registration deadline: June 4, 2026</li>
+  <li>Paper submission deadline: June 11, 2026</li>
+  <li>Early-reject notification: July 27, 2026</li>
+  <li>Reviews released: August 20, 2026</li>
+  <li>Rebuttal text due: August 27, 2026</li>
+  <li>Beginning of the interactive period for papers assigned an interactive rebuttal: August 26, 2026</li>
+  <li>End of the interactive rebuttal and revised manuscript due: September 3, 2026</li>
+  <li>Acceptance notification: September 11, 2026</li>
+  <li>Submission to shepherd: October 2, 2026</li>
+  <li>Camera-ready deadline: October 16, 2026</li>
+</ul>
+
+<h4 id="second-deadline"><strong>Second deadline</strong></h4>
+<ul>
+  <li>Abstract registration deadline: November 10, 2026</li>
+  <li>Paper submission deadline: November 17, 2026</li>
+  <li>Early-reject notification: January 18, 2027</li>
+  <li>Reviews released: February 11, 2027</li>
+  <li>Rebuttal text due: February 16, 2027</li>
+  <li>Beginning of the interactive period for papers assigned an interactive rebuttal: February 17, 2027</li>
+  <li>End of the interactive rebuttal and revised manuscript due: February 26, 2027</li>
+  <li>Acceptance notification: March 5, 2027</li>
+  <li>Submission to shepherd: March 26, 2027</li>
+  <li>Camera-ready deadline: April 8, 2027</li>
+</ul>
+
+<h2 id="resubmission-of-rejected-papers"><strong>Resubmission of Rejected Papers</strong></h2>
+
+<p>As with previous IEEE S&amp;P symposia with multiple submission cycles, rejected papers must wait one year before resubmission to IEEE S&amp;P.</p>
+
+<hr>
+
+<h2 id="instructions-for-paper-submission"><strong>Instructions for Paper Submission</strong></h2>
+<p>These instructions apply to both the research papers and systematization of knowledge (SoK) papers. All submissions must be original work; the submitter must clearly document any overlap with previously published or simultaneously submitted papers from any of the authors. Failure to point out and explain overlap will be grounds for rejection. Simultaneous submission of the same paper to another venue with proceedings or a journal is not allowed and will be grounds for automatic rejection. <a href="mailto:pcchairs-27@sp.ieee-security.org">Contact the program committee chairs</a> if there are questions about this policy.</p>
+
+<h2 id="cap-on-number-of-submissions"><strong>Cap on number of submissions</strong></h2>
+
+<p>Any author may submit no more than 6 papers per cycle. In the event an author registered more than 6 papers in a cycle, all the paper registrations they submitted in that cycle will be desk rejected. To avoid any ambiguity, this means that the submission cap is enforced at the abstract registration deadline.</p>
+
+<h2 id="anonymous-submission"><strong>Anonymous Submission</strong></h2>
+
+<p>Papers must be submitted in a form suitable for anonymous review: no author names or affiliations (whether they are real or the default fake names included in the IEEE template) may appear on the title page, and papers should avoid revealing authors’ identity in the text. Authors should also take care in not including acknowledgments that help identify them (e.g., funding information, names of colleagues who gave feedback on the paper). When referring to their previous work, authors are required to cite their papers in the third person, without identifying themselves. In the unusual case in which a third-person reference is infeasible, authors can blind the reference itself.</p>
+
+<p>When preparing the artifacts repository authors should take extra care to not include authors’ information in the repository or artifacts content, so as not to break the anonymity of the paper submission. Authors may want to consider using services such as <a href="https://gitfront.io/">GitFront</a> or <a href="https://anonymous.4open.science/">Anonymous GitHub</a>. Additionally, authors should make sure to use account names and repository names that do not identify the authors, and should remove any comments/text in the repository that may directly identify the authors or the authors’ institution.</p>
+
+<p>Papers that are not properly anonymized may be rejected without review.</p>
+
+<p>While a paper is under submission to the IEEE Security &amp; Privacy Symposium, authors may choose to give talks about their work, post a preprint of the paper to an archival repository such as arXiv, and disclose security vulnerabilities to vendors. Authors should refrain from widely advertising their results, but in special circumstances they should <a href="mailto:pcchairs-27@sp.ieee-security.org">contact the PC chairs</a> to discuss exceptions. Authors are not allowed to directly contact PC members to discuss their submission.</p>
+
+<p>The submissions will be treated confidentially by the PC chairs and the program committee members. Program committee members are not allowed to share the submitted papers with anyone, with the exception of qualified external reviewers approved by the program committee chairs. Please <a href="mailto:pcchairs-27@sp.ieee-security.org">contact the PC chairs</a> if you have any questions or concerns.</p>
+
+<p>Papers that are desk rejected because they do not follow the template formatting rules or break anonymity, and do not receive reviews, can be resubmitted at the next cycle. (Papers that break anonymity and are discovered during the review process, once reviews have been completed, must wait for one year before being resubmitted to S&amp;P.)</p>
+
+<h2 id="artifacts"><strong>Artifacts</strong></h2>
+<p>Papers are strongly encouraged to provide artifact repositories that are anonymized as described above. Artifact repositories must not be updated after the paper deadline has passed. Theoretical papers are strongly encouraged to submit the proofs as artifacts on such repositories at paper submission time.</p>
+
+<h2 id="conflicts-of-interest-coi"><strong>Conflicts of Interest (COI)</strong></h2>
+<p>PC members who have a genuine conflict of interest with a paper, including the PC Co-Chairs and the Associate Chairs, will be excluded from evaluation and discussion of that paper. During submission of an abstract, the submission site will request information about conflicts of interest of the paper’s authors with program committee (PC) members. It is the full responsibility of all authors of a paper to identify all and only their potential conflict-of-interest PC members before the abstract registration deadline, according to the following definition. A paper author has a conflict of interest with a PC member when and only when one or more of the following conditions holds (the option you should select on HotCRP is listed within brackets):</p>
+
+<ol>
+  <li>[Co-author] The PC member is a co-author of the paper.</li>
+  <li>[Co-worker] The PC member has been a co-worker in the same company or organization within the past two years.
+    <ul>
+      <li>For student interns, the student is conflicted with their supervisors and with members of the same research group. If the student no longer works for the organization, then they are not conflicted with a PC member from the larger organization.</li>
+    </ul>
+  </li>
+  <li>[Institutional] The PC member has been affiliated with the same academic institution (e.g., University, research institute) as one of the co-authors within the past two years.
+    <ul>
+      <li>Ph.D students have a conflict with the University they graduated from for 2 years after their graduation date.</li>
+    </ul>
+  </li>
+  <li>[Research collaborator] The PC member has been a collaborator on a research paper within the past two years. The definition of “research paper” includes ongoing work, unpublished work, and technical reports.</li>
+  <li>[Funding collaborator] The PC member has been a collaborator (e.g., a coPI) on a funding grant within the past two years, regardless of the status of the grant (e.g., submitted, funded, completed).</li>
+  <li>[Advisor] The PC member is or was the author’s primary thesis advisor, no matter how long ago.</li>
+  <li>[Advisee] The author is or was the PC member’s primary thesis advisor, no matter how long ago.</li>
+  <li>[Personal] The PC member is a relative or close personal friend of the author.</li>
+</ol>
+
+<p>For any other situation where the authors feel they have a conflict with a PC member, they must explain the nature of the conflict via the corresponding field in the HotCRP submission entry, such that the PC chairs can review the conflict and confirm it is appropriate. The program chairs will review declared conflicts. Papers with incorrect or incomplete conflict of interest information as of the submission closing time are subject to immediate rejection. Because it would not be possible to handle conflicts of interest retroactively, changes to the author list are not permitted after submission (see section on Authorship below). Authors are responsible for reading the entire list of PC members. Talking to someone about work submitted to S&amp;P does not necessarily constitute a conflict of interest, but the authors should refrain from mentioning the name of the venue the work was submitted to when presenting it.</p>
+
+<p>COI developed during the reviewing process: Authors starting new collaborations during the review period should make all their new collaborators aware that they have submitted papers to S&amp;P.</p>
+
+<h2 id="research-ethics-considerations"><strong>Research Ethics Considerations</strong></h2>
+
+<p>All papers must complete the “Ethics Considerations” field when registering a paper on HotCRP to make the relevant disclosures. Authors are also welcome to add relevant details to their submitted PDF (in the body or appendix of the paper), but regardless, authors of accepted papers will be asked to add the “Ethics Considerations” section itself to their manuscript at the camera ready stage, where it will not count toward page limits. We expect this will <span class="updated">very</span> rarely be the case, but if there are no Ethics considerations, <span class="updated">authors should write “None” as well as a short description of how they arrived at the conclusion that their work does not involve ethics considerations. Papers that report no ethics considerations but for which the PC believes ethics considerations are necessary may be (desk) rejected. Below we describe some common (but not comprehensive) suggestions for thinking about research ethics.</span></p>
+
+<h3 id="research-ethics-committee">Research Ethics Committee</h3>
+
+<p>Similar to 2026, IEEE S&amp;P 2027 has a research ethics committee (REC) that will check papers flagged by reviewers as potentially including ethically fraught research. The REC will review flagged papers and may suggest to the PC Chairs rejection of a paper on ethical grounds. The REC consists of members of the PC. Authors are encouraged to review the <a href="https://www.dhs.gov/sites/default/files/publications/CSD-MenloPrinciplesCORE-20120803_1.pdf">Menlo Report</a> for general ethical guidelines for computer and information security research.</p>
+
+<p>If a paper raises significant ethical and/or legal concerns, it will be checked by the REC and it might be rejected based on these concerns. The <a href="mailto:pcchairs-27@sp.ieee-security.org">PC chairs</a> will be happy to consult with authors about how this policy applies to their submission</p>
+
+<h3 id="ethical-considerations-for-vulnerability-disclosure">Ethical Considerations for Vulnerability Disclosure</h3>
+
+<p>Where research identifies a vulnerability (e.g., software vulnerabilities in a given program, design weaknesses in a hardware system, or any other kind of vulnerability in deployed systems), we expect that researchers act in a way that avoids gratuitous harm to affected users and, where possible, affirmatively protects those users. In nearly every case, disclosing the vulnerability to vendors of affected systems, and other stakeholders, will help protect users. If a paper raises significant ethical and/or legal concerns, it will be checked by the REC and it might be rejected based on these concerns.</p>
+
+<p>Authors are strongly recommended to disclose vulnerabilities in their original submission. If that is not possible, authors should provide details of why they have not disclosed the vulnerabilities yet, and what is their disclosure plan. That is, the version of the paper submitted for review must discuss in detail the steps the authors have taken or plan to take to address these vulnerabilities.</p>
+
+<p>Authors are required to disclose vulnerabilities no later than the rebuttal deadline. If this is not possible, the authors should <a href="mailto:pcchairs-27@sp.ieee-security.org">notify the PC chairs by email</a> as soon as possible. Longer disclosure windows are at the discretion of the PC chairs and will only be considered in exceptional situations.</p>
+
+<p>Because there are no conditional accepts, reviewers can treat the lack of disclosure of vulnerabilities as a concern that can lead to rejection: reviewers need to make decisions based on the information provided at the submission and rebuttal time. The <a href="mailto:pcchairs-27@sp.ieee-security.org">PC chairs</a> will be happy to consult with authors about how this policy applies to their submissions.</p>
+
+<p><strong>Note</strong>: Submitted papers should <strong>not</strong> include full CVE identifiers in order to preserve the anonymity of the submission.</p>
+
+<h3 id="ethical-considerations-for-human-subjects-research">Ethical Considerations for Human Subjects Research</h3>
+
+<p>Submissions that describe experiments that could be viewed as involving human subjects, that analyze data derived from human subjects (even anonymized data), or that otherwise may put humans at risk should:</p>
+<ol>
+  <li>Disclose whether the research received an approval or waiver from each of the authors’ institutional ethics review boards (e.g., IRB,) if applicable.</li>
+  <li>Discuss steps taken to ensure that participants and others who might have been affected by an experiment were treated ethically and with respect. Depending on the specifics of the work, this might include (but is not limited to) information such as: how participants were recruited; how coercive participation was avoided; whether and how participants were compensated; mechanisms for explicit or implicit consent; possible harms and how they were minimized; how potential benefits were weighed against risks; and steps taken to maintain confidentiality of participants and their data.</li>
+</ol>
+
+<p>If a submission deals with any kind of personally identifiable information (PII) or other kinds of sensitive data, the Ethical Considerations field submitted through HotCRP must discuss in detail the steps the authors have taken to mitigate harms to the persons identified.</p>
+
+<h3 id="ethical-considerations-for-working-with-live-systems">Ethical Considerations for Working With Live Systems</h3>
+
+<p>Submissions that describe experiments involving measuring, testing, exploiting, or otherwise interacting with live systems that do not belong to the authors should discuss in detail the steps the authors have taken to mitigate harm or disruption to these systems. Harm or disruption could include (but is not limited to) accessing confidential information, overwriting data, disrupting normal system operations, wasting resources or employee time at the organizations hosting the system under study, and upsetting or confusing owners, operators, or users of the system under study. Submissions should:</p>
+<ol>
+  <li>Explain whether or not the authors had permission to conduct the described study. If not, explain why permission was either not needed or not feasible.</li>
+  <li>Discuss how the potential benefits of the study were weighed against the risk of harms.</li>
+</ol>
+
+<h3 id="ethics-considerations-for-developing-new-tools-or-technologies">Ethics Considerations for Developing New Tools or Technologies</h3>
+
+<p>Submissions that develop new tools or technologies – <b>including but not limited to new modes of attack</b> or new tools for privacy or anonymity – should discuss in detail whether and how these tools could be used for harm. In particular, submissions should:</p>
+<ol>
+  <li>Discuss how the newly developed tool or technology could be misused. What harms could result, and how likely are these harms?</li>
+  <li>What if anything can or should be done, by the author or by other users of the technology, to limit these risks?</li>
+  <li>Discuss how the benefits of the potential benefits of the new technology were weighed against the risk of harms.</li>
+</ol>
+
+<h3 id="ethics-considerations-for-developing-novel-attacks"><span class="updated">Ethics Considerations for Developing Novel Attacks</span></h3>
+
+<p><span class="updated">Submissions that identify, develop, or evaluate new attack techniques, mechanisms, or tools, should:</span></p>
+<ol class="updated">
+  <li>Discuss the potential harm that could be caused by the publication of the attack. Discuss how these harms were weighed against the benefits of publishing the attack.</li>
+  <li>Discuss whether and how the attack can be mitigated or prevented. What if anything should be done, by the authors or by other parties, to limit risks, in the short and/or long term?</li>
+  <li>Discuss any disclosure or notification process that was followed (see Ethics Consideration for Vulnerability Disclosure, above).</li>
+</ol>
+
+<h2 id="financial-and-non-financial-competing-interests"><strong>Financial and Non-financial Competing Interests</strong></h2>
+
+<p>In the interests of transparency and to help readers form their own judgement of potential bias, the IEEE Symposium on Security &amp; Privacy requires authors and PC members to declare any competing financial and/or non-financial interests in relation to the work described. Authors need to include a disclosure of relevant financial interests in the camera-ready versions of their papers. This includes not just the standard funding lines, but should also include disclosures of any financial interest related to the research described. For example, “Author X is on the Technical Advisory Board of the ByteCoin Foundation,” or “Professor Y is the CTO of DoubleDefense, which specializes in malware analysis.” More information regarding this policy is available <a href="https://www.ieee-security.org/TC/SP2022/financial-con.html">here</a>.</p>
+
+<h2 id="page-limit-and-formatting"><strong>Page Limit and Formatting</strong></h2>
+
+<p>Submitted papers may include up to 13 pages of text and up to 5 pages for references and appendices, totaling no more than 18 pages. All text and figures past page 13 must be clearly marked as part of the appendix. The final camera-ready paper must be no more than 18 pages, although, at the PC chairs’ discretion, additional pages may be allowed. Reviewers are not required to read appendices. For SoK papers, the references do not count towards the number of pages.</p>
+
+<p>Submitted papers cannot use additional pages at submission time without the explicit approval of <a href="mailto:pcchairs-27@sp.ieee-security.org">PC Chairs</a>. Papers that are over the allowed number of pages will be rejected without review.</p>
+
+<p>Papers must be formatted for US letter (not A4) size paper. All submissions must use the IEEE “compsoc” conference proceedings template. LaTeX submissions using the IEEE templates must use IEEEtran.cls version 1.8b with options “conference,compsoc.” (That is, begin your LaTeX document with the line \documentclass[conference,compsoc]{IEEEtran}.). See the “IEEE Demo Template for Computer Society Conferences” <a href="https://www.overleaf.com/latex/templates/ieee-demo-template-for-computer-society-conferences/hzzszpqfkqky">Overleaf template</a> for an example. We are not aware of an MS Word template that matches this style.</p>
+
+<p>Papers that fail to use the “compsoc” template (including using the non-compsoc IEEE conference template), modify margins, font, or line spacing, or use egregious space scrunching are subject to rejection without review. <strong>Authors are responsible for verifying the paper format (e.g., compare with the above linked Overleaf template)</strong>. While HotCRP provides some automated checking, the checks are limited. Note that some LaTeX packages (e.g., \usepackage{usenix}) override the compsoc formatting and must be removed.</p>
+
+<h2 id="withdrawing-policy"><strong>Withdrawing Policy</strong></h2>
+
+<p>A paper can be withdrawn at any point before the reviews have been sent to the authors. Once the reviews have been sent to the authors, the paper can not be withdrawn.</p>
+
+<h2 id="authorship-policy"><strong>Authorship Policy</strong></h2>
+
+<p>Changes to the authorship list (adding, removing, reordering authors) are not permitted after the abstract registration deadline. Once the paper is accepted, the authors can request approval from the TPC Chairs to make changes to the ordering or affiliation in justified circumstances. If authors anticipate that they might change affiliation during the time the paper is under submission it is recommended to mark both the current and future institution as COI. Per the generative AI policy found below, an AI cannot be listed as an author of a submission.<br>
+ORCID requirement: All authors are required to submit an ORCID number at abstract submission time. You can obtain an ORCID number <a href="https://support.orcid.org/hc/en-us/articles/360006897454-How-do-I-register-for-an-ORCID-ID">here</a>. ORCID accounts must use emails that are identical with the ones used in HotCRP for the paper submission, and they must include complete names that match the names of the authors listed on HotCRP. Papers that do not submit ORCID numbers for all authors and do not follow the rules above will be desk rejected.</p>
+
+<h2 id="conference-submission-server"><strong>Conference Submission Server</strong></h2>
+
+<p>Submissions must be in Portable Document Format (.pdf). Authors should pay special attention to unusual fonts, images, and figures that might create problems for reviewers.</p>
+
+<p><strong>Submission servers</strong>:</p>
+<ul>
+  <li><strong>First deadline</strong>: <a href="https://cycle1.sp2027.ieee-security.org/">https://cycle1.sp2027.ieee-security.org/</a></li>
+  <li><strong>Second deadline</strong>: <a href="https://cycle2.sp2027.ieee-security.org/">https://cycle2.sp2027.ieee-security.org</a></li>
+</ul>
+
+<p><strong>IMPORTANT</strong>: The authors are responsible for having a draft submitted 24 hours before the deadline. Submissions that failed because the submission server crashed either (a) within 24 hours of the submission deadline or (b) after the submission deadline will not be accepted. The PC Chairs will not respond to emails about this issue.</p>
+
+<h2 id="publication-and-presentation"><strong>Publication and Presentation</strong></h2>
+
+<p>Authors are responsible for obtaining appropriate publication clearances. One of the authors of the accepted paper is expected to register and present the paper at the conference.</p>
+
+<h2 id="authors-responsibility"><strong>Authors’ Responsibility</strong></h2>
+
+<p>It is the responsibility of all authors to be familiar with the conference CFP and the policies it specifies.</p>
+
+<h2 id="generative-ai-policy"><strong>Generative AI Policy</strong></h2>
+
+<p>As an IEEE conference, S&amp;P follows the IEEE Policy about the use of generative AI which can be found here: <a href="https://pspb.ieee.org/images/files/PSPB/opsmanual.pdf">https://pspb.ieee.org/images/files/PSPB/opsmanual.pdf</a></p>
+
+<p>Additionally, papers submitted at S&amp;P must adhere to the following policy. (This is based on the policy created by IEEE SaTML 2026).</p>
+
+<p>Authors are permitted to use generative AI (e.g., large language models), both as an object of study and when preparing their paper. However, while the conference does not ban authors from using generative AI or researching its security and privacy properties, authors must (a) carefully consider their decision to use and/or study generative AI and (b) are required to disclose and motivate the use of generative AI in their submission. If the authors choose to use or study generative AI in their work–whether as part of their research methodology and/or in the process of preparing the manuscript–they must complete the “Generative AI <em>usage considerations</em>” field on HotCRP when registering their paper to make the relevant disclosures.</p>
+
+<p>We ask that authors adhere to three key criteria with regards to their use of generative AI in the scientific process:</p>
+<ul>
+  <li>Accuracy and Originality: First, authors are responsible for the entire content of their paper, including all text and figures. While any tool may be used for writing, it is crucial that all content is accurate and original, ensuring transparency and maintaining the integrity of the research process. In particular, authors are responsible for the thoroughness of their literature review and must determine relevant prior work and cite it to ensure proper credit. If the authors have used generative AI to improve their writing, they should state: ‘Generative AI was used for editorial purposes in this manuscript, and all outputs were inspected by the authors to ensure accuracy and originality.’</li>
+  <li>Transparency: Second, authors should carefully reason about the implications of using generative AI in their work. If generative AI was integral to the paper’s methodology (including as an object of study), its use should be explicitly detailed. Any idea generated by a generative model should be independently developed and validated by the authors. Furthermore, authors must elaborate on how they handled limitations introduced in their work by their use of generative AI. Such limitations could for instance include difficulty obtaining results that are reproducible when the generative model used is not open sourced.</li>
+  <li>Responsibility: Third, authors should take care to develop generative AI (and ML models in general) responsibly. Any data collection towards training models should take into account relevant ethical considerations such as consent and data holder rights, including intellectual property. Authors also have to justify the need for the environmental footprint of their experiments to achieve their goals and support their methodology. We recognize calculating such a footprint is a technical challenge in itself. We refer the authors to the work of <u>Lacoste et al.</u> (<a href="https://mlco2.github.io/impact/">https://mlco2.github.io/impact/</a>) but welcome any other good references (<a href="mailto:pcchairs-27@sp.ieee-security.org">pcchairs-27@sp.ieee-security.org</a>).  We emphasize that the goal here is not to calculate the exact footprint but rather explain experimental choices made as part of the scientific process (e.g., why was generative AI necessary, why was a particular model size selected, how the authors minimized the volume of queries made, which hardware was used to run experiments).</li>
+</ul>
+
+<p>Failure to comply with these rules is grounds for desk rejection without further review of the submission and may be accompanied by a submission ban for all the authors (for more than one year) at the discretion of the PC chairs. We note that generative AI technology is rapidly evolving. Authors are encouraged to <a href="mailto:pcchairs-27@sp.ieee-security.org">reach out proactively to the PC chairs</a> should they face uncertainties about the above rules or how they apply to their research.</p>
+
+<h2 id="program-chairs-discretion"><strong>Program chairs’ discretion</strong></h2>
+
+<p>The Program Committee Chairs maintain the discretionary authority to implement administrative measures not explicitly codified in the Call for Papers to safeguard the integrity and fairness of the peer-review process.</p>
+
+<h2 id="program-committee"><strong>Program Committee</strong></h2>
+
+<h3 id="pc-chairs"><strong>PC Chairs</strong></h3>
+
+<table class="table table-hover table-nonfluid">
+  <tbody>
+    <tr>
+      <td><a href="mailto:pcchairs-27@sp.ieee-security.org">Michelle Mazurek</a></td>
+      <td>University of Maryland</td>
+    </tr>
+    <tr>
+      <td><a href="mailto:pcchairs-27@sp.ieee-security.org">Nicolas Papernot</a></td>
+      <td>University of Toronto and Vector Institute and Google DeepMind</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="associate-chairs"><strong>Associate Chairs</strong></h3>
+
+<table class="table table-hover table-nonfluid">
+  <tbody>
+    <tr>
+      <td>Sahar Abdelnabi</td>
+      <td>ELLIS</td>
+    </tr>
+    <tr>
+      <td>Varun Chandrasekaran</td>
+      <td>UIUC</td>
+    </tr>
+    <tr>
+      <td>Giovanni Cherubin</td>
+      <td>Microsoft Research</td>
+    </tr>
+    <tr>
+      <td>Daniele Cono D'Elia</td>
+      <td>La Sapienza</td>
+    </tr>
+    <tr>
+      <td>Christina Garman</td>
+      <td>Purdue University</td>
+    </tr>
+    <tr>
+      <td>Marco Guarnieri</td>
+      <td>IMDEA Software Institute</td>
+    </tr>
+    <tr>
+      <td>Grant Ho</td>
+      <td>University of Chicago</td>
+    </tr>
+    <tr>
+      <td>Amir Houmansadr</td>
+      <td>University of Massachusetts Amherst</td>
+    </tr>
+    <tr>
+      <td>Limin Jia</td>
+      <td>CMU</td>
+    </tr>
+    <tr>
+      <td>Frank Li</td>
+      <td>Georgia Institute of Technology</td>
+    </tr>
+    <tr>
+      <td>Adwait Nadkarni</td>
+      <td>William &amp; Mary</td>
+    </tr>
+    <tr>
+      <td>Sara Rampazzi</td>
+      <td>University of Florida</td>
+    </tr>
+    <tr>
+      <td>Vera Rimmer</td>
+      <td>DistriNet KU Leuven</td>
+    </tr>
+    <tr>
+      <td>Stephanie Roos</td>
+      <td>University of Kaiserslautern-Landau</td>
+    </tr>
+    <tr>
+      <td>Yuan Tian</td>
+      <td>UCLA</td>
+    </tr>
+    <tr>
+      <td>Blase Ur</td>
+      <td>University of Chicago</td>
+    </tr>
+    <tr>
+      <td>Tianhao Wang</td>
+      <td>University of Virginia</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="reviewing-mentorship-chair"><strong>Reviewing Mentorship Chair</strong></h3>
+
+<table class="table table-hover table-nonfluid">
+  <tbody>
+    <tr>
+      <td>Wouter Lueks</td>
+      <td>CISPA Helmholtz Center for Information Security</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="rec-chairs"><strong>REC Chairs</strong></h3>
+
+<table class="table table-hover table-nonfluid">
+  <tbody>
+    <tr>
+      <td>Sofía Celi</td>
+      <td>Brave</td>
+    </tr>
+    <tr>
+      <td>Bogdan Carbunar</td>
+      <td>FIU</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="pc-members"><strong>PC Members</strong></h3>
+
+<table class="table table-hover table-nonfluid">
+  <tbody>
+    <tr>
+      <td>Aaron Johnson</td>
+      <td>U.S. Naval Research Laboratory</td>
+    </tr>
+    <tr>
+      <td>Aashish Kolluri</td>
+      <td>Microsoft</td>
+    </tr>
+    <tr>
+      <td>AbdelRahman Abdou</td>
+      <td>Carleton University</td>
+    </tr>
+    <tr>
+      <td>Abhiram Kothapalli</td>
+      <td>University of California, Berkeley</td>
+    </tr>
+    <tr>
+      <td>Adam Bates</td>
+      <td>University of Illinois at Urbana-Champaign</td>
+    </tr>
+    <tr>
+      <td>Adam Caulfield</td>
+      <td>University of Waterloo</td>
+    </tr>
+    <tr>
+      <td>Adam Oest</td>
+      <td>Amazon</td>
+    </tr>
+    <tr>
+      <td>Adil Ahmad</td>
+      <td>Arizona State University</td>
+    </tr>
+    <tr>
+      <td>Adrien Koutsos</td>
+      <td>Inria Paris</td>
+    </tr>
+    <tr>
+      <td>Ahmad-Reza Sadeghi</td>
+      <td>Technical University Darmstadt</td>
+    </tr>
+    <tr>
+      <td>Akshita Maradapu Vera Venkata Sai</td>
+      <td>Towson University</td>
+    </tr>
+    <tr>
+      <td>Alberto Sonnino</td>
+      <td>UCL, Mysten Labs</td>
+    </tr>
+    <tr>
+      <td>Alejandro Russo</td>
+      <td>Chalmers University of Technology, Göteborg University, DPella AB</td>
+    </tr>
+    <tr>
+      <td>Alessandro Brighente</td>
+      <td>University of Padova</td>
+    </tr>
+    <tr>
+      <td>Alexander Hoover</td>
+      <td>Stevens Institute of Technology</td>
+    </tr>
+    <tr>
+      <td>Alexander Viand</td>
+      <td>Belfort Labs / Cambridge University</td>
+    </tr>
+    <tr>
+      <td>Alexandra Henzinger</td>
+      <td>MIT</td>
+    </tr>
+    <tr>
+      <td>Alexandre Debant</td>
+      <td>Inria Nancy, France</td>
+    </tr>
+    <tr>
+      <td>Alexios Voulimeneas</td>
+      <td>TU Delft</td>
+    </tr>
+    <tr>
+      <td>Ali Abbasi</td>
+      <td>CISPA Helmholtz Center for Information Security</td>
+    </tr>
+    <tr>
+      <td>Ali Hajiabadi</td>
+      <td>ETH Zurich</td>
+    </tr>
+    <tr>
+      <td>Allison McDonald</td>
+      <td>Boston University</td>
+    </tr>
+    <tr>
+      <td>Alvaro Cardenas</td>
+      <td>UC Santa Cruz</td>
+    </tr>
+    <tr>
+      <td>Amit Ami</td>
+      <td>University of South Florida</td>
+    </tr>
+    <tr>
+      <td>Amit Kumar Sikder</td>
+      <td>Iowa State University</td>
+    </tr>
+    <tr>
+      <td>Amrita Roy Chowdhury</td>
+      <td>UCSD</td>
+    </tr>
+    <tr>
+      <td>Ana-Maria Cretu</td>
+      <td>CISPA</td>
+    </tr>
+    <tr>
+      <td>Ananta Soneji</td>
+      <td>Arizona State University</td>
+    </tr>
+    <tr>
+      <td>Andre Kassis</td>
+      <td>University of Waterloo</td>
+    </tr>
+    <tr>
+      <td>Anna Crowder</td>
+      <td>University of Florida</td>
+    </tr>
+    <tr>
+      <td>Anshuman Suri</td>
+      <td>DatologyAI</td>
+    </tr>
+    <tr>
+      <td>Antreas Dionysiou</td>
+      <td>Delft University of Technology (TU Delft)</td>
+    </tr>
+    <tr>
+      <td>Anwar Hithnawi</td>
+      <td>Toronto</td>
+    </tr>
+    <tr>
+      <td>Apostolos Pyrgelis</td>
+      <td>RISE Research Institutes of Sweden</td>
+    </tr>
+    <tr>
+      <td>Aravind Machiry</td>
+      <td>Purdue University</td>
+    </tr>
+    <tr>
+      <td>Arjun Arunasalam</td>
+      <td>Florida International University</td>
+    </tr>
+    <tr>
+      <td>Arslan Khan</td>
+      <td>Pennsylvania State University</td>
+    </tr>
+    <tr>
+      <td>Arthur Azevedo de Amorim</td>
+      <td>Rochester Institute of Technology</td>
+    </tr>
+    <tr>
+      <td>Arthur Gervais</td>
+      <td>University College London (UCL)</td>
+    </tr>
+    <tr>
+      <td>Awais Rashid</td>
+      <td>University of Bristol</td>
+    </tr>
+    <tr>
+      <td>Aymeric Fromherz</td>
+      <td>Inria Paris</td>
+    </tr>
+    <tr>
+      <td>Aysajan Abidin</td>
+      <td>COSIC KU Leuven</td>
+    </tr>
+    <tr>
+      <td>Bart Coppens</td>
+      <td>Ghent University</td>
+    </tr>
+    <tr>
+      <td>Basavesh Ammanaghatta Shivakumar</td>
+      <td>Virginia Tech</td>
+    </tr>
+    <tr>
+      <td>Benjamin Beurdouche</td>
+      <td>Mozilla</td>
+    </tr>
+    <tr>
+      <td>Benjamin Dowling</td>
+      <td>King's College London</td>
+    </tr>
+    <tr>
+      <td>Benny Pinkas</td>
+      <td>Bar Ilan University and Apple</td>
+    </tr>
+    <tr>
+      <td>Bhupendra Acharya</td>
+      <td>University of Louisiana at Lafayette</td>
+    </tr>
+    <tr>
+      <td>Bijeeta Pal</td>
+      <td>Uber</td>
+    </tr>
+    <tr>
+      <td>Bimal Viswanath</td>
+      <td>Virginia Tech</td>
+    </tr>
+    <tr>
+      <td>Binghui Wang</td>
+      <td>Illinois Institute of Technology</td>
+    </tr>
+    <tr>
+      <td>Bo Chen</td>
+      <td>Michigan Technological University</td>
+    </tr>
+    <tr>
+      <td>Bogdan Kulynych</td>
+      <td>Lausanne University Hospital</td>
+    </tr>
+    <tr>
+      <td>Brendan Saltaformaggio</td>
+      <td>Georgia Tech</td>
+    </tr>
+    <tr>
+      <td>Bruno Blanchet</td>
+      <td>Inria</td>
+    </tr>
+    <tr>
+      <td>Byoungyoung Lee</td>
+      <td>Seoul National University</td>
+    </tr>
+    <tr>
+      <td>Carmela Troncoso</td>
+      <td>EPFL</td>
+    </tr>
+    <tr>
+      <td>Carrie Gates</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Cas Cremers</td>
+      <td>CISPA Helmholtz Center for Information Security</td>
+    </tr>
+    <tr>
+      <td>Catuscia Palamidessi</td>
+      <td>Inria</td>
+    </tr>
+    <tr>
+      <td>Ce Zhou</td>
+      <td>Missouri S&amp;T</td>
+    </tr>
+    <tr>
+      <td>Changyu Dong</td>
+      <td>Guangzhou University</td>
+    </tr>
+    <tr>
+      <td>Chenglong Fu</td>
+      <td>University of North Carolina at Charlotte</td>
+    </tr>
+    <tr>
+      <td>Chengyu Song</td>
+      <td>UC Riverside</td>
+    </tr>
+    <tr>
+      <td>Christian Mouchet</td>
+      <td>Unaffiliated</td>
+    </tr>
+    <tr>
+      <td>Christian Wressnegger</td>
+      <td>Karlsruhe Institute of Technology (KIT)</td>
+    </tr>
+    <tr>
+      <td>Christina Poepper</td>
+      <td>New York University Abu Dhabi</td>
+    </tr>
+    <tr>
+      <td>Christopher Kruegel</td>
+      <td>UC Santa Barbara</td>
+    </tr>
+    <tr>
+      <td>Clara Schneidewind</td>
+      <td>MPI-SP</td>
+    </tr>
+    <tr>
+      <td>Claudio Soriente</td>
+      <td>GMV Spain</td>
+    </tr>
+    <tr>
+      <td>Daniel Genkin</td>
+      <td>Georgia Tech</td>
+    </tr>
+    <tr>
+      <td>Daniele Antonioli</td>
+      <td>EURECOM</td>
+    </tr>
+    <tr>
+      <td>Dave Tian</td>
+      <td>Purdue University</td>
+    </tr>
+    <tr>
+      <td>David Barrera</td>
+      <td>Carleton</td>
+    </tr>
+    <tr>
+      <td>David Heath</td>
+      <td>University of Illinois Urbana-Champaign</td>
+    </tr>
+    <tr>
+      <td>David Inyangson</td>
+      <td>Johns Hopkins University</td>
+    </tr>
+    <tr>
+      <td>David Zage</td>
+      <td>Intel Corporation</td>
+    </tr>
+    <tr>
+      <td>Davide Balzarotti</td>
+      <td>EURECOM</td>
+    </tr>
+    <tr>
+      <td>Davide Maiorca</td>
+      <td>University of Cagliari, Italy</td>
+    </tr>
+    <tr>
+      <td>Deepak Kumar</td>
+      <td>University of California San Diego</td>
+    </tr>
+    <tr>
+      <td>Dimitrios Stavrakakis</td>
+      <td>Technical University of Munich</td>
+    </tr>
+    <tr>
+      <td>Diogo Barradas</td>
+      <td>University of Waterloo</td>
+    </tr>
+    <tr>
+      <td>Dominik Wermke</td>
+      <td>North Carolina State University</td>
+    </tr>
+    <tr>
+      <td>Dongwei Xiao</td>
+      <td>Hong Kong University of Science and Technology</td>
+    </tr>
+    <tr>
+      <td>Earlence Fernandes</td>
+      <td>UC San Diego</td>
+    </tr>
+    <tr>
+      <td>Ee-Chien Chang</td>
+      <td>National University of Singapore</td>
+    </tr>
+    <tr>
+      <td>Eleonora Losiouk</td>
+      <td>University of Padova</td>
+    </tr>
+    <tr>
+      <td>Elisaweta Masserova</td>
+      <td>CMU</td>
+    </tr>
+    <tr>
+      <td>Emiliano De Cristofaro</td>
+      <td>UC Riverside</td>
+    </tr>
+    <tr>
+      <td>Emily Wenger</td>
+      <td>Duke University</td>
+    </tr>
+    <tr>
+      <td>Emma Dauterman</td>
+      <td>Stanford University</td>
+    </tr>
+    <tr>
+      <td>Eric Pauley</td>
+      <td>Virginia Tech/Terrace Networks</td>
+    </tr>
+    <tr>
+      <td>Eric Zeng</td>
+      <td>Georgetown University</td>
+    </tr>
+    <tr>
+      <td>Erica Blum</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Eugene Bagdasarian</td>
+      <td>Cornell University</td>
+    </tr>
+    <tr>
+      <td>Euijin Choo</td>
+      <td>University of Alberta</td>
+    </tr>
+    <tr>
+      <td>Evgenios Kornaropoulos</td>
+      <td>George Mason University</td>
+    </tr>
+    <tr>
+      <td>Eyal Ronen</td>
+      <td>Tel Aviv University</td>
+    </tr>
+    <tr>
+      <td>Fabio De Gaspari</td>
+      <td>Sapienza University of Rome</td>
+    </tr>
+    <tr>
+      <td>Fabio Pierazzi</td>
+      <td>King's College London</td>
+    </tr>
+    <tr>
+      <td>Faysal hossain Shezan</td>
+      <td>University of Texas at Arlington</td>
+    </tr>
+    <tr>
+      <td>Fengwei Zhang</td>
+      <td>Southern University of Science and Technology (SUSTech)</td>
+    </tr>
+    <tr>
+      <td>Fengyuan Xu</td>
+      <td>Nanjing University</td>
+    </tr>
+    <tr>
+      <td>Florentin Rochet</td>
+      <td>University of Namur</td>
+    </tr>
+    <tr>
+      <td>Florian Kerschbaum</td>
+      <td>University of Waterloo</td>
+    </tr>
+    <tr>
+      <td>FNU Suya</td>
+      <td>UT, Knoxville</td>
+    </tr>
+    <tr>
+      <td>Ghada Almashaqbeh</td>
+      <td>University of Connecticut</td>
+    </tr>
+    <tr>
+      <td>Ghassan Karame</td>
+      <td>Ruhr University Bochum</td>
+    </tr>
+    <tr>
+      <td>Giancarlo Pellegrino</td>
+      <td>CISPA Helmholtz Center for Information Security</td>
+    </tr>
+    <tr>
+      <td>Giovanni Apruzzese</td>
+      <td>Reykjavik University</td>
+    </tr>
+    <tr>
+      <td>Guanhong Tao</td>
+      <td>University of Utah</td>
+    </tr>
+    <tr>
+      <td>Guannan Wei</td>
+      <td>Tufts University</td>
+    </tr>
+    <tr>
+      <td>Guofei Gu</td>
+      <td>Texas A&amp;M University</td>
+    </tr>
+    <tr>
+      <td>Habiba Farrukh</td>
+      <td>University of California, Irvine</td>
+    </tr>
+    <tr>
+      <td>Haipeng Cai</td>
+      <td>University at Buffalo, SUNY</td>
+    </tr>
+    <tr>
+      <td>Hanshen Xiao</td>
+      <td>Nvidia</td>
+    </tr>
+    <tr>
+      <td>Hao Chen</td>
+      <td>University of California, Davis</td>
+    </tr>
+    <tr>
+      <td>Haotian Zhang</td>
+      <td>NJIT</td>
+    </tr>
+    <tr>
+      <td>Harry Wai Ho Wong</td>
+      <td>National Yang Ming Chiao Tung University</td>
+    </tr>
+    <tr>
+      <td>Harshavardhan Unnibhavi</td>
+      <td>TU Munich</td>
+    </tr>
+    <tr>
+      <td>Heather Zheng</td>
+      <td>University of Chicago</td>
+    </tr>
+    <tr>
+      <td>Heng Yin</td>
+      <td>University of California, Riverside</td>
+    </tr>
+    <tr>
+      <td>Henri Devillez</td>
+      <td>CNRS, LORIA</td>
+    </tr>
+    <tr>
+      <td>Hervé Debar</td>
+      <td>Telecom SudParis</td>
+    </tr>
+    <tr>
+      <td>Hieu Le</td>
+      <td>Independent Researcher</td>
+    </tr>
+    <tr>
+      <td>Hongxin Hu</td>
+      <td>University at Buffalo</td>
+    </tr>
+    <tr>
+      <td>Hovav Shacham</td>
+      <td>UCSD</td>
+    </tr>
+    <tr>
+      <td>Hugo Lefeuvre</td>
+      <td>University of British Columbia</td>
+    </tr>
+    <tr>
+      <td>Hyungsub Kim</td>
+      <td>Indiana University Bloomington</td>
+    </tr>
+    <tr>
+      <td>Ian Miers</td>
+      <td>UMD</td>
+    </tr>
+    <tr>
+      <td>Ioana Boureanu</td>
+      <td>Surrey Centre for Cyber Security, Univ. of Surrey, UK</td>
+    </tr>
+    <tr>
+      <td>Ivan De Oliveira Nunes</td>
+      <td>University of Zurich</td>
+    </tr>
+    <tr>
+      <td>Jamie Hayes</td>
+      <td>Google DeepMind</td>
+    </tr>
+    <tr>
+      <td>Jaron Mink</td>
+      <td>Arizona State University</td>
+    </tr>
+    <tr>
+      <td>Jason Nieh</td>
+      <td>Columbia University</td>
+    </tr>
+    <tr>
+      <td>Jean-Luc Watson</td>
+      <td>NVIDIA</td>
+    </tr>
+    <tr>
+      <td>Jean-Philippe Monteuuis</td>
+      <td>Qualcomm</td>
+    </tr>
+    <tr>
+      <td>Jianliang Wu</td>
+      <td>Simon Fraser University</td>
+    </tr>
+    <tr>
+      <td>Jie Zhou</td>
+      <td>The George Washington University</td>
+    </tr>
+    <tr>
+      <td>Jingxuan He</td>
+      <td>University of California, Berkeley</td>
+    </tr>
+    <tr>
+      <td>Jinyuan Jia</td>
+      <td>PSU</td>
+    </tr>
+    <tr>
+      <td>Jiska Classen</td>
+      <td>Hasso Plattner Institute, University of Potsdam</td>
+    </tr>
+    <tr>
+      <td>Jon McCune</td>
+      <td>Google LLC</td>
+    </tr>
+    <tr>
+      <td>Jonathan Katz</td>
+      <td>Google</td>
+    </tr>
+    <tr>
+      <td>Joseph Bonneau</td>
+      <td>New York University</td>
+    </tr>
+    <tr>
+      <td>Joseph Khoury</td>
+      <td>Louisiana State University</td>
+    </tr>
+    <tr>
+      <td>Joseph Lallemand</td>
+      <td>CNRS, IRISA, Univ. Rennes</td>
+    </tr>
+    <tr>
+      <td>Julia Len</td>
+      <td>UNC</td>
+    </tr>
+    <tr>
+      <td>Julien Piet</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Jun Han</td>
+      <td>KAIST (Please note the change of my affiliation from Yonsei University as I recently moved to KAIST.)</td>
+    </tr>
+    <tr>
+      <td>Kaihua Qin</td>
+      <td>University of Warwick</td>
+    </tr>
+    <tr>
+      <td>Kaiming Huang</td>
+      <td>The Pennsylvania State University</td>
+    </tr>
+    <tr>
+      <td>Kangjie Lu</td>
+      <td>University of Minnesota</td>
+    </tr>
+    <tr>
+      <td>Kari Kostiainen</td>
+      <td>ETH Zurich</td>
+    </tr>
+    <tr>
+      <td>Kathrin Grosse</td>
+      <td>Independent Researcher</td>
+    </tr>
+    <tr>
+      <td>Kaushal Kafle</td>
+      <td>University of South Florida</td>
+    </tr>
+    <tr>
+      <td>Kaveh Razavi</td>
+      <td>ETH Zurich</td>
+    </tr>
+    <tr>
+      <td>Kavous Salehzadeh Niksirat</td>
+      <td>Max Planck Institute for Security and Privacy (MPI-SP)</td>
+    </tr>
+    <tr>
+      <td>Kelsey Fulton</td>
+      <td>Colorado School of Mines</td>
+    </tr>
+    <tr>
+      <td>Kentrell Owens</td>
+      <td>Max Planck Institute for Security and Privacy (MPI-SP)</td>
+    </tr>
+    <tr>
+      <td>Kevin Butler</td>
+      <td>University of Florida</td>
+    </tr>
+    <tr>
+      <td>Kévin Huguenin</td>
+      <td>University of Lausanne</td>
+    </tr>
+    <tr>
+      <td>Kimberly Ruth</td>
+      <td>University of Chicago</td>
+    </tr>
+    <tr>
+      <td>Klaus v. Gleissenthall</td>
+      <td>VU Amsterdam</td>
+    </tr>
+    <tr>
+      <td>Kyungtae Kim</td>
+      <td>Dartmouth College</td>
+    </tr>
+    <tr>
+      <td>Lachlan Gunn</td>
+      <td>Aalto University</td>
+    </tr>
+    <tr>
+      <td>Lesly-Ann Daniel</td>
+      <td>EURECOM</td>
+    </tr>
+    <tr>
+      <td>Lichao Wu</td>
+      <td>University of Bristol</td>
+    </tr>
+    <tr>
+      <td>Lorenzo De Carli</td>
+      <td>University of Calgary</td>
+    </tr>
+    <tr>
+      <td>Lucianna Kiffer</td>
+      <td>IMDEA Networks</td>
+    </tr>
+    <tr>
+      <td>Lucy Simko</td>
+      <td>Barnard College, Columbia University</td>
+    </tr>
+    <tr>
+      <td>Lujo Bauer</td>
+      <td>CMU</td>
+    </tr>
+    <tr>
+      <td>Mahmood Sharif</td>
+      <td>Tel Aviv University</td>
+    </tr>
+    <tr>
+      <td>Man-Ki Yoon</td>
+      <td>North Carolina State University</td>
+    </tr>
+    <tr>
+      <td>Marco Squarcina</td>
+      <td>TU Wien</td>
+    </tr>
+    <tr>
+      <td>Marcus Botacin</td>
+      <td>Texas A&amp;M University</td>
+    </tr>
+    <tr>
+      <td>Marton Bognar</td>
+      <td>DistriNet, KU Leuven</td>
+    </tr>
+    <tr>
+      <td>Mary Ellen Zurko</td>
+      <td>MIT Lincoln Laboratory</td>
+    </tr>
+    <tr>
+      <td>Mathias Humbert</td>
+      <td>University of Lausanne</td>
+    </tr>
+    <tr>
+      <td>Mathias Payer</td>
+      <td>EPFL</td>
+    </tr>
+    <tr>
+      <td>Matthew Lentz</td>
+      <td>Duke University and Broadcom</td>
+    </tr>
+    <tr>
+      <td>Mauro Conti</td>
+      <td>University of Padua, Italy &amp; Örebro University, Sweden</td>
+    </tr>
+    <tr>
+      <td>McKenna McCall</td>
+      <td>Colorado State University</td>
+    </tr>
+    <tr>
+      <td>Md Rayhanur Rahman</td>
+      <td>The University of Alabama</td>
+    </tr>
+    <tr>
+      <td>Md Tariqul Islam</td>
+      <td>University of Maryland Baltimore County (UMBC)</td>
+    </tr>
+    <tr>
+      <td>Meera Sridhar</td>
+      <td>University of North Carolina Charlotte</td>
+    </tr>
+    <tr>
+      <td>Meng Hao</td>
+      <td>Singapore Management University</td>
+    </tr>
+    <tr>
+      <td>Mert Pesé</td>
+      <td>Clemson University</td>
+    </tr>
+    <tr>
+      <td>Min Chen</td>
+      <td>Vrije Universiteit Amsterdam</td>
+    </tr>
+    <tr>
+      <td>Ming Shi</td>
+      <td>University at Buffalo (SUNY)</td>
+    </tr>
+    <tr>
+      <td>Mir Mehedi Pritom</td>
+      <td>Tennessee Tech University</td>
+    </tr>
+    <tr>
+      <td>Mohammad Saidur Rahman</td>
+      <td>University of Texas at El Paso</td>
+    </tr>
+    <tr>
+      <td>Moinul Hossain</td>
+      <td>George Mason University</td>
+    </tr>
+    <tr>
+      <td>Moritz Schloegel</td>
+      <td>ASU</td>
+    </tr>
+    <tr>
+      <td>Mridula Singh</td>
+      <td>CISPA Helmholtz Center for Information Security</td>
+    </tr>
+    <tr>
+      <td>Mu Zhang</td>
+      <td>University of Utah</td>
+    </tr>
+    <tr>
+      <td>Muoi Tran</td>
+      <td>Chalmers University of Technology</td>
+    </tr>
+    <tr>
+      <td>Murtuza Jadliwala</td>
+      <td>The University of Texas at San Antonio</td>
+    </tr>
+    <tr>
+      <td>Muslum Ozgur Ozmen</td>
+      <td>Arizona State University</td>
+    </tr>
+    <tr>
+      <td>Nader Sehatbakhsh</td>
+      <td>UCLA</td>
+    </tr>
+    <tr>
+      <td>Natalia Stakhanova</td>
+      <td>University of Saskatchewan</td>
+    </tr>
+    <tr>
+      <td>Natasha Fernandes</td>
+      <td>Macquarie University</td>
+    </tr>
+    <tr>
+      <td>Nathan Malkin</td>
+      <td>New Jersey Institute of Technology</td>
+    </tr>
+    <tr>
+      <td>Neil Gong</td>
+      <td>Duke University</td>
+    </tr>
+    <tr>
+      <td>Nick Sullivan</td>
+      <td>Cryptography Consulting</td>
+    </tr>
+    <tr>
+      <td>Nicolas Christin</td>
+      <td>CMU</td>
+    </tr>
+    <tr>
+      <td>Nikita Borisov</td>
+      <td>University of Illinois</td>
+    </tr>
+    <tr>
+      <td>Nils Lukas</td>
+      <td>MBZUAI</td>
+    </tr>
+    <tr>
+      <td>Ning Luo</td>
+      <td>UIUC</td>
+    </tr>
+    <tr>
+      <td>Ning Zhang</td>
+      <td>Washington University in St. Louis</td>
+    </tr>
+    <tr>
+      <td>Ninghui Li</td>
+      <td>Perplexity AI and Purdue University</td>
+    </tr>
+    <tr>
+      <td>Nishanth Chandran</td>
+      <td>Microsoft Research India</td>
+    </tr>
+    <tr>
+      <td>Nuno Santos</td>
+      <td>INESC-ID, Instituto Superior Técnico, University of Lisbon</td>
+    </tr>
+    <tr>
+      <td>Omar Chowdhury</td>
+      <td>Stony Brook University</td>
+    </tr>
+    <tr>
+      <td>Pardis Emami-Naeini</td>
+      <td>Duke University</td>
+    </tr>
+    <tr>
+      <td>Pedro Moreno-Sanchez</td>
+      <td>IMDEA Software Institute, MPI-SP</td>
+    </tr>
+    <tr>
+      <td>Peizhuo Lv</td>
+      <td>Nanyang Technological University</td>
+    </tr>
+    <tr>
+      <td>Peng Gao</td>
+      <td>Virginia Tech</td>
+    </tr>
+    <tr>
+      <td>Phani Vadrevu</td>
+      <td>Louisiana State University</td>
+    </tr>
+    <tr>
+      <td>Pierre Ayoub</td>
+      <td>LAAS-CNRS</td>
+    </tr>
+    <tr>
+      <td>Pierre Tholoniat</td>
+      <td>Google</td>
+    </tr>
+    <tr>
+      <td>Piyush Kumar</td>
+      <td>University of Michigan</td>
+    </tr>
+    <tr>
+      <td>Pramod Bhatotia</td>
+      <td>TU Munich</td>
+    </tr>
+    <tr>
+      <td>Pratik Sarkar</td>
+      <td>Obsidus Labs</td>
+    </tr>
+    <tr>
+      <td>Pratik Soni</td>
+      <td>University of Utah</td>
+    </tr>
+    <tr>
+      <td>Prianka Mandal</td>
+      <td>William and Mary</td>
+    </tr>
+    <tr>
+      <td>Pubali Datta</td>
+      <td>University of Massachusetts Amherst</td>
+    </tr>
+    <tr>
+      <td>Qiben Yan</td>
+      <td>Michigan State University</td>
+    </tr>
+    <tr>
+      <td>Qingzhao Zhang</td>
+      <td>The University of Arizona</td>
+    </tr>
+    <tr>
+      <td>Ravishankar Borgaonkar</td>
+      <td>SINTEF AS</td>
+    </tr>
+    <tr>
+      <td>Reethika Ramesh</td>
+      <td>Palo Alto Networks</td>
+    </tr>
+    <tr>
+      <td>Reham Mohamed Aburas</td>
+      <td>American University of Sharjah, UAE</td>
+    </tr>
+    <tr>
+      <td>Reihaneh Safavi-Naini</td>
+      <td>University of Calgary</td>
+    </tr>
+    <tr>
+      <td>Riad Wahby</td>
+      <td>CMU</td>
+    </tr>
+    <tr>
+      <td>Rikke Bjerg Jensen</td>
+      <td>Royal Holloway, University of London</td>
+    </tr>
+    <tr>
+      <td>Romain Cayre</td>
+      <td>INSA Toulouse / LAAS-CNRS</td>
+    </tr>
+    <tr>
+      <td>Ruoyu Song</td>
+      <td>Purdue University</td>
+    </tr>
+    <tr>
+      <td>Ryan Wails</td>
+      <td>Georgetown University</td>
+    </tr>
+    <tr>
+      <td>Saba Eskandarian</td>
+      <td>University of North Carolina at Chapel Hill</td>
+    </tr>
+    <tr>
+      <td>Sajin Sasy</td>
+      <td>CISPA Helmholtz Center for Information Security</td>
+    </tr>
+    <tr>
+      <td>Saman Zonouz</td>
+      <td>Georgia Tech</td>
+    </tr>
+    <tr>
+      <td>Samuel Marchal</td>
+      <td>VTT Technical Research Centre of Finland Ltd.</td>
+    </tr>
+    <tr>
+      <td>Sanghyun Hong</td>
+      <td>Oregon State University</td>
+    </tr>
+    <tr>
+      <td>Santiago Torres-Arias</td>
+      <td>Purdue University</td>
+    </tr>
+    <tr>
+      <td>Sarbartha Banerjee</td>
+      <td>Sarbartha Banerjee</td>
+    </tr>
+    <tr>
+      <td>Sathvik Prasad</td>
+      <td>North Carolina State University</td>
+    </tr>
+    <tr>
+      <td>Savvas Zannettou</td>
+      <td>Delft University of Technology</td>
+    </tr>
+    <tr>
+      <td>Sayak Saha Roy</td>
+      <td>Louisiana State University</td>
+    </tr>
+    <tr>
+      <td>Sazzadur Rahaman</td>
+      <td>University of Arizona</td>
+    </tr>
+    <tr>
+      <td>Sebastian Szyller</td>
+      <td>Aalto University</td>
+    </tr>
+    <tr>
+      <td>Sébastien Bardin</td>
+      <td>CEA Lisit &amp; Université Paris-Saclay</td>
+    </tr>
+    <tr>
+      <td>Sébastien Gambs</td>
+      <td>Université du Québec à Montréal</td>
+    </tr>
+    <tr>
+      <td>Shagufta Mehnaz</td>
+      <td>Penn State</td>
+    </tr>
+    <tr>
+      <td>Shahnewaz Karim Sakib</td>
+      <td>The University of Tennessee at Chattanooga</td>
+    </tr>
+    <tr>
+      <td>Shangqi Lai</td>
+      <td>The University of Melbourne</td>
+    </tr>
+    <tr>
+      <td>Shengwei An</td>
+      <td>Virginia Tech</td>
+    </tr>
+    <tr>
+      <td>Shih-Wei Li</td>
+      <td>National Taiwan University</td>
+    </tr>
+    <tr>
+      <td>Shiqing Ma</td>
+      <td>University of Massachuseets Amherst</td>
+    </tr>
+    <tr>
+      <td>Shiza Ali</td>
+      <td>The George Washington University</td>
+    </tr>
+    <tr>
+      <td>Shouling Ji</td>
+      <td>Zhejiang University</td>
+    </tr>
+    <tr>
+      <td>Shruti Tople</td>
+      <td>Azure Research, Microsoft</td>
+    </tr>
+    <tr>
+      <td>Shuai Wang</td>
+      <td>Hong Kong University of Science and Technology</td>
+    </tr>
+    <tr>
+      <td>Siddharth Garg</td>
+      <td>NYU</td>
+    </tr>
+    <tr>
+      <td>Siddharth Muralee</td>
+      <td>Purdue University</td>
+    </tr>
+    <tr>
+      <td>Simon Oya</td>
+      <td>University of Waterloo</td>
+    </tr>
+    <tr>
+      <td>Simone Colombo</td>
+      <td>King's College London</td>
+    </tr>
+    <tr>
+      <td>Sisi Duan</td>
+      <td>Tsinghua University</td>
+    </tr>
+    <tr>
+      <td>Smirity Kaushik</td>
+      <td>The George Washington University</td>
+    </tr>
+    <tr>
+      <td>Solmaz Salimi</td>
+      <td>Sharif University of Technology</td>
+    </tr>
+    <tr>
+      <td>Song Li</td>
+      <td>Zhejiang University</td>
+    </tr>
+    <tr>
+      <td>Sourav Das</td>
+      <td>UIUC</td>
+    </tr>
+    <tr>
+      <td>Sri AravindaKrishnan Thyagarajan</td>
+      <td>University of Sydney</td>
+    </tr>
+    <tr>
+      <td>Stephen Herwig</td>
+      <td>William &amp; Mary</td>
+    </tr>
+    <tr>
+      <td>Steve Kremer</td>
+      <td>Inria</td>
+    </tr>
+    <tr>
+      <td>Stjepan Picek</td>
+      <td>University of Zagreb &amp; Radboud University</td>
+    </tr>
+    <tr>
+      <td>Sven Bugiel</td>
+      <td>CISPA Helmholtz Center for Information Security</td>
+    </tr>
+    <tr>
+      <td>Swarn Priya</td>
+      <td>Independent Researcher</td>
+    </tr>
+    <tr>
+      <td>Syed Rafiul Hussain</td>
+      <td>Pennsylvania State University</td>
+    </tr>
+    <tr>
+      <td>Sze Yiu Chau</td>
+      <td>Simon Fraser University</td>
+    </tr>
+    <tr>
+      <td>Taegyu Kim</td>
+      <td>Pennsylvania State University</td>
+    </tr>
+    <tr>
+      <td>Takao Murakami</td>
+      <td>The Institute of Statistical Mathematics (ISM)</td>
+    </tr>
+    <tr>
+      <td>Tanusree Sharma</td>
+      <td>Penn state</td>
+    </tr>
+    <tr>
+      <td>Tapti Palit</td>
+      <td>UC Davis</td>
+    </tr>
+    <tr>
+      <td>Teodora Baluta</td>
+      <td>National University of Singapore</td>
+    </tr>
+    <tr>
+      <td>Thang Hoang</td>
+      <td>Virginia Tech</td>
+    </tr>
+    <tr>
+      <td>Thomas Humphries</td>
+      <td>University of Waterloo</td>
+    </tr>
+    <tr>
+      <td>Thomas Nyman</td>
+      <td>Ericsson</td>
+    </tr>
+    <tr>
+      <td>Thomas Pasquier</td>
+      <td>University of British Columbia</td>
+    </tr>
+    <tr>
+      <td>Thorsten Eisenhofer</td>
+      <td>CISPA Helmholtz Center for Information Security</td>
+    </tr>
+    <tr>
+      <td>Thorsten Holz</td>
+      <td>Max Planck Institute for Security and Privacy</td>
+    </tr>
+    <tr>
+      <td>Thorsten Strufe</td>
+      <td>Karlsruhe Institute of Technology</td>
+    </tr>
+    <tr>
+      <td>Tiago Heinrich</td>
+      <td>Max Planck Institute for Informatics</td>
+    </tr>
+    <tr>
+      <td>Tianshi Li</td>
+      <td>Northeastern University</td>
+    </tr>
+    <tr>
+      <td>Tiantian Gong</td>
+      <td>Technion &amp; Yale University</td>
+    </tr>
+    <tr>
+      <td>Tianwei Zhang</td>
+      <td>Nanyang Technological University</td>
+    </tr>
+    <tr>
+      <td>Ting Wang</td>
+      <td>StonyBrook</td>
+    </tr>
+    <tr>
+      <td>Tristan Bilot</td>
+      <td>University of British Columbia</td>
+    </tr>
+    <tr>
+      <td>Tudor Cebere</td>
+      <td>Inria</td>
+    </tr>
+    <tr>
+      <td>Tudor Dumitras</td>
+      <td>University of Maryland, College Park</td>
+    </tr>
+    <tr>
+      <td>Urs Hengartner</td>
+      <td>University of Waterloo</td>
+    </tr>
+    <tr>
+      <td>Varun Madathil</td>
+      <td>Yale University</td>
+    </tr>
+    <tr>
+      <td>Viktoria Koscinski</td>
+      <td>Colorado State University</td>
+    </tr>
+    <tr>
+      <td>Vincent Bindschaedler</td>
+      <td>UF</td>
+    </tr>
+    <tr>
+      <td>Vincent Immler</td>
+      <td>Oregon State University</td>
+    </tr>
+    <tr>
+      <td>Wajih Ul Hassan</td>
+      <td>University of Virginia</td>
+    </tr>
+    <tr>
+      <td>Weidong Zhu</td>
+      <td>Florida International University</td>
+    </tr>
+    <tr>
+      <td>Wenbo Guo</td>
+      <td>UCSB</td>
+    </tr>
+    <tr>
+      <td>Wendy Hui Wang</td>
+      <td>Stevens Institute of Technology</td>
+    </tr>
+    <tr>
+      <td>Wenhai Sun</td>
+      <td>Purdue</td>
+    </tr>
+    <tr>
+      <td>Wenjing Lou</td>
+      <td>Virginia Tech</td>
+    </tr>
+    <tr>
+      <td>Wenke Lee</td>
+      <td>Georgia Institute of Technology</td>
+    </tr>
+    <tr>
+      <td>Wenting Zheng</td>
+      <td>Carnegie Mellon University</td>
+    </tr>
+    <tr>
+      <td>Xi He</td>
+      <td>Waterloo</td>
+    </tr>
+    <tr>
+      <td>Xiangyu Zhang</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Xiao Wang</td>
+      <td>Northwestern University</td>
+    </tr>
+    <tr>
+      <td>Xiaochan Xue</td>
+      <td>University of Hawaii at Manoa</td>
+    </tr>
+    <tr>
+      <td>XiaoFeng Wang</td>
+      <td>NTU</td>
+    </tr>
+    <tr>
+      <td>Xiaojing Liao</td>
+      <td>University of Illinois Urbana-Champaign</td>
+    </tr>
+    <tr>
+      <td>Xiaoning Liu</td>
+      <td>RMIT University</td>
+    </tr>
+    <tr>
+      <td>Xinda Wang</td>
+      <td>University of Texas at Dallas</td>
+    </tr>
+    <tr>
+      <td>Xingliang Yuan</td>
+      <td>The University of Melbourne</td>
+    </tr>
+    <tr>
+      <td>Xugui Zhou</td>
+      <td>Louisiana State University</td>
+    </tr>
+    <tr>
+      <td>Xusheng Xiao</td>
+      <td>Arizona State University</td>
+    </tr>
+    <tr>
+      <td>Yang Xiao</td>
+      <td>University of Kentucky</td>
+    </tr>
+    <tr>
+      <td>Yanxue Jia</td>
+      <td>Illinois Institute of Technology</td>
+    </tr>
+    <tr>
+      <td>Yaxing Yao</td>
+      <td>Johns Hopkins University</td>
+    </tr>
+    <tr>
+      <td>Yibo Wang</td>
+      <td>University of Wyoming</td>
+    </tr>
+    <tr>
+      <td>Yidan Hu</td>
+      <td>Rochester Institute of Technology</td>
+    </tr>
+    <tr>
+      <td>Yigitcan Kaya</td>
+      <td>UC Santa Barbara</td>
+    </tr>
+    <tr>
+      <td>Yiming Li</td>
+      <td>Nanyang Technological University</td>
+    </tr>
+    <tr>
+      <td>Yinzhi Cao</td>
+      <td>Johns Hopkins University</td>
+    </tr>
+    <tr>
+      <td>Yizheng Chen</td>
+      <td>University of Maryland</td>
+    </tr>
+    <tr>
+      <td>Yongdae Kim</td>
+      <td>KAIST</td>
+    </tr>
+    <tr>
+      <td>Yoshimichi Nakatsuka</td>
+      <td>ETH Zurich</td>
+    </tr>
+    <tr>
+      <td>Yousra Aafer</td>
+      <td>University of Waterloo</td>
+    </tr>
+    <tr>
+      <td>Yu Zheng</td>
+      <td>UC Berkeley</td>
+    </tr>
+    <tr>
+      <td>Yuan Hong</td>
+      <td>University of Connecticut</td>
+    </tr>
+    <tr>
+      <td>Yuanyuan Yuan</td>
+      <td>Tsinghua University</td>
+    </tr>
+    <tr>
+      <td>Yuchen Yang</td>
+      <td>JHU</td>
+    </tr>
+    <tr>
+      <td>Yunang Chen</td>
+      <td>Google</td>
+    </tr>
+    <tr>
+      <td>Yunming Xiao</td>
+      <td>The Chinese University of Hong Kong, Shenzhen</td>
+    </tr>
+    <tr>
+      <td>Yupeng Zhang</td>
+      <td>University of Illinois Urbana Champaign</td>
+    </tr>
+    <tr>
+      <td>Yuzhe Tang</td>
+      <td>Syracuse University</td>
+    </tr>
+    <tr>
+      <td>Zahra Ghodsi</td>
+      <td>Purdue</td>
+    </tr>
+    <tr>
+      <td>Zane Ma</td>
+      <td>Oregon State University</td>
+    </tr>
+    <tr>
+      <td>Zephyr Yao</td>
+      <td>New Jersey Institute of Technology</td>
+    </tr>
+    <tr>
+      <td>Zhambyl Shaikhanov</td>
+      <td>University of Maryland, College Park</td>
+    </tr>
+    <tr>
+      <td>Zhenlan Ji</td>
+      <td>Nara Institute of Science and Technology</td>
+    </tr>
+    <tr>
+      <td>Zhikun Zhang</td>
+      <td>Zhejiang University</td>
+    </tr>
+    <tr>
+      <td>Zhiqiang Lin</td>
+      <td>The Ohio State University</td>
+    </tr>
+    <tr>
+      <td>Zhou Li</td>
+      <td>University of California, Irvine</td>
+    </tr>
+    <tr>
+      <td>Zhuotao Liu</td>
+      <td>Tsinghua University</td>
+    </tr>
+    <tr>
+      <td>Zhuqing Liu</td>
+      <td>University of North Texas</td>
+    </tr>
+    <tr>
+      <td>Zikai Alex Wen</td>
+      <td>University of Washington</td>
+    </tr>
+    <tr>
+      <td>Ziming Zhao</td>
+      <td>Northeastern University</td>
+    </tr>
+    <tr>
+      <td>Zimo Chai</td>
+      <td>Stanford</td>
+    </tr>
+    <tr>
+      <td>Ziqi Yang</td>
+      <td>Zhejiang University</td>
+    </tr>
+    <tr>
+      <td>Zongjie Li</td>
+      <td>The Hong Kong University of Science and Technology</td>
+    </tr>
+  </tbody>
+</table>
+
+
+    </div>
+
+    <footer class="footer hidden-xs">
+      <div class="container text-center">
+        <a href="http://www.ieee.org/"><img src="./IEEE Symposium on Security and Privacy 2027_files/logo-ieee.jpg" height="44" alt="IEEE"></a>
+        <a href="http://www.computer.org/"><img src="./IEEE Symposium on Security and Privacy 2027_files/logo-ieee-cs.png" height="44" alt="IEEE Computer Society" style="padding: 0ex 10ex"></a>
+        <a href="http://www.ieee-security.org/"><img src="./IEEE Symposium on Security and Privacy 2027_files/trojan.png" height="44" alt="IEEE Technical Community on Security and Privacy"></a>
+      </div>
+    </footer>
+
+  
+
+<iframe name="__uspapiLocator" style="display: none;" src="./IEEE Symposium on Security and Privacy 2027_files/saved_resource.html"></iframe></body><div id="in-page-channel-node-id-v2" data-channel-name="in_page_channel_EMcq69" data-channel-owner-id="e53bcb68169ee0ae859b5f0383cc1a52"></div><grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
