@@ -6,14 +6,39 @@
 *.log
 *.out
 *.synctex.gz
+*.synctex(busy)
 *.toc
 *.lof
 *.lot
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.xdv
+*.dvi
+*.loa
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.ist
+*.idx
+*.ilg
+*.ind
+_minted-*/
 
 # Local render/cache directories
 tmp/
 __pycache__/
 *.py[cod]
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
 
 # Editor and OS files
 .DS_Store
