@@ -1,4 +1,6 @@
 # LaTeX build products
+sp2027/00_main.pdf
+sp2027/00_main.bbl
 *.aux
 *.blg
 *.fdb_latexmk
