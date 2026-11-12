@@ -478,41 +478,12 @@ Distillation prevention methods process teacher model outputs to reduce the usef
 Proactive watermarking embeds signals controlled into teacher outputs, allowing student models to learn and retain these features during distillation. Detecting these signals in student outputs then provides evidence for identifying and verifying distillation. For example, watermarks can be embedded at the token level: ADFP~\cite{xu2026antidistillation} uses a proxy model to estimate how token selection affects watermark learning and adjusts the teacher’s sampling distribution accordingly to improve watermark detectability. Watermarks can also be embedded at the behavioral level: Agentwm~\cite{wang2026protecting} uses functionally equivalent tool paths to embed behavioral watermarks into model execution traces, while Agentguide~\cite{huang2025agent} and SeqWM~\cite{an2026sequential} embed watermarks into model action sequences.
 
 \partitle{Passive Fingerprinting}
-Passive post-hoc fingerprinting requires no prior embedding of identification signals into teacher outputs. Instead, it retrospectively analyzes similarities between a student model and a candidate teacher to determine whether a distillation relationship exists. Specifically, PoS Templates~\cite{wadhwa2025taught} and SCOUT~\cite{jang2026retrospective} analyze syntactic patterns in generated text; Data-Free KD\cite{shi2026knowledge} uses model statistics and internal representations for detection; and DistillDetect~\cite{rawat2026reference} compares the likelihood scores assigned to text by the student and reference models. At the behavioral and reasoning levels, AgentEcho~\cite{yang2026agents} examines similarities between tool-calling traces, while Reasoning Prefill~\cite{panfilov2026stealing} investigates a model’s continuation when private reasoning traces are supplied as prefilled context.
+Passive post-hoc fingerprinting requires no prior embedding of identification signals into teacher outputs. Instead, it retrospectively analyzes similarities between a student model and a candidate teacher to determine whether a distillation relationship exists. Specifically, PoS Templates~\cite{wadhwa2025taught} and SCOUT~\cite{jang2026retrospective} analyze syntactic patterns in generated text; Data-Free KD\cite{shi2026knowledge} uses model statistics and internal representations for detection; and DistillDetect~\cite{rawat2026reference} compares the likelihood scores assigned to text by the student and reference models. At the behavioral and reasoning levels, AgentEcho~\cite{yang2026agents} examines similarities between tool-calling traces, while Reasoning PF~\cite{panfilov2026stealing} investigates a model’s continuation when private reasoning traces are supplied as prefilled context.
 
 
 \subsection{Systematic Limitations}
-Distillation prevention can make knowledge transfer more difficult, but it
-cannot directly identify an attacker who performs unauthorized distillation.
-Its effectiveness also depends strongly on assumptions about the attacker's
-capabilities. Fingerprinting methods do not require changes to
-the teacher model or service, but they usually rely on similarities between
-the student and teacher in generated text or execution behavior. Such
-similarities may also result from shared training data, common task rules, or
-the same agent framework. Therefore, high detection accuracy or statistically
-significant results alone cannot prove that distillation occurred. Some
-fingerprinting methods also require access to student weights, token
-probabilities, historical checkpoints, or a predefined set of candidate
-teachers. These requirements make them difficult to deploy when the student is
-available only through a standard black-box API. Proactive watermarking can provide more direct evidence of distillation by
-embedding signals controlled by a secret key or trigger. However, the
-reliability of this evidence depends on several conditions. The watermark must
-not harm model utility and must remain secret. The false-positive rate must be
-carefully measured and calibrated. The auditor must also rule out other ways
-through which the attacker could have obtained the watermarked data.
-Furthermore, the watermark must survive data filtering, mixed-source
-distillation, and subsequent training. These challenges are more serious in
-agent systems. Traditional token-level and text-based semantic watermarks are
-not designed for structured tool calls. Directly changing token sampling or
-rewriting tool messages may alter fields, argument values, or action semantics,
-causing tool calls to fail. Even if the modified JSON remains syntactically
-valid, the text watermark may not be preserved in the final observable tool
-calls. Behavioral watermarks are better suited to agent systems, but their
-effectiveness often decreases when the teacher and student use different base
-models. They are also vulnerable to watermark dilution. Some methods further
-introduce considerable computational cost. For example, ADFP requires a additional proxy model, while rewriting-based methods may require
-an auxiliary LLM. Therefore, reliable distillation detection in practical
-agent systems remains an open problem.
+\subsection{overview}
+
 
 \begin{table*}[!t]
 \centering
@@ -520,181 +491,174 @@ agent systems remains an open problem.
 \label{tab:anti-distillation-comparison}
 \begin{threeparttable}
 \scriptsize
-\setlength{\tabcolsep}{2.5pt}
-\renewcommand{\tabularxcolumn}[1]{m{#1}}
+% Spacing controls: increase/decrease these two values as needed.
+\setlength{\tabcolsep}{2.5pt}       % horizontal (column) spacing
+\renewcommand{\arraystretch}{1.08}  % vertical (row) spacing
 
-\begin{tabularx}{\textwidth}{
-    @{}
-    >{\raggedright\arraybackslash}m{1.55cm}
-    >{\raggedright\arraybackslash}m{1.65cm}
-    >{\centering\arraybackslash}m{0.65cm}
-    >{\raggedright\arraybackslash}m{2.15cm}
-    >{\centering\arraybackslash}m{0.70cm}
-    >{\centering\arraybackslash}m{0.75cm}
-    >{\centering\arraybackslash}m{0.80cm}
-    >{\centering\arraybackslash}m{0.75cm}
-    Y
-    @{}
-}
-\toprule
-\textbf{Family} &
-\textbf{Method} &
-\textbf{Acc.} &
-\textbf{Audit prior} &
-\textbf{Inject.} &
-\textbf{Verify} &
-\textbf{Evid.} &
-\textbf{Rob.} &
-\textbf{Main limitation} \\
-\midrule
+\begin{tabular}{@{}
+    >{\raggedright\arraybackslash}p{1.60cm}
+    >{\raggedright\arraybackslash}p{2.1cm}
+    >{\raggedright\arraybackslash}p{1.70cm}
+    >{\centering\arraybackslash}p{0.90cm}
+    >{\raggedright\arraybackslash}p{1.8cm}
+    >{\centering\arraybackslash}p{0.75cm}
+    >{\centering\arraybackslash}p{0.70cm}
+    >{\centering\arraybackslash}p{0.75cm}
+    >{\raggedright\arraybackslash}p{6.45cm}@{}}
+\noalign{\hrule height 1.5pt}
+\multirow{2}{1.60cm}{\textbf{Family}} &
+\multirow{2}{2.1cm}{\textbf{Shared limits}} &
+\multirow{2}{1.70cm}{\textbf{Method}} &
+\multirow{2}{0.90cm}{\centering\textbf{Acc.}} &
+\multirow{2}{1.8cm}{\textbf{Audit prior}} &
+\multicolumn{2}{c}{\textbf{Cost}} &
+\multirow{2}{0.75cm}{\centering\textbf{Evid.}} &
+\multirow{2}{6.45cm}{\textbf{Main limitation}} \\
+\cline{6-7}
+& & & & & \textbf{Inject.} & \textbf{Verify} & & \\
+\hline
 
-\multirow[c]{2}{1.55cm}{\raggedright Distillation prevention} &
+\multirow[c]{2}{1.60cm}{\raggedright Distillation prevention} &
+\multirow[c]{2}{2.15cm}{\raggedright
+High cost; utility can be recovered.} &
 ADS &
 -- &
-None &
+-- &
 High &
 -- &
 -- &
-Low &
-Multiple measurements can bypass the defense; no post-hoc attribution. \\
+Student utility can be recovered; no post-hoc attribution. \\
 
-&
-Trace Rewriting &
+& &
+Trace Rewrite &
 -- &
-None &
+-- &
 High &
 -- &
 -- &
-Med. &
-High rewriting cost; no post-hoc attribution. \\
+High cost; no post-hoc attribution. \\
 
-\midrule
+\hline
 
-\multirow[c]{5}{1.55cm}{\raggedright Watermarking} &
+\multirow[c]{5}{1.60cm}{\raggedright Watermarking} &
+\multirow[c]{5}{2.15cm}{\raggedright
+Limited robustness; additional cost.} &
 ADFP &
 BB &
-Same-task prompts &
+Same tasks &
 High &
 Med. &
 Strong &
-Low &
-Not suitable for agent settings; sensitive to watermark dilution. \\
+High cost; sensitive to data dilution; utility loss$^{\star}$.\\
 
-&
-Agentwm &
+& &
+AgentWM &
 BB &
-Same-domain tasks &
+Same domain &
 Low &
 High &
 Strong &
-Low &
-Weak cross-model robustness; sensitive to watermark dilution.\\
+Weak cross-model robustness$^{\star}$; sensitive to data dilution$^{\star}$. \\
 
-&
-Agentguide &
+& &
+AgentGuide &
 BB &
-None &
+-- &
 Med. &
 Low &
 Strong &
-Low &
-Not Survival after distillation. \\
+Does not reliably survive distillation$^{\star}$. \\
 
-&
+& &
 SeqWM &
 BB &
-None &
+-- &
 Med. &
 Low &
 Strong &
-Med. &
-Not Survival after distillation. \\
+Does not reliably survive distillation$^{\star}$. \\
 
 \rowcolor{gray!12}
 \cellcolor{white} &
+\cellcolor{white} &
 \textbf{AuxMark} &
 \textbf{BB} &
-\textbf{Suspected traces set} &
+\textbf{Suspected set} &
 \textbf{Med.} &
 \textbf{Med.} &
 \textbf{Strong} &
-\textbf{High} &
 \textbf{Requires traffic-based screening to select audit candidates.} \\
 
-\midrule
+\hline
 
-\multirow[c]{6}{1.55cm}{\raggedright Fingerprinting} &
+\multirow[c]{6}{1.60cm}{\raggedright Fingerprinting} &
+\multirow[c]{6}{2.15cm}{\raggedright
+No strong evidence of distillation.} &
 PoS Templates &
-\makecell{BB/\\GB} &
-None &
-None &
+BB/GB &
+-- &
+-- &
 Low &
 Weak &
-Low &
 Closed-set attribution; weak unknown-teacher rejection. \\
 
-&
+& &
 Data-Free KD &
 WB &
-None &
-None &
+-- &
+-- &
 Low &
 Weak &
-Low &
 Requires access to the student model's weights. \\
 
-&
+& &
 DistillDetect &
 GB &
-Teacher and reference models &
-None &
+Reference models &
+-- &
 Low &
 Weak &
-Med. &
 Requires student logits and calibrated reference models. \\
-&
+
+& &
 SCOUT &
 BB &
-None &
-None &
+-- &
+-- &
 Low &
 Weak &
-Med. &
 Confuses related models; fingerprints may be overwritten. \\
 
-&
+& &
 AgentEcho &
 BB &
-None &
-None &
+-- &
+-- &
 High &
 Weak &
-Low &
-High AGS can be found in different graph structures. \\
+High AGS across different graph structures.$^{\star}$. \\
 
-&
-Reasoning Prefill &
-\makecell{BB/\\GB} &
-None &
-None &
+& &
+Reasoning PF &
+BB/GB &
+-- &
+-- &
 Low &
 Weak &
-Low &
-High overlap may result from shared solutions or formatting. \\
+High overlap may result from shared solutions or formatting$^{\star}$. \\
 
-\bottomrule
-\end{tabularx}
+\noalign{\hrule height 1.5pt}
+\end{tabular}
 
 \begin{tablenotes}[flushleft]
 \scriptsize
 \item[] BB: black-box access; GB: gray-box access; WB: white-box access.
-Low, Med., and High denote relative cost or robustness levels.
+Low, Med., and High denote relative costs.
 Weak denotes indirect or non-distillation-specific evidence; Strong denotes
-secret-signal-based attribution.
+secret-signal-based attribution. $\star$ indicates a limitation identified by us.
 \end{tablenotes}
 \end{threeparttable}
 \end{table*}
-
 
 
 \subsection{Vulnerabilities in Token-Level N-gram Matching}
