@@ -478,7 +478,7 @@ Distillation prevention methods process teacher model outputs to reduce the usef
 Proactive watermarking embeds signals controlled into teacher outputs, allowing student models to learn and retain these features during distillation. Detecting these signals in student outputs then provides evidence for identifying and verifying distillation. For example, watermarks can be embedded at the token level: ADFP\cite{xu2026antidistillation} uses a proxy model to estimate how token selection affects watermark learning and adjusts the teacher’s sampling distribution accordingly to improve watermark detectability. Watermarks can also be embedded at the behavioral level: Agentwm\cite{wang2026protecting} uses functionally equivalent tool paths to embed behavioral watermarks into model execution traces, while Agentguide\cite{huang2025agent} and SeqWM\cite{an2026sequential} embed watermarks into model action sequences.
 
 \partitle{Passive Fingerprinting}
-Passive post-hoc fingerprinting requires no prior embedding of identification signals into teacher outputs. Instead, it retrospectively analyzes similarities between a student model and a candidate teacher to determine whether a distillation relationship exists. Specifically, PoS Templates\cite{wadhwa2025taught} and SCOUT\cite{jang2026retrospective} analyze syntactic patterns in generated text; Data-Free KD\cite{shi2026knowledge} uses model statistics and internal representations for detection; and DistillDetect\cite{rawat2026reference} compares the likelihood scores assigned to text by the student and reference models. At the behavioral and reasoning levels, AgentEcho\cite{yang2026agents} examines similarities between tool-calling traces, while Reasoning Prefill\cite{panfilov2026stealing} investigates a model’s continuation and response behavior when private reasoning traces are supplied as prefilled context.
+Passive post-hoc fingerprinting requires no prior embedding of identification signals into teacher outputs. Instead, it retrospectively analyzes similarities between a student model and a candidate teacher to determine whether a distillation relationship exists. Specifically, PoS Templates\cite{wadhwa2025taught} and SCOUT\cite{jang2026retrospective} analyze syntactic patterns in generated text; Data-Free KD\cite{shi2026knowledge} uses model statistics and internal representations for detection; and DistillDetect\cite{rawat2026reference} compares the likelihood scores assigned to text by the student and reference models. At the behavioral and reasoning levels, AgentEcho\cite{yang2026agents} examines similarities between tool-calling traces, while Reasoning Prefill\cite{panfilov2026stealing} investigates a model’s continuation when private reasoning traces are supplied as prefilled context.
 
 
 \subsection{Systematic Limitations}
@@ -700,8 +700,7 @@ secret-signal-based attribution.
 \subsection{Vulnerabilities in Token-Level N-gram Matching}
 \label{sec:textual-similarity}
 
-\citet{panfilov2026stealing} study visible-answer overlap after prefilling a
-model's reasoning channel with a short teacher reasoning prefix. Their
+\citet{panfilov2026stealing} study visible-answer overlap after prefilling a model's reasoning channel with a short teacher reasoning prefix. Their
 Appendix~B.2 evaluates 30 Humanity's Last Exam problems using shared
 1-, 2-, and 3-grams against the first 100 tokens of the reference answer,
 with best-of-$k$ sampling up to $k=100$. The visible answer is generated
