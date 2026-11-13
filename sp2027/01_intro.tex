@@ -1,34 +1,50 @@
 \section{Introduction}
 \label{sec:introduction}
 
-% Establish legitimate distillation, then narrow to unauthorized collection.
-\emph{Model distillation} transfers capabilities from a teacher model to a student through teacher-generated training data~\cite{hinton2015distilling}. For language models and agents, reasoning and tool-use trajectories provide supervision for learning how to solve tasks~\cite{hsieh2023distilling,mukherjee2023orca,liu2026structured,kang2026distilling}. Distillation is useful when authorized, but access to a model service also allows others to collect its outputs for training without the provider's permission. OpenAI, Anthropic, and Google report coordinated distillation campaigns targeting reasoning, coding, and tool-use capabilities~\cite{OpenAIkey,anthropicDetectingPreventing,googleGTIGThreat}. These reports motivate defenses against unauthorized collection and subsequent training use.
+\emph{Model distillation} transfers capabilities from a teacher model to a student model through teacher-generated supervised training data~\cite{hinton2015distilling}. In language models and autonomous agents, fine-tuning on teacher reasoning and tool-use trajectories allows the students to acquire complex behaviors at low cost~\cite{hsieh2023distilling, mukherjee2023orca, liu2026structured, kang2026distilling}. By systematically collecting outputs from proprietary closed-source models, competitors can acquire state-of-the-art capabilities while bypassing substantial research and training investments~\cite{anthropicDetectingPreventing}. Recent disclosures from leading AI providers indicate that unauthorized distillation campaigns now operate at an industrial scale~\cite{OpenAIkey, googleGTIGThreat, anthropicDetectingPreventing}, presenting serious intellectual property risks across the AI ecosystem.
 
-% Explain deployed defenses and the collection paths that remain available.
-Providers combine \emph{traffic screening}, \emph{account controls}, and \emph{output safeguards} to disrupt these campaigns~\cite{OpenAIkey,anthropicDetectingPreventing,googleGTIGThreat}. They investigate coordinated requests, restrict accounts associated with abuse, and limit access to reasoning traces and other useful training material. However, collection can be distributed across proxy networks and mixed with ordinary traffic. Anthropic reports networks that replace banned accounts, while OpenAI describes third-party routers that conceal the source of requests and pipelines that clean collected outputs before training~\cite{anthropicDetectingPreventing,OpenAIkey}. These defenses can reduce exposure, but blocking further access cannot prevent training on outputs already collected.
 
-% Separate evidence of collection from evidence of learning by a suspect model.
-\emph{Post-hoc tracing} addresses a separate question: did a suspect model learn from the provider's outputs? Service logs can identify interactions worth investigating, but cannot establish which outputs entered a student's training set. A distiller may use only part of the collected material, and suspicious traffic may include legitimate requests. The tracing task is therefore to obtain evidence of training use from a suspect model without knowing its training data. Such evidence can support an investigation of unauthorized distillation; whether the use was authorized depends on the permissions governing those outputs.
+% [narrow background: we should talk about some anti-distillation approaches documented by mainstream providers, and how they still get evaded. also,
+% the providers report shows a key missing piece: although they can detect and stop unauthorized distillation campaigns through traffic monitoring, knowing which traces are potentially collected, they don't have a way to prove a suspect student model was trained on these output -- i..e, a forensic tracing technique is missing.
+% ]
+Mainstream providers (e.g., OpenAI, Anthropic and Google) already provided technical reports on their anti-distllation campaign~\cite{}. \mingxun{cite} The deployed solutions are typically based on a combination of \emph{traffic screening}, \emph{account controls}, and \emph{output safeguards} to counter unauthorized distillation~\cite{}, similar to the conventional anti-scraping techniques used in web services~\cite{}.
+\mingxun{TODO: cite}
+For example, providers can identify and block suspicious traffic patterns if their behaviors are coordinated and automated, or if they are associated with known malicious accounts.
+Moreover, providers can also restrict access to reasoning traces and other useful training materials, rewrite or remove them from the output to prevent potential collection. 
+However, it has been well documented that these defenses are not foolproof. Distillers can evade these controls through proxy networks, mix collection with ordinary traffic, and even actively acquire user interactions from third-party service relays. Moreover, the reasoning traces and other critical materials are constantly being leaked through various channels even with access restrictions.
+ \mingxun{cite the stealing reasoning trace paper, and some jail breaking paper that leaks the system prompt}
 
-% Introduce the two tracing routes before explaining their evidential burden.
-Existing tracing methods follow two main routes. \emph{Passive fingerprinting} compares a suspect model with a candidate teacher, looking for similarities in their outputs or behavior~\cite{yang2026agents,rawat2026reference,panfilov2026stealing}. \emph{Active watermarking} embeds learnable signals in teacher outputs and later tests whether the student inherited them~\cite{xu2026antidistillation,wang2026protecting,an2026sequential}. Both offer a plausible basis for tracing, but an observed match needs a source-specific explanation. Models may share task knowledge or common tool-use patterns without having learned from the provider's outputs. Even a deliberately embedded behavior may occur naturally, so its evidential value depends on suitable controls. The signal must also survive processing that preserves the collected data's usefulness for training.
+% Writing guidance: first describe fully passive comparisons between the suspect
+% student and teacher; then describe active embedding of learnable signals.
+Another critical gap not addressed by these exising defenses is the \emph{post-hoc tracing} of unauthorized distillation.
+Even when a provider identifies potentially collected trajectories, traffic evidence alone does not establish whether a suspect student was trained on them.
+Existing approaches to post-hoc detection follow two main routes.
+\emph{Fully passive methods} compare a suspect student model's behavior against the teacher under selected conditions, looking for similarities that may indicate distillation~\cite{yang2026agents,rawat2026reference,panfilov2026stealing}.
+\emph{Active watermarking} methods instead embed learnable signals in teacher outputs and later probe the student to test whether it has inherited them~\cite{xu2026antidistillation,wang2026protecting,an2026sequential}.
 
-% State design requirements, without treating them as established guarantees.
-A practical tracing method should meet four requirements, which existing approaches do not fully satisfy together (see our systematization in Section~\ref{sec:intro-contributions}):
+% Writing guidance: acknowledge the appeal of passive and active methods, then
+% explain the joint deployment requirements and state the research question.
+% Provider reports do not establish deployment of these forensic methods at scale;
+% do not infer that deployment never occurs or attribute non-adoption to a proven cause.
+Both approaches offer a plausible basis for forensic tracing, but there is no clear evidence showing that they have been deployed in practice\footnote{Notably, none of them are mentioned in the mainstream providers' report on anti-distillation efforts~\cite{}).}.
+A reliable, easy-to-deploy tracing method should satisfy the following guarantees, which are not fully met by existing approaches (see our systematization in Section~\ref{sec:intro-contributions}):
 \begin{itemize}[\setlength{\IEEElabelindent}{0pt}]
     \item \emph{Accuracy}: Achieve high true-positive and low false-positive rates, ideally with only black-box queries to the suspect model.
 
     \item \emph{Reliability}: Provide strong evidence that the suspect model learned from the provider's outputs.
 
-    \item \emph{Robustness}: Retain a detectable signal after data cleaning, rewriting, or dilution.
+    \item \emph{Robustness}: Remain detectable after data cleaning, rewriting, or dilution.
 
     \item \emph{Low operational cost}: Add little overhead while preserving the teacher's task performance.
+
 \end{itemize}
 
-These requirements motivate our research question:
-\begin{quote}
-    \textit{How can a provider embed learnable signals that support reliable tracing of distillation when the student's training data are unknown and may have been processed?}
-\end{quote}
+Given the status quo, we raise the folloinwg research question:
+
+\begin{itemize}
+    \item[] \textit{How can a provider actively embed learnable signals, so that it can later
+    trace and obtain reliable evidence of unauthorized distillation under practical constraints?}
+\end{itemize}
 
 \subsection{Our Contributions}
 \label{sec:intro-contributions}
