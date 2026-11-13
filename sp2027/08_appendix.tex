@@ -311,205 +311,6 @@ Impact of identification accuracy. The horizontal axis denotes the training shar
 
 
 \section{Discussion on Statistical Test}
-\label{sec:statistical-test-discussion}
-
-\begin{table}[!t]
-\centering
-\caption{Statistical-unit sensitivity. Entries count settings with an unadjusted one-sided sign-test $p<0.05$; the 15\% training-share row uses the median over 2,000 resamples.}
-\label{tab:statistical-unit-sensitivity}
-\scriptsize
-\setlength{\tabcolsep}{2.5pt}
-
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}p{0.38\linewidth} c c c@{}}
-\noalign{\hrule height 1.5pt}
-
-\textbf{Condition} & \textbf{Card-level} & \textbf{Trace-level} & \textbf{Probe-level} \\
-
-\hline
-
-True positives & 24/24 & 24/24 & 24/24 \\
-False positives & 0/48 & 0/48 & 3/48 \\
-Paraphrasing attack & 8/8 & 7/8 & 8/8 \\
-15\% training share & 24/24 & 22/24 & 24/24 \\
-
-\noalign{\hrule height 1.5pt}
-\end{tabular*}
-
-\end{table}
-
-To evaluate how the choice of statistical unit affects detection results, we perform the same paired-probe tests at three granularities: card, trace, and probe levels. The card-level test aggregates parameterized probes derived from the same card, the trace-level test further aggregates all cards from the same trajectory, and the probe-level test directly treats each paired probe as an individual statistical unit. As shown in Table~\ref{tab:statistical-unit-sensitivity}, the card- and trace-level tests remain consistent in the main effectiveness evaluation: both achieve 24/24 detections in the true-positive settings and 0/48 significant results in the false-positive settings. Differences mainly appear under more challenging conditions. Trace-level aggregation compresses multiple watermark releases from the same trajectory into a single sign, allowing evidence from different cards to cancel and thereby reducing statistical power and robustness. Consequently, detection decreases from 8/8 to 7/8 under the paraphrasing attack, and from 24/24 to 22/24 at a 15\% training share. In contrast, although probe-level testing shows stronger apparent statistical power, it repeatedly counts parameterized probes that share the same underlying release behavior and context, resulting in 3/48 cases with $p<0.05$ in the false-positive settings. Although none of these cases exceeds the final fullhit-gap threshold and therefore no actual false-positive decision is triggered, the results indicate a higher false-positive risk when probes are counted individually. Based on these observations, we use the card as the primary statistical unit: it avoids repeated counting of the same watermark release event while preserving effective evidence from distinct release events.
-
-
-
-
-
-\section{Detailed Watermarking Protocols}
-
-\begin{figure*}[!t]
-\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt 
-
-\textbf{\name{} Watermark Embedding Protocol}
-
-\hrule
-
-\small
-\textbf{Inputs:} Tool schema $\mathcal{F}$, Secret key $k$, Trajectory ID $\mathtt{id}_\tau$, Hyperparameters $(p_0, \Delta p, p_{\mathtt{max}}, B, K)$. \\
-\textbf{Outputs:} Watermarked trajectory $\tau$, Private evidence card set $\mathcal{C}_\tau$.
-
-
-\noindent \textbf{1. Initialization Phase:} 
-\begin{itemize}
-    \item \textit{System Setup:} 
-    \begin{itemize}
-        \item Evaluate the tool schema $\mathcal{F}$ using the safety model $\mathcal{M}_{\mathtt{safe}}$ to obtain the valid subset $\mathcal{F}_{\mathtt{safe}}$.
-        \item Initialize the dynamic trigger probability $p_1 = p_0$, the remaining budget $b_1 = B$, and an empty evidence set $\mathcal{C}_\tau = \emptyset$.
-    \end{itemize}
-\end{itemize}
-
-\noindent \textbf{2. Real-Time Embedding Phase:} \\
-For each step $t$ immediately following a completed core action $a_{\mathtt{core}}^{t-1}$, the system executes:
-\begin{itemize}
-    \item \textit{Dynamic Scheduling:}
-    \begin{itemize}
-        \item Compute a cryptographic hash $u_t = \mathtt{Hash}(k \parallel a \parallel \mathtt{id}_\tau \parallel t) \in [0, 1)$.
-        \item If the budget is none ($b_t = 0$) or the condition is not met ($u_t \ge p_t$), skip and failure update.
-    \end{itemize}
-    
-    \item \textit{Candidate Generation \& Scoring:}
-    \begin{itemize}
-        \item Generate $K$ auxiliary candidates $(t_{\mathtt{aux}}^j, a_{\mathtt{aux}}^j)_{j=1}^K$ using the teacher model $\mathcal{M}_t$ and filter them through the validation mechanism.
-        \item For each valid candidate $(t_{\mathtt{aux}}^j, a_{\mathtt{aux}}^j)$, compute the score $S_j$ based on naturalness ($s_{\mathtt{rel}}^j$), logical consistency ($s_{\mathtt{relb}}^j$), and repeatability $s_{\mathtt{relb}}^j$ for the tool pairing $(f_{\mathtt{core}}, f_{\mathtt{aux}}^j)$.
-        \item Select the candidate with the highest score as $(t_{\mathtt{aux}}^{\mathtt{best}}, a_{\mathtt{aux}}^{\mathtt{best}})$. If no valid candidates exist, skip to the failure update.
-    \end{itemize}
-
-    \item \textit{Injection \& Success Update:}
-    \begin{itemize}
-        \item Inject $(t_{\mathtt{aux}}^{\mathtt{best}}, a_{\mathtt{aux}}^{\mathtt{best}})$ into the trajectory to receive the auxiliary observation $o_{\mathtt{aux}}^{\mathtt{best}}$.
-        \item Reset the probability $p_{t+1} = p_0$ and decrement the budget $b_{t+1} = b_t - 1$.
-        \item Increment the historical repeat count for this specific tool pairing $(f_{\mathtt{core}}, f_{\mathtt{aux}}^{\mathtt{best}})$.
-        \item Create an evidence card $c_t = (h, t_{\mathtt{core}}^{t-1}, a_{\mathtt{core}}^{t-1}, o_{\mathtt{core}}^{t-1}, f_{\mathtt{aux}}^{\mathtt{best}}, p_{\mathtt{aux}}^{\mathtt{best}})$ and append it to $\mathcal{C}_\tau$.
-    \end{itemize}
-
-    \item \textit{Failure/Skip Update (Executed only if no injection occurred):}
-    \begin{itemize}
-        \item Increase the trigger probability $p_{t+1} = \min\{p_t + \Delta p, p_{\mathtt{max}}\}$ to boost future injection chances, and retain the current budget $b_{t+1} = b_t$.
-    \end{itemize}
-\end{itemize}
-
-\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt 
-\caption{The watermark embedding protocol of \name{}. }
-\label{fig:watermark_embedding_protocol}
-\end{figure*}
-
-\begin{figure*}[!t]
-\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt 
-
-\textbf{\name{} Watermark Detection Protocol}
-
-\hrule
-
-\small
-\textbf{Inputs:} Combined evidence pool $\mathcal{C}_{\mathcal{S}}$, Suspect model $\mathcal{M}_s$, Teacher model $\mathcal{M}_t$, Hyperparameters $(p, r, N)$. \\
-\textbf{Outputs:} Detection decision $\in \{\mathtt{True}, \mathtt{False}\}$, and the statistical $p\mathtt{-value}$.
-
-
-\noindent \textbf{1. Probe Construction Phase:} \\
-For each evidence card $c_i \in \mathcal{C}_{\mathcal{S}}$, the system executes:
-\begin{itemize}
-    \item \textit{Paired Probes Generation:}
-    \begin{itemize}
-        \item Generate up to $N_i$ parameterized variants using card $c_i$ to form the real probe set $p_{\mathtt{real}}^i$.
-        \item Construct the corresponding fake probe set $p_{\mathtt{fake}}^i$ by replacing the core action in $p_{\mathtt{real}}^i$ with a semantically altered fake core.
-    \end{itemize}
-\end{itemize}
-
-\noindent \textbf{2. Evaluation Phase:} \\
-For each probe variant $j \in [1, N_i]$ of card $c_i$, the system executes:
-\begin{itemize}
-    \item \textit{Target Model Query \& Parsing:}
-    \begin{itemize}
-        \item Submit the real probe $p_{\mathtt{real}, j}^i$ to the suspect model $\mathcal{M}_s$ and parse the output to compute the strict fullhit indicator $h_{i,j}^{\mathtt{real}} \in \{0, 1\}$.
-        \item Submit the fake probe $p_{\mathtt{fake}, j}^i$ to the suspect model $\mathcal{M}_s$ and parse the output to compute the strict fullhit indicator $h_{i,j}^{\mathtt{fake}} \in \{0, 1\}$.
-    \end{itemize}
-\end{itemize}
-
-\noindent \textbf{3. Card-Level Aggregation Phase:} \\
-For each card $c_i \in \mathcal{C}_{\mathcal{S}}$, the system executes:
-\begin{itemize}
-    \item \textit{Hit Rate \& Performance Calculation:}
-    \begin{itemize}
-        \item Compute the hit rates across all $N_i$ variants: $R_i^{\mathtt{real}} = \frac{1}{N_i} \sum_{j} h_{i,j}^{\mathtt{real}}$ and $R_i^{\mathtt{fake}} = \frac{1}{N_i} \sum_{j} h_{i,j}^{\mathtt{fake}}$.
-        \item Calculate the performance difference: $\Delta_i = R_i^{\mathtt{real}} - R_i^{\mathtt{fake}}$.
-        \item Tally the results: increment the real win count $w$ if $\Delta_i > 0$, and increment the fake win count $\ell$ if $\Delta_i < 0$ (ties where $\Delta_i = 0$ are excluded).
-    \end{itemize}
-\end{itemize}
-
-\noindent \textbf{4. Statistical Test \& Decision Phase:} 
-\begin{itemize}
-    \item \textit{Hypothesis Testing:}
-    \begin{itemize}
-        \item Compute the one-sided exact sign-test $p\mathtt{-value} = \sum_{k=w}^{w+\ell}\binom{w+\ell}{k}2^{-(w+\ell)}$.
-        \item Compute the global mean difference $\Delta_{\mathtt{mean}} = \frac{1}{|\mathcal{C}_{\mathcal{S}}|} \sum_{i} \Delta_i$.
-    \end{itemize}
-    
-    \item \textit{Dual Criteria Check:}
-    \begin{itemize}
-        \item Output $\mathtt{True}$ (Detection Successful) if both $p\mathtt{-value} < p$ and $\Delta_{\mathtt{mean}} \ge r$ hold. Otherwise, output $\mathtt{False}$.
-    \end{itemize}
-\end{itemize}
-
-\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt 
-\caption{The watermark detection protocol of \name{}.}
-\label{fig:watermark_detection_protocol}
-\end{figure*}
-
-\section{A Systematization of Anti-Distillation }
-\label{sec:similarity-attribution}
-
-\subsection{Existing Anti-Distillation Methods}
-
-
-\partitle{Proactive watermarking}
-Proactive watermarking embeds signals controlled into teacher outputs, allowing student models to learn and retain these features during distillation. Detecting these signals in student outputs then provides evidence for identifying and verifying distillation. For example, watermarks can be embedded at the token level: ADFP~\cite{xu2026antidistillation} uses a proxy model to estimate how token selection affects watermark learning and adjusts the teacher’s sampling distribution accordingly to improve watermark detectability. Watermarks can also be embedded at the behavioral level: Agentwm~\cite{wang2026protecting} uses functionally equivalent tool paths to embed behavioral watermarks into model execution traces, while Agentguide~\cite{huang2025agent} and SeqWM~\cite{an2026sequential} embed watermarks into model action sequences.
-
-\partitle{Passive fingerprinting}
-Passive post-hoc fingerprinting requires no prior embedding of identification signals into teacher outputs. Instead, it retrospectively analyzes similarities between a student model and a candidate teacher to determine whether a distillation relationship exists. Specifically, PoS Templates~\cite{wadhwa2025taught} and SCOUT~\cite{jang2026retrospective} analyze syntactic patterns in generated text; Data-Free KD~\cite{shi2026knowledge} uses model statistics and internal representations for detection; and DistillDetect~\cite{rawat2026reference} compares the likelihood scores assigned to text by the student and reference models. At the behavioral and reasoning levels, AgentEcho~\cite{yang2026agents} examines similarities between tool-calling traces, while Reasoning PF~\cite{panfilov2026stealing} investigates a model’s continuation when private reasoning traces are supplied as prefilled context.
-
-
-\subsection{Systematic Limitations}
-\subsubsection{Overview}
-We systematically evaluate representative anti-distillation methods in terms of their cost, evidentiary strength, and primary limitations. As summarized in Table~\ref{tab:anti-distillation-comparison}, the two families exhibit distinct shared limitations. Watermarking methods can provide stronger evidence, but adding and checking watermarks introduces extra cost. Existing watermarks are also not robust and can be weakened by data processing methods such as data dilution. Fingerprinting methods are not enough to prove that unauthorized distillation occurred. Overall, existing methods cannot provide acceptable cost, strong robustness, and reliable evidence at the same time.
-
-
-\subsubsection{Limitations of Proactive Watermarking}
-Proactive watermarking embeds controlled signals into teacher outputs and can
-therefore provide stronger evidence of distillation. However, existing methods
-still have limitations in utility, cost, and robustness. ADFP~\cite{xu2026antidistillation} changes the token-sampling process and requires an additional proxy model during decoding. Such token-level changes may corrupt structured outputs in agent settings. We evaluate ADFP with $\lambda=140$ on 20 Tau2 tasks using Qwen3-14B as the teacher and Qwen3-8B as the student. The tool-call error rate increases from $22/133$ ($16.5\%$) in the clean setting
-to $31/131$ ($23.7\%$) with ADFP. As shown in Figure~\ref{fig:adfp-agent-utility}, ADFP trajectories may invoke nonexistent tools or produce incorrect arguments.
-
-AgentWM~\cite{wang2026protecting} introduces behavioral signals with relatively low embedding cost, but its effectiveness drops greatly when the teacher and
-student use different base models. Its signals can also be weakened by
-watermark dilution as shown in Table~\ref{tab:baseline-robustness}. AgentGuide~\cite{huang2025agent} and SeqWM~\cite{an2026sequential} require additional watermark embedding or
-verification, while their signals may not reliably survive distillation.
-As shown by our baseline results in Section~\ref{sec:detection-effectiveness} and Table~\ref{tab:baseline-effectiveness}, AgentWM succeeds only for the GLM-4.7-Flash student, while SeqWM fails to detect any of the tested distilled students. Therefore, existing proactive watermarking methods cannot simultaneously preserve agent utility, remain robust to model and data changes, and keep deployment costs within an acceptable range.
-
-\begin{figure*}[!t]
-    \centering
-    \includegraphics[width=\textwidth]{figure/adfp_agent_utility_failures.pdf}
-    \caption{ADFP utility loss. Panels (a)--(c) show three trajectory excerpts,
-    each taken from the same-numbered interaction round of the same question.
-    The clean trajectory produces a valid tool call, whereas the ADFP trajectory
-    invokes a nonexistent tool or uses incorrect arguments. Panel (d) reports
-    the overall error rate across all tool calls.
-    \textcolor{colorADFPClean}{$\blacksquare$} Clean;
-    \textcolor{colorADFPWatermarked}{$\blacksquare$} ADFP.}
-    \label{fig:adfp-agent-utility}
-\end{figure*}
-
-\subsubsection{Limitations of Passive Fingerprinting}
-
-
-
 
 \begin{table*}[!t]
 \centering
@@ -604,7 +405,7 @@ BB/GB &
 -- &
 Low &
 Weak &
-Closed-set attribution; weak unknown-teacher rejection. \\
+Sensitive to post-training and shared training data. \\
 
 & &
 Data-Free KD &
@@ -663,6 +464,101 @@ secret-signal-based attribution. $\star$ indicates a limitation identified by us
 \end{tablenotes}
 \end{threeparttable}
 \end{table*}
+
+
+\label{sec:statistical-test-discussion}
+
+\begin{table}[!t]
+\centering
+\caption{Statistical-unit sensitivity. Entries count settings with an unadjusted one-sided sign-test $p<0.05$; the 15\% training-share row uses the median over 2,000 resamples.}
+\label{tab:statistical-unit-sensitivity}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}p{0.38\linewidth} c c c@{}}
+\noalign{\hrule height 1.5pt}
+
+\textbf{Condition} & \textbf{Card-level} & \textbf{Trace-level} & \textbf{Probe-level} \\
+
+\hline
+
+True positives & 24/24 & 24/24 & 24/24 \\
+False positives & 0/48 & 0/48 & 3/48 \\
+Paraphrasing attack & 8/8 & 7/8 & 8/8 \\
+15\% training share & 24/24 & 22/24 & 24/24 \\
+
+\noalign{\hrule height 1.5pt}
+\end{tabular*}
+
+\end{table}
+
+To evaluate how the choice of statistical unit affects detection results, we perform the same paired-probe tests at three granularities: card, trace, and probe levels. The card-level test aggregates parameterized probes derived from the same card, the trace-level test further aggregates all cards from the same trajectory, and the probe-level test directly treats each paired probe as an individual statistical unit. As shown in Table~\ref{tab:statistical-unit-sensitivity}, the card- and trace-level tests remain consistent in the main effectiveness evaluation: both achieve 24/24 detections in the true-positive settings and 0/48 significant results in the false-positive settings. Differences mainly appear under more challenging conditions. Trace-level aggregation compresses multiple watermark releases from the same trajectory into a single sign, allowing evidence from different cards to cancel and thereby reducing statistical power and robustness. Consequently, detection decreases from 8/8 to 7/8 under the paraphrasing attack, and from 24/24 to 22/24 at a 15\% training share. In contrast, although probe-level testing shows stronger apparent statistical power, it repeatedly counts parameterized probes that share the same underlying release behavior and context, resulting in 3/48 cases with $p<0.05$ in the false-positive settings. Although none of these cases exceeds the final fullhit-gap threshold and therefore no actual false-positive decision is triggered, the results indicate a higher false-positive risk when probes are counted individually. Based on these observations, we use the card as the primary statistical unit: it avoids repeated counting of the same watermark release event while preserving effective evidence from distinct release events.
+
+
+
+
+
+
+
+
+
+
+
+\section{A Systematization of Anti-Distillation }
+\label{sec:similarity-attribution}
+
+
+
+
+
+
+
+
+
+\subsection{Existing Anti-Distillation Methods}
+
+
+\partitle{Proactive watermarking}
+Proactive watermarking embeds signals controlled into teacher outputs, allowing student models to learn and retain these features during distillation. Detecting these signals in student outputs then provides evidence for identifying and verifying distillation. For example, watermarks can be embedded at the token level: ADFP~\cite{xu2026antidistillation} uses a proxy model to estimate how token selection affects watermark learning and adjusts the teacher’s sampling distribution accordingly to improve watermark detectability. Watermarks can also be embedded at the behavioral level: Agentwm~\cite{wang2026protecting} uses functionally equivalent tool paths to embed behavioral watermarks into model execution traces, while Agentguide~\cite{huang2025agent} and SeqWM~\cite{an2026sequential} embed watermarks into model action sequences.
+
+\partitle{Passive fingerprinting}
+Passive post-hoc fingerprinting requires no prior embedding of identification signals into teacher outputs. Instead, it retrospectively analyzes similarities between a student model and a candidate teacher to determine whether a distillation relationship exists. Specifically, PoS Templates~\cite{wadhwa2025taught} and SCOUT~\cite{jang2026retrospective} analyze syntactic patterns in generated text; Data-Free KD~\cite{shi2026knowledge} uses model statistics and internal representations for detection; and DistillDetect~\cite{rawat2026reference} compares the likelihood scores assigned to text by the student and reference models. At the behavioral and reasoning levels, AgentEcho~\cite{yang2026agents} examines similarities between tool-calling traces, while Reasoning PF~\cite{panfilov2026stealing} investigates a model’s continuation when private reasoning traces are supplied as prefilled context.
+
+
+\subsection{Systematic Limitations}
+\subsubsection{Overview}
+We systematically evaluate representative anti-distillation methods in terms of their cost, evidentiary strength, and primary limitations. As summarized in Table~\ref{tab:anti-distillation-comparison}, the two families exhibit distinct shared limitations. Watermarking methods can provide stronger evidence, but adding and checking watermarks introduces extra cost. Existing watermarks are also not robust and can be weakened by data processing methods such as data dilution. Fingerprinting methods are not enough to prove that unauthorized distillation occurred. Overall, existing methods cannot provide acceptable cost, strong robustness, and reliable evidence at the same time.
+
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[width=\textwidth]{figure/adfp_agent_utility_failures.pdf}
+    \caption{ADFP utility loss. Panels (a)--(c) show three trajectory excerpts,
+    each taken from the same-numbered interaction round of the same question.
+    The clean trajectory produces a valid tool call, whereas the ADFP trajectory
+    invokes a nonexistent tool or uses incorrect arguments. Panel (d) reports
+    the overall error rate across all tool calls.}
+    \label{fig:adfp-agent-utility}
+\end{figure*}
+
+\subsubsection{Limitations of Proactive Watermarking}
+Proactive watermarking embeds controlled signals into teacher outputs and can
+therefore provide stronger evidence of distillation. However, existing methods
+still have limitations in utility, cost, and robustness. ADFP~\cite{xu2026antidistillation} changes the token-sampling process and requires an additional proxy model during decoding. Such token-level changes may corrupt structured outputs in agent settings. We evaluate ADFP with $\lambda=140$ on 20 Tau2 tasks using Qwen3-14B as the teacher and Qwen3-8B as the student. The tool-call error rate increases from $22/133$ ($16.5\%$) in the clean setting
+to $31/131$ ($23.7\%$) with ADFP. As shown in Figure~\ref{fig:adfp-agent-utility}, ADFP trajectories may invoke nonexistent tools or produce incorrect arguments. ADFP is also sensitive to data flooding: in the partially fingerprinted data experiment in Section~5.2 and Figure~6 of the original paper, mixing fingerprinted and clean outputs at a 1:1 ratio yields $p>0.05$ in all four unsupervised evaluation settings, so the fingerprint is no longer statistically significant~\cite{xu2026antidistillation}. ADFP is also sensitive to data flooding in Section~5.2 and Figure~6 of the original paper, mixing watermarked data and clean data at a 1:1 ratio yields $p>0.05$ in all four unsupervised evaluation settings, so the fingerprint is no longer statistically significant.
+
+AgentWM~\cite{wang2026protecting} introduces behavioral signals with relatively low embedding cost, but its effectiveness drops greatly when the teacher and
+student use different base models. Its signals can also be weakened by
+watermark dilution as shown in Table~\ref{tab:baseline-robustness}. AgentGuide~\cite{huang2025agent} and SeqWM~\cite{an2026sequential} require additional watermark embedding or
+verification, while their signals may not reliably survive distillation.
+As shown by our baseline results in Section~\ref{sec:detection-effectiveness} and Table~\ref{tab:baseline-effectiveness}, AgentWM succeeds only for the GLM-4.7-Flash student, while SeqWM fails to detect any of the tested distilled students. Therefore, existing proactive watermarking methods cannot simultaneously preserve agent utility, remain robust to model and data changes, and keep deployment costs within an acceptable range.
+
+
+\subsubsection{Limitations of Passive Fingerprinting}
+
+
+
+
+
 
 
 \subsection{Vulnerabilities in Token-Level N-gram Matching}
@@ -855,6 +751,126 @@ as evidence of a specific training source. They motivate controls for shared
 solutions, response presentation, and general behavioral improvement,
 alongside calibrated false-positive rates. Our watermarking framework
 provides private verification signals tied to recorded teacher interactions.
+
+\section{Detailed Watermarking Protocols}
+
+\begin{figure*}[!t]
+\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt 
+
+\textbf{\name{} Watermark Embedding Protocol}
+
+\hrule
+
+\small
+\textbf{Inputs:} Tool schema $\mathcal{F}$, Secret key $k$, Trajectory ID $\mathtt{id}_\tau$, Hyperparameters $(p_0, \Delta p, p_{\mathtt{max}}, B, K)$. \\
+\textbf{Outputs:} Watermarked trajectory $\tau$, Private evidence card set $\mathcal{C}_\tau$.
+
+
+\noindent \textbf{1. Initialization Phase:} 
+\begin{itemize}
+    \item \textit{System Setup:} 
+    \begin{itemize}
+        \item Evaluate the tool schema $\mathcal{F}$ using the safety model $\mathcal{M}_{\mathtt{safe}}$ to obtain the valid subset $\mathcal{F}_{\mathtt{safe}}$.
+        \item Initialize the dynamic trigger probability $p_1 = p_0$, the remaining budget $b_1 = B$, and an empty evidence set $\mathcal{C}_\tau = \emptyset$.
+    \end{itemize}
+\end{itemize}
+
+\noindent \textbf{2. Real-Time Embedding Phase:} \\
+For each step $t$ immediately following a completed core action $a_{\mathtt{core}}^{t-1}$, the system executes:
+\begin{itemize}
+    \item \textit{Dynamic Scheduling:}
+    \begin{itemize}
+        \item Compute a cryptographic hash $u_t = \mathtt{Hash}(k \parallel a \parallel \mathtt{id}_\tau \parallel t) \in [0, 1)$.
+        \item If the budget is none ($b_t = 0$) or the condition is not met ($u_t \ge p_t$), skip and failure update.
+    \end{itemize}
+    
+    \item \textit{Candidate Generation \& Scoring:}
+    \begin{itemize}
+        \item Generate $K$ auxiliary candidates $(t_{\mathtt{aux}}^j, a_{\mathtt{aux}}^j)_{j=1}^K$ using the teacher model $\mathcal{M}_t$ and filter them through the validation mechanism.
+        \item For each valid candidate $(t_{\mathtt{aux}}^j, a_{\mathtt{aux}}^j)$, compute the score $S_j$ based on naturalness ($s_{\mathtt{rel}}^j$), logical consistency ($s_{\mathtt{relb}}^j$), and repeatability $s_{\mathtt{relb}}^j$ for the tool pairing $(f_{\mathtt{core}}, f_{\mathtt{aux}}^j)$.
+        \item Select the candidate with the highest score as $(t_{\mathtt{aux}}^{\mathtt{best}}, a_{\mathtt{aux}}^{\mathtt{best}})$. If no valid candidates exist, skip to the failure update.
+    \end{itemize}
+
+    \item \textit{Injection \& Success Update:}
+    \begin{itemize}
+        \item Inject $(t_{\mathtt{aux}}^{\mathtt{best}}, a_{\mathtt{aux}}^{\mathtt{best}})$ into the trajectory to receive the auxiliary observation $o_{\mathtt{aux}}^{\mathtt{best}}$.
+        \item Reset the probability $p_{t+1} = p_0$ and decrement the budget $b_{t+1} = b_t - 1$.
+        \item Increment the historical repeat count for this specific tool pairing $(f_{\mathtt{core}}, f_{\mathtt{aux}}^{\mathtt{best}})$.
+        \item Create an evidence card $c_t = (h, t_{\mathtt{core}}^{t-1}, a_{\mathtt{core}}^{t-1}, o_{\mathtt{core}}^{t-1}, f_{\mathtt{aux}}^{\mathtt{best}}, p_{\mathtt{aux}}^{\mathtt{best}})$ and append it to $\mathcal{C}_\tau$.
+    \end{itemize}
+
+    \item \textit{Failure/Skip Update (Executed only if no injection occurred):}
+    \begin{itemize}
+        \item Increase the trigger probability $p_{t+1} = \min\{p_t + \Delta p, p_{\mathtt{max}}\}$ to boost future injection chances, and retain the current budget $b_{t+1} = b_t$.
+    \end{itemize}
+\end{itemize}
+
+\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt 
+\caption{The watermark embedding protocol of \name{}. }
+\label{fig:watermark_embedding_protocol}
+\end{figure*}
+
+\begin{figure*}[!t]
+\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt 
+
+\textbf{\name{} Watermark Detection Protocol}
+
+\hrule
+
+\small
+\textbf{Inputs:} Combined evidence pool $\mathcal{C}_{\mathcal{S}}$, Suspect model $\mathcal{M}_s$, Teacher model $\mathcal{M}_t$, Hyperparameters $(p, r, N)$. \\
+\textbf{Outputs:} Detection decision $\in \{\mathtt{True}, \mathtt{False}\}$, and the statistical $p\mathtt{-value}$.
+
+
+\noindent \textbf{1. Probe Construction Phase:} \\
+For each evidence card $c_i \in \mathcal{C}_{\mathcal{S}}$, the system executes:
+\begin{itemize}
+    \item \textit{Paired Probes Generation:}
+    \begin{itemize}
+        \item Generate up to $N_i$ parameterized variants using card $c_i$ to form the real probe set $p_{\mathtt{real}}^i$.
+        \item Construct the corresponding fake probe set $p_{\mathtt{fake}}^i$ by replacing the core action in $p_{\mathtt{real}}^i$ with a semantically altered fake core.
+    \end{itemize}
+\end{itemize}
+
+\noindent \textbf{2. Evaluation Phase:} \\
+For each probe variant $j \in [1, N_i]$ of card $c_i$, the system executes:
+\begin{itemize}
+    \item \textit{Target Model Query \& Parsing:}
+    \begin{itemize}
+        \item Submit the real probe $p_{\mathtt{real}, j}^i$ to the suspect model $\mathcal{M}_s$ and parse the output to compute the strict fullhit indicator $h_{i,j}^{\mathtt{real}} \in \{0, 1\}$.
+        \item Submit the fake probe $p_{\mathtt{fake}, j}^i$ to the suspect model $\mathcal{M}_s$ and parse the output to compute the strict fullhit indicator $h_{i,j}^{\mathtt{fake}} \in \{0, 1\}$.
+    \end{itemize}
+\end{itemize}
+
+\noindent \textbf{3. Card-Level Aggregation Phase:} \\
+For each card $c_i \in \mathcal{C}_{\mathcal{S}}$, the system executes:
+\begin{itemize}
+    \item \textit{Hit Rate \& Performance Calculation:}
+    \begin{itemize}
+        \item Compute the hit rates across all $N_i$ variants: $R_i^{\mathtt{real}} = \frac{1}{N_i} \sum_{j} h_{i,j}^{\mathtt{real}}$ and $R_i^{\mathtt{fake}} = \frac{1}{N_i} \sum_{j} h_{i,j}^{\mathtt{fake}}$.
+        \item Calculate the performance difference: $\Delta_i = R_i^{\mathtt{real}} - R_i^{\mathtt{fake}}$.
+        \item Tally the results: increment the real win count $w$ if $\Delta_i > 0$, and increment the fake win count $\ell$ if $\Delta_i < 0$ (ties where $\Delta_i = 0$ are excluded).
+    \end{itemize}
+\end{itemize}
+
+\noindent \textbf{4. Statistical Test \& Decision Phase:} 
+\begin{itemize}
+    \item \textit{Hypothesis Testing:}
+    \begin{itemize}
+        \item Compute the one-sided exact sign-test $p\mathtt{-value} = \sum_{k=w}^{w+\ell}\binom{w+\ell}{k}2^{-(w+\ell)}$.
+        \item Compute the global mean difference $\Delta_{\mathtt{mean}} = \frac{1}{|\mathcal{C}_{\mathcal{S}}|} \sum_{i} \Delta_i$.
+    \end{itemize}
+    
+    \item \textit{Dual Criteria Check:}
+    \begin{itemize}
+        \item Output $\mathtt{True}$ (Detection Successful) if both $p\mathtt{-value} < p$ and $\Delta_{\mathtt{mean}} \ge r$ hold. Otherwise, output $\mathtt{False}$.
+    \end{itemize}
+\end{itemize}
+
+\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt 
+\caption{The watermark detection protocol of \name{}.}
+\label{fig:watermark_detection_protocol}
+\end{figure*}
 
 
 
