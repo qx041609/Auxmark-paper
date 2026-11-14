@@ -554,7 +554,7 @@ As shown by our baseline results in Section~\ref{sec:detection-effectiveness} an
 
 
 \subsubsection{Limitations of Passive Fingerprinting}
-Passive fingerprinting requires no changes to teacher outputs, but its evidence is usually indirect and may not remain stable under model or data changes. PoS Templates~\cite{wadhwa2025taught} relies on syntactic patterns inherited from the teacher, but these patterns may be weakened by further fine-tuning, data augmentation, multi-teacher distillation, or shared training data. Data-Free KD~\cite{shi2026knowledge} requires white-box access to the student model's weights. DistillDetect~\cite{rawat2026reference} relies on student logits and calibrated reference models, making it difficult to use through a standard black-box API. SCOUT~\cite{jang2026retrospective} supports black-box detection, but may confuse related models, and its fingerprints can be overwritten by later training. Therefore, these methods are sensitive to post-training changes and mainly provide indirect similarity-based evidence rather than strong evidence of unauthorized distillation.
+Passive fingerprinting requires no changes to teacher outputs, but its similarity-based evidence can reflect shared solutions or answer format and is sensitive to many factors, so it provides weak evidence of distillation. PoS Templates~\cite{wadhwa2025taught} relies on syntactic patterns inherited from the teacher, but these patterns may be weakened by further fine-tuning, data augmentation, multi-teacher distillation, or shared training data. Data-Free KD~\cite{shi2026knowledge} requires white-box access to the student model's weights. DistillDetect~\cite{rawat2026reference} relies on student logits and calibrated reference models, making it difficult to use through a standard black-box API. SCOUT~\cite{jang2026retrospective} supports black-box detection, but may confuse related models, and its fingerprints can be overwritten by later training. Therefore, these methods are sensitive to post-training changes and mainly provide indirect similarity-based evidence rather than strong evidence of unauthorized distillation.
 
 \begin{figure*}[h]
     \centering
@@ -590,10 +590,9 @@ problem, Kimi-K2.6, which was released before Claude Opus~4.8
 \citep{team2025kimi,anthropic2026opus48}, gets mean/best-of-4 scores of
 $0.373/0.662$ with the alternative prefix \texttt{This is an unfamiliar},
 higher than $0.274/0.565$ with the teacher prefix and $0.250/0.415$ without a
-prefix. Its highest-scoring answer follows the same $C,F,E,D,B$ order as the
-Opus~4.8 reference. In contrast, the sampled Opus~4.6 answers reach at most
+prefix. Its highest-scoring answer follows the same $C,F,E,D,B$ order. In contrast, the sampled Opus~4.6 answers reach at most
 $0.343$ and use tables or a different order. The alternative prefix gives
-higher overlap than the teacher prefix, and a model released before Opus~4.8
+higher overlap than the teacher prefix, and a model released before
 can produce the same order. This match alone cannot identify the teacher.
 
 On the differential-equation problem, GPT-OSS-120B gets mean/best-of-4 scores
@@ -621,15 +620,15 @@ similarity \citep[Appendix~B.4]{yang2026agents}. The features measure the
 share of later calls with dependency inputs, the longest dependency path,
 and the share of source nodes with multiple outgoing edges. Cosine similarity
 ignores vector magnitude. Consider two 11-node graphs: $G_s$ has one
-dependency edge, while $G_c$ is a 10-edge chain. Measuring path length in edges,
+dependency edge, while $G_c$ is a 10-edge chain. Measuring path length in edges, their $S_{\mathtt{dep}}$ is exactly 1 despite their different reuse and
+dependency depth. A perfect score therefore need not mean similar graphs.
 \begin{equation}
     \phi(G_c)=(1,10,0)=10(0.1,1,0)=10\phi(G_s).
     \label{eq:dependency-counterexample}
 \end{equation}
-Their $S_{\mathtt{dep}}$ is exactly 1 despite their different reuse and
-dependency depth. A perfect score therefore need not mean similar graphs.
 
-\partitle{Evidence from tool trajectories}
+
+
 We audit 75 trajectories from five models on 15 tasks. Comparing all ten
 model pairs per task yields 150 comparisons: mean $S_{\mathtt{dep}}$ is
 $0.885$, and 121 scores reach at least $0.9$. Among these, 53 pairs differ by at
@@ -685,53 +684,44 @@ $S_{\mathtt{dep}}$ rises only $0.077$--$0.086$, and $S_{\mathtt{node}}$
 falls toward Claude and GPT-OSS. These gains mainly reflect similar local
 execution patterns, not unique evidence of teacher-specific tool use.
 
-\partitle{Implications for attribution}
-High unwatermarked similarity alone does not identify a training source.
-Attribution needs controls for shared solutions, response format, and general
-behavioral improvement, as well as calibrated false-positive rates. Our
-watermark ties private verification signals to recorded teacher interactions.
 
 \section{Detailed Watermarking Protocols}
 
 \begin{figure*}[!t]
 \hrule width \hsize \kern 1mm \hrule width \hsize height 2pt 
 
-\textbf{\name{} Watermark Embedding Protocol}
+\textbf{(a) \name{} Watermark Embedding Protocol}
 
 \hrule
 
-\small
 \textbf{Inputs:} Tool schema $\mathcal{F}$, Secret key $k$, Trajectory ID $\mathtt{id}_\tau$, Hyperparameters $(p_0, \Delta p, p_{\mathtt{max}}, B, K)$. \\
 \textbf{Outputs:} Watermarked trajectory $\tau$, Private evidence card set $\mathcal{C}_\tau$.
 
 
 \noindent \textbf{1. Initialization Phase:} 
 \begin{itemize}
-    \item \textit{System Setup:} 
-    \begin{itemize}
-        \item Evaluate the tool schema $\mathcal{F}$ using the safety model $\mathcal{M}_{\mathtt{safe}}$ to obtain the valid subset $\mathcal{F}_{\mathtt{safe}}$.
-        \item Initialize the dynamic trigger probability $p_1 = p_0$, the remaining budget $b_1 = B$, and an empty evidence set $\mathcal{C}_\tau = \emptyset$.
-    \end{itemize}
+    \item[\textendash] Evaluate the tool schema $\mathcal{F}$ using the safety model $\mathcal{M}_{\mathtt{safe}}$ to obtain the valid subset $\mathcal{F}_{\mathtt{safe}}$.
+    \item[\textendash] Initialize the dynamic trigger probability $p_1=p_0$, the remaining budget $b_1=B$, and an empty evidence set $\mathcal{C}_\tau=\emptyset$.
 \end{itemize}
 
 \noindent \textbf{2. Real-Time Embedding Phase:} \\
 For each step $t$ immediately following a completed core action $a_{\mathtt{core}}^{t-1}$, the system executes:
 \begin{itemize}
     \item \textit{Dynamic Scheduling:}
-    \begin{itemize}
+\begin{itemize}
         \item Compute a cryptographic hash $u_t = \mathtt{Hash}(k \parallel a \parallel \mathtt{id}_\tau \parallel t) \in [0, 1)$.
         \item If the budget is none ($b_t = 0$) or the condition is not met ($u_t \ge p_t$), skip and failure update.
     \end{itemize}
     
     \item \textit{Candidate Generation \& Scoring:}
-    \begin{itemize}
-        \item Generate $K$ auxiliary candidates $(t_{\mathtt{aux}}^j, a_{\mathtt{aux}}^j)_{j=1}^K$ using the teacher model $\mathcal{M}_t$ and filter them through the validation mechanism.
+\begin{itemize}
+        \item Generate $K$ auxiliary candidates $(t_{\mathtt{aux}}^j, a_{\mathtt{aux}}^j)_{j=1}^K$ using the teacher $\mathcal{M}_t$ and filter them through the validation.
         \item For each valid candidate $(t_{\mathtt{aux}}^j, a_{\mathtt{aux}}^j)$, compute the score $S_j$ based on naturalness ($s_{\mathtt{rel}}^j$), logical consistency ($s_{\mathtt{relb}}^j$), and repeatability $s_{\mathtt{relb}}^j$ for the tool pairing $(f_{\mathtt{core}}, f_{\mathtt{aux}}^j)$.
-        \item Select the candidate with the highest score as $(t_{\mathtt{aux}}^{\mathtt{best}}, a_{\mathtt{aux}}^{\mathtt{best}})$. If no valid candidates exist, skip to the failure update.
+        \item Select the candidate with the highest score as $(t_{\mathtt{aux}}^{\mathtt{best}}, a_{\mathtt{aux}}^{\mathtt{best}})$. If no valid candidates, skip to the failure update.
     \end{itemize}
 
     \item \textit{Injection \& Success Update:}
-    \begin{itemize}
+\begin{itemize}
         \item Inject $(t_{\mathtt{aux}}^{\mathtt{best}}, a_{\mathtt{aux}}^{\mathtt{best}})$ into the trajectory to receive the auxiliary observation $o_{\mathtt{aux}}^{\mathtt{best}}$.
         \item Reset the probability $p_{t+1} = p_0$ and decrement the budget $b_{t+1} = b_t - 1$.
         \item Increment the historical repeat count for this specific tool pairing $(f_{\mathtt{core}}, f_{\mathtt{aux}}^{\mathtt{best}})$.
@@ -739,24 +729,17 @@ For each step $t$ immediately following a completed core action $a_{\mathtt{core
     \end{itemize}
 
     \item \textit{Failure/Skip Update (Executed only if no injection occurred):}
-    \begin{itemize}
-        \item Increase the trigger probability $p_{t+1} = \min\{p_t + \Delta p, p_{\mathtt{max}}\}$ to boost future injection chances, and retain the current budget $b_{t+1} = b_t$.
+\begin{itemize}
+        \item Increase the probability $p_{t+1} = \min\{p_t + \Delta p, p_{\mathtt{max}}\}$ to boost injection chances, and retain the budget $b_{t+1} = b_t$.
     \end{itemize}
 \end{itemize}
 
-\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt 
-\caption{The watermark embedding protocol of \name{}. }
-\label{fig:watermark_embedding_protocol}
-\end{figure*}
+\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt
 
-\begin{figure*}[!t]
-\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt 
-
-\textbf{\name{} Watermark Detection Protocol}
+\textbf{(b) \name{} Watermark Detection Protocol}
 
 \hrule
 
-\small
 \textbf{Inputs:} Combined evidence pool $\mathcal{C}_{\mathcal{S}}$, Suspect model $\mathcal{M}_s$, Teacher model $\mathcal{M}_t$, Hyperparameters $(p, r, N)$. \\
 \textbf{Outputs:} Detection decision $\in \{\mathtt{True}, \mathtt{False}\}$, and the statistical $p\mathtt{-value}$.
 
@@ -765,9 +748,9 @@ For each step $t$ immediately following a completed core action $a_{\mathtt{core
 For each evidence card $c_i \in \mathcal{C}_{\mathcal{S}}$, the system executes:
 \begin{itemize}
     \item \textit{Paired Probes Generation:}
-    \begin{itemize}
+\begin{itemize}
         \item Generate up to $N_i$ parameterized variants using card $c_i$ to form the real probe set $p_{\mathtt{real}}^i$.
-        \item Construct the corresponding fake probe set $p_{\mathtt{fake}}^i$ by replacing the core action in $p_{\mathtt{real}}^i$ with a semantically altered fake core.
+        \item Construct the fake probe set $p_{\mathtt{fake}}^i$ by replacing the core action in $p_{\mathtt{real}}^i$ with a semantically altered core.
     \end{itemize}
 \end{itemize}
 
@@ -775,40 +758,40 @@ For each evidence card $c_i \in \mathcal{C}_{\mathcal{S}}$, the system executes:
 For each probe variant $j \in [1, N_i]$ of card $c_i$, the system executes:
 \begin{itemize}
     \item \textit{Target Model Query \& Parsing:}
-    \begin{itemize}
-        \item Submit the real probe $p_{\mathtt{real}, j}^i$ to the suspect model $\mathcal{M}_s$ and parse the output to compute the strict fullhit indicator $h_{i,j}^{\mathtt{real}} \in \{0, 1\}$.
-        \item Submit the fake probe $p_{\mathtt{fake}, j}^i$ to the suspect model $\mathcal{M}_s$ and parse the output to compute the strict fullhit indicator $h_{i,j}^{\mathtt{fake}} \in \{0, 1\}$.
+\begin{itemize}
+        \item Submit the real probe $p_{\mathtt{real}, j}^i$ to the suspect model $\mathcal{M}_s$ and compute the fullhit indicator $h_{i,j}^{\mathtt{real}} \in \{0, 1\}$.
+        \item Submit the fake probe $p_{\mathtt{fake}, j}^i$ to the suspect model $\mathcal{M}_s$ and compute the fullhit indicator $h_{i,j}^{\mathtt{fake}} \in \{0, 1\}$.
     \end{itemize}
 \end{itemize}
 
 \noindent \textbf{3. Card-Level Aggregation Phase:} \\
-For each card $c_i \in \mathcal{C}_{\mathcal{S}}$, the system executes:
+For each card $c_i \in \mathcal{C}_{\mathcal{S}}$, the system executes hit rate \& performance calculation:
 \begin{itemize}
-    \item \textit{Hit Rate \& Performance Calculation:}
-    \begin{itemize}
-        \item Compute the hit rates across all $N_i$ variants: $R_i^{\mathtt{real}} = \frac{1}{N_i} \sum_{j} h_{i,j}^{\mathtt{real}}$ and $R_i^{\mathtt{fake}} = \frac{1}{N_i} \sum_{j} h_{i,j}^{\mathtt{fake}}$.
-        \item Calculate the performance difference: $\Delta_i = R_i^{\mathtt{real}} - R_i^{\mathtt{fake}}$.
-        \item Tally the results: increment the real win count $w$ if $\Delta_i > 0$, and increment the fake win count $\ell$ if $\Delta_i < 0$ (ties where $\Delta_i = 0$ are excluded).
+        \item[\textendash] Compute the hit rates across all $N_i$ variants: $R_i^{\mathtt{real}} = \frac{1}{N_i} \sum_{j} h_{i,j}^{\mathtt{real}}$ and $R_i^{\mathtt{fake}} = \frac{1}{N_i} \sum_{j} h_{i,j}^{\mathtt{fake}}$.
+        \item[\textendash] Calculate the performance difference: $\Delta_i = R_i^{\mathtt{real}} - R_i^{\mathtt{fake}}$.
+        \item[\textendash] Tally the results: add the real win count $w$ if $\Delta_i > 0$, and the fake win count $\ell$ if $\Delta_i < 0$ (ties when $\Delta_i = 0$).
     \end{itemize}
-\end{itemize}
+
 
 \noindent \textbf{4. Statistical Test \& Decision Phase:} 
 \begin{itemize}
     \item \textit{Hypothesis Testing:}
-    \begin{itemize}
+\begin{itemize}
         \item Compute the one-sided exact sign-test $p\mathtt{-value} = \sum_{k=w}^{w+\ell}\binom{w+\ell}{k}2^{-(w+\ell)}$.
         \item Compute the global mean difference $\Delta_{\mathtt{mean}} = \frac{1}{|\mathcal{C}_{\mathcal{S}}|} \sum_{i} \Delta_i$.
     \end{itemize}
     
     \item \textit{Dual Criteria Check:}
-    \begin{itemize}
+\begin{itemize}
         \item Output $\mathtt{True}$ (Detection Successful) if both $p\mathtt{-value} < p$ and $\Delta_{\mathtt{mean}} \ge r$ hold. Otherwise, output $\mathtt{False}$.
     \end{itemize}
 \end{itemize}
 
 \hrule width \hsize \kern 1mm \hrule width \hsize height 2pt 
-\caption{The watermark detection protocol of \name{}.}
-\label{fig:watermark_detection_protocol}
+\caption{The watermarking protocol of \name{}: (a) embedding and (b) detection.}
+\label{fig:watermark_protocols}
+\phantomsubcaption\label{fig:watermark_embedding_protocol}
+\phantomsubcaption\label{fig:watermark_detection_protocol}
 \end{figure*}
 
 
