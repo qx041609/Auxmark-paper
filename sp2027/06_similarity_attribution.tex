@@ -1,0 +1,180 @@
+\section{Systematization of Anti-Distillation Defenses}
+\label{sec:similarity-attribution}
+
+\begin{table*}[!t]
+\centering
+\caption{Comparison of representative defenses. \textcolor[HTML]{D46A6A}{Light red text} marks our findings under the conditions in Section~\ref{sec:systematization-findings}.}
+\label{tab:anti-distillation-comparison}
+\begin{threeparttable}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}
+>{\raggedright\arraybackslash}p{0.12\textwidth}
+>{\raggedright\arraybackslash}p{0.15\textwidth}
+>{\raggedright\arraybackslash}p{0.16\textwidth}
+>{\raggedright\arraybackslash}p{0.11\textwidth}
+>{\raggedright\arraybackslash}p{0.18\textwidth}
+>{\raggedright\arraybackslash}p{0.22\textwidth}@{}}
+\noalign{\hrule height 1.5pt}
+\multirow{2}{*}{\textbf{Method}} & \multirow{2}{*}{\textbf{Signal}} &
+\multicolumn{3}{c}{\textbf{Access and information requirements}} &
+\multirow{2}{*}{\textbf{Main limitation}} \\
+\cline{3-5}
+& & \textbf{Provider side} & \textbf{Student side} & \textbf{Extra} & \\
+\hline
+\multicolumn{6}{l}{\textit{Traffic screening: evidence of collection}} \\
+Provider defenses~\cite{OpenAIkey,anthropicDetectingPreventing} &
+Request and account patterns &
+Service logs & None & Account metadata &
+Collection does not establish training. \\
+\hline
+\multicolumn{6}{l}{\textit{Active watermarking: provider-controlled signals}} \\
+ADFP~\cite{xu2026antidistillation} &
+Token preferences &
+Control token sampling & Outputs & Proxy model; key; task queries &
+Dilution; \textcolor[HTML]{D46A6A}{tool-call utility loss}. \\
+AgentWM~\cite{wang2026protecting} &
+Tool-variant frequencies &
+Control tool selection & Outputs & Target distributions; domain tasks &
+\textcolor[HTML]{D46A6A}{Limited transfer and dilution sensitivity}. \\
+SeqWM~\cite{an2026sequential} &
+Action sequences &
+Control action selection & Outputs & Key; action vocabulary &
+\textcolor[HTML]{D46A6A}{No tested student passes detection}. \\
+\rowcolor{gray!12}
+\name{} &
+Context-conditioned behavior &
+Insert tool calls; screen traffic & Outputs & Private trajectory records; scorer and safety models &
+Requires traffic screening and retained evidence. \\
+\hline
+\multicolumn{6}{l}{\textit{Passive fingerprinting: existing model similarities}} \\
+PoS Templates~\cite{wadhwa2025taught} &
+Syntactic patterns &
+Teacher outputs & Outputs & Candidate teachers; PoS templates &
+Shared data and later training affect the signal. \\
+Data-Free KD~\cite{shi2026knowledge} &
+Internal model statistics &
+Teacher API & Weights & Synthesized queries &
+Requires student weights. \\
+DistillDetect~\cite{rawat2026reference} &
+Relative likelihoods &
+Teacher outputs & Token logprobs & Reference models; calibration data &
+Requires token scores and reference calibration. \\
+SCOUT~\cite{jang2026retrospective} &
+Output patterns &
+Teacher outputs & Outputs & Candidate teachers; shared prompts &
+Shared patterns; overwriting by later training. \\
+AgentEcho~\cite{yang2026agents} &
+Action-graph similarity &
+Teacher trajectories & Outputs & Task harness; graph extraction &
+\textcolor[HTML]{D46A6A}{Dependency-score collisions; nonspecific similarity gains}. \\
+Reasoning PF~\cite{panfilov2026stealing} &
+Answer overlap after reasoning prefill &
+Teacher reasoning traces & Outputs; reasoning prefill & Reference answers &
+\textcolor[HTML]{D46A6A}{Overlap from shared solutions and presentation}. \\
+\noalign{\hrule height 1.5pt}
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\scriptsize
+\item[] Provider side lists required access or control over the teacher service;
+student side lists the audit interface. Outputs include visible actions.
+Token logprobs require scoring supplied text. Extra lists auxiliary resources
+and retained information; it is not a cost ranking.
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}
+
+% Writing guidance: define the classification dimensions, interpret the table,
+% then separate our new findings from limitations reported in prior work.
+% Keep experimental configurations, numerical results, and counterexamples
+% in Appendix~\ref{sec:systematization-details}.
+\subsection{Classification Framework}
+\label{sec:classification-framework}
+
+We examine existing defenses from the provider's perspective: what evidence
+does each method produce, and what does that evidence establish?
+We group methods by their intervention point and source of evidence.
+\emph{Traffic screening} identifies suspicious collection during model serving.
+\emph{Active watermarking} embeds controlled signals into teacher outputs for
+later verification. \emph{Passive fingerprinting} compares existing model
+properties without embedding a signal.
+Our scope includes both methods designed to detect distillation and output
+watermarks whose use for this purpose requires the signal to survive training.
+
+\partitle{Comparison dimensions}
+We distinguish evidence of \emph{collection}, \emph{output provenance}, and
+\emph{student training}: detecting a watermark in a collected output does not
+by itself show that a student learned it.
+We separate provider-side access or control, the student audit interface,
+and extra resources such as secret keys, retained records, or reference models.
+Output access does not imply access to token scores, weights, or a reasoning-prefill interface.
+For deployment, we examine changes to serving, additional computation, and
+effects on task utility. For robustness, we examine whether the signal
+survives changes in the student model and processing of the training data.
+These dimensions describe operational requirements; they do not assign a
+common numerical score to methods evaluated under different protocols.
+
+\subsection{Systematization Results}
+\label{sec:systematization-results}
+
+
+
+Table~\ref{tab:anti-distillation-comparison} separates the evidence each family
+provides from the conditions needed to interpret it.
+Traffic screening can identify suspicious collection and guide access controls,
+but does not observe whether the collected outputs enter student training.
+Active watermarking supplies a provider-controlled signal. Its value for
+distillation detection depends on whether the student learns that signal and
+whether independent models reproduce it without exposure.
+Passive fingerprinting avoids modifying teacher outputs, but shared patterns
+require controls for other sources of similarity. Some methods also require
+student logits or weights that a deployed API does not expose.
+
+The comparison reveals a gap between detecting collection and attributing
+student training. Neither an output watermark nor a high similarity score
+alone resolves this gap. A practical defense must connect its evidence to
+training while preserving utility and surviving data processing.
+The surveyed results do not establish these properties jointly under our
+serving and post-hoc audit setting.
+
+\subsection{New Findings}
+\label{sec:systematization-findings}
+
+\partitle{Finding 1: Behavioral watermarks can lose detectability through
+distillation and dilution}
+We evaluate AgentWM and SeqWM with multiple student models on BFCL and
+SWE-bench. AgentWM biases the choice among functionally equivalent tools;
+SeqWM embeds patterns in action sequences.
+Under our evaluation protocol, AgentWM transfers detectably to only a subset
+of students, while no SeqWM student meets the model-level detection rule.
+For AgentWM, both initially detectable settings lose detection after mixing
+watermarked trajectories with an equal amount of clean data calibrated to
+the unwatermarked tool distribution.
+Thus, preserving useful task behavior during training need not preserve a
+detectable watermark. These results concern the tested implementations and
+decision rules; they do not establish that every watermark signal disappears.
+Appendix~\ref{sec:watermark-limitations} gives the configurations, per-model
+results, and a separate ADFP case study on tool-call utility.
+
+\partitle{Finding 2: Passive similarity can reflect shared solutions and
+behavior rather than a specific training source}
+We examine reasoning-prefill overlap and AgentEcho's action-graph metrics.
+In selected public reasoning problems, conventional solutions and alternative
+prefixes produce substantial answer overlap under our local scoring proxy.
+This exposes alternative explanations for the overlap; it does not establish
+the evaluated models' training histories.
+For AgentEcho, we construct structurally different graphs with identical
+dependency-similarity scores. This collision concerns the dependency
+component, not the entire aggregate score.
+Our trajectory audit also finds high dependency similarity across different
+execution structures. Separately, a reasoning-distilled model becomes more
+similar to several comparison models, so the increase does not uniquely
+identify a teacher.
+Appendices~\ref{sec:textual-similarity} and~\ref{sec:dependency-ambiguity}
+provide the counterexamples, controls, and measurements.
+
+These findings motivate a defense that retains private evidence during
+serving and tests its inheritance after distillation. \name{} uses traffic
+screening to select candidate interactions, then compares the suspect
+student's behavior under recorded contexts and modified control contexts.

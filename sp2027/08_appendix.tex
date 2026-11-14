@@ -284,179 +284,7 @@ Impact of identification accuracy. The horizontal axis denotes the training shar
 \label{fig:truncation-robustness}
 \end{figure*}
 
-\begin{table}[!t]
-\centering
-\caption{Agentwm robustness to data flooding.}
-\label{tab:baseline-robustness}
-\scriptsize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l l | c c@{}}
-\noalign{\hrule height 1.5pt}
-\textbf{Dataset} & \textbf{Student Model $\mathcal{M}_s$} & \textbf{D1} & \textbf{D5} \\
-\hline
-\multirow{4}{*}{BFCL} & Mistral-24B & $0/5$ {\color{red}$\times$} & $0/5$ {\color{red}$\times$} \\
-& GLM-4.7-Flash & $0/5$ {\color{red}$\times$} & $0/5$ {\color{red}$\times$} \\
-& Qwen3-14B & $2/5$ {\color{red}$\times$} & $0/5$ {\color{red}$\times$} \\
-& Qwen3-32B & $1/5$ {\color{red}$\times$} & $0/5$ {\color{red}$\times$} \\
-\hline
-\multirow{4}{*}{SWE-bench} & Mistral-24B & $1/5$ {\color{red}$\times$} & $1/5$ {\color{red}$\times$} \\
-& GLM-4.7-Flash & $2/5$ {\color{red}$\times$} & $0/5$ {\color{red}$\times$} \\
-& Qwen3-14B & $0/5$ {\color{red}$\times$} & $1/5$ {\color{red}$\times$} \\
-& Qwen3-32B & $0/5$ {\color{red}$\times$} & $1/5$ {\color{red}$\times$} \\
-\noalign{\hrule height 1.5pt}
-\end{tabular*}
-\end{table}
-\partitle{Baseline robustness} Since Seqwm does not successfully detect distilled students(Table~\ref{tab:baseline-effectiveness}), we focus our robustness evaluation on Agentwm under data flooding (the D1 and D5 settings). To ensure a rigorous comparison, we process the clean standard data to match the initial distribution $P_c$ before mixing it with the watermarked traces. As shown in Table~\ref{tab:baseline-robustness}, all 16 evaluated settings fail to meet Agentwm's $\geq 3/5$ detection threshold. Agentwm encodes its watermark by shifting the tool-variant distribution towards $P_{\mathtt{wm}}$. By flooding the training corpus with clean trajectories calibrated to $P_c$, the overall frequencies are pulled back towards the unwatermarked state. This directly dilutes the artificial distributional signal, resulting in the distilled students not sufficiently reproducing the watermarked patterns for reliable detection.
-
-
-
 \section{Discussion on Statistical Test}
-
-\begin{table*}[!t]
-\centering
-\caption{Comparison of representative anti-distillation methods.}
-\label{tab:anti-distillation-comparison}
-\begin{threeparttable}
-\scriptsize
-% Spacing controls: increase/decrease these two values as needed.
-\setlength{\tabcolsep}{2.5pt}       % horizontal (column) spacing
-\renewcommand{\arraystretch}{1.08}  % vertical (row) spacing
-
-\begin{tabular}{@{}
-    >{\raggedright\arraybackslash}p{1.60cm}
-    >{\raggedright\arraybackslash}p{2.1cm}
-    >{\raggedright\arraybackslash}p{1.70cm}
-    >{\centering\arraybackslash}p{0.90cm}
-    >{\raggedright\arraybackslash}p{1.8cm}
-    >{\centering\arraybackslash}p{0.75cm}
-    >{\centering\arraybackslash}p{0.70cm}
-    >{\centering\arraybackslash}p{0.75cm}
-    >{\raggedright\arraybackslash}p{6.45cm}@{}}
-\noalign{\hrule height 1.5pt}
-\multirow{2}{1.60cm}{\textbf{Family}} &
-\multirow{2}{2.1cm}{\textbf{Shared limits}} &
-\multirow{2}{1.70cm}{\textbf{Method}} &
-\multirow{2}{0.90cm}{\centering\textbf{Acc.}} &
-\multirow{2}{1.8cm}{\textbf{Audit prior}} &
-\multicolumn{2}{c}{\textbf{Cost}} &
-\multirow{2}{0.75cm}{\centering\textbf{Evid.}} &
-\multirow{2}{6.45cm}{\textbf{Main limitation}} \\
-\cline{6-7}
-& & & & & \textbf{Inject.} & \textbf{Verify} & & \\
-\hline
-
-\multirow[c]{4}{1.60cm}{\raggedright Watermarking} &
-\multirow[c]{4}{2.15cm}{\raggedright
-Limited robustness; additional cost.} &
-ADFP &
-BB &
-Same tasks &
-High &
-Med. &
-Strong &
-High cost; sensitive to data dilution; \textcolor[HTML]{D46A6A}{utility loss}.\\
-
-& &
-AgentWM &
-BB &
-Same domain &
-Low &
-High &
-Strong &
-\textcolor[HTML]{D46A6A}{Weak cross-model robustness}; \textcolor[HTML]{D46A6A}{sensitive to data dilution}. \\
-
-& &
-SeqWM &
-BB &
--- &
-Med. &
-Low &
-Strong &
-\textcolor[HTML]{D46A6A}{Does not reliably survive distillation}. \\
-
-\rowcolor{gray!12}
-\cellcolor{white} &
-\cellcolor{white} &
-\textbf{AuxMark} &
-\textbf{BB} &
-\textbf{Suspected set} &
-\textbf{Med.} &
-\textbf{Med.} &
-\textbf{Strong} &
-\textbf{Requires traffic-based screening to select audit candidates.} \\
-
-\hline
-
-\multirow[c]{6}{1.60cm}{\raggedright Fingerprinting} &
-\multirow[c]{6}{2.15cm}{\raggedright
-No strong evidence of distillation.} &
-PoS Templates &
-BB/GB &
--- &
--- &
-Low &
-Weak &
-Sensitive to post-training and shared training data. \\
-
-& &
-Data-Free KD &
-WB &
--- &
--- &
-Low &
-Weak &
-Requires access to the student model's weights. \\
-
-& &
-DistillDetect &
-GB &
-Reference models &
--- &
-Low &
-Weak &
-Requires student logits and calibrated reference models. \\
-
-& &
-SCOUT &
-BB &
--- &
--- &
-Low &
-Weak &
-Confuses related models; fingerprints may be overwritten. \\
-
-& &
-AgentEcho &
-BB &
--- &
--- &
-High &
-Weak &
-\textcolor[HTML]{D46A6A}{High AGS across different graph structures}. \\
-
-& &
-Reasoning PF &
-BB/GB &
--- &
--- &
-Low &
-Weak &
-\textcolor[HTML]{D46A6A}{High overlap may result from shared solutions or formatting}. \\
-
-\noalign{\hrule height 1.5pt}
-\end{tabular}
-
-\begin{tablenotes}[flushleft]
-\scriptsize
-\item[] BB: black-box access; GB: gray-box access; WB: white-box access.
-Low, Med., and High denote relative costs.
-Weak denotes indirect or non-distillation-specific evidence; Strong denotes
-secret-signal-based attribution. \textcolor[HTML]{D46A6A}{Light red text} marks limitations identified by us.
-\end{tablenotes}
-\end{threeparttable}
-\end{table*}
-
-
 \label{sec:statistical-test-discussion}
 
 \begin{table}[!t]
@@ -495,30 +323,85 @@ To evaluate how the choice of statistical unit affects detection results, we per
 
 
 
-\section{A Systematization of Anti-Distillation }
-\label{sec:similarity-attribution}
+\section{Supporting Evidence for the Systematization}
+\label{sec:systematization-details}
 
+This appendix provides the experimental results and analytical examples
+supporting Section~\ref{sec:similarity-attribution}.
 
+\subsection{Watermark Transfer, Dilution, and Utility}
+\label{sec:watermark-limitations}
 
+\partitle{Transfer across student models}
+We evaluate AgentWM and SeqWM on BFCL and SWE-bench with four student models.
+Appendix~\ref{sec:experimental-details} specifies the baseline implementations
+and detection protocols. Table~\ref{tab:baseline-effectiveness} reports their
+native statistics. AgentWM meets the requirement of at least three detected
+passes for GLM-4.7-Flash on both datasets, but not for the other six settings.
+SeqWM's median trace-level $p$-value exceeds $0.05$ in all eight settings.
+This model-level result does not imply that every individual trace lacks a
+watermark signal. These experiments test transfer under the stated protocols;
+they do not establish an intrinsic requirement for identical teacher and
+student architectures.
 
+\begin{table}[!t]
+\centering
+\caption{Baseline effectiveness. AgentWM is detected at $\geq3/5$ passes; SeqWM at median $p<0.05$.}
+\label{tab:baseline-effectiveness}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{l l | c c | c c}
+\noalign{\hrule height 1.5pt}
+\multirow{2}{*}{\textbf{Dataset}} & \multirow{2}{*}{\textbf{Student Model $\mathcal{M}_s$}} & \multicolumn{2}{c|}{\textbf{AgentWM}} & \multicolumn{2}{c}{\textbf{SeqWM}} \\
+\cline{3-6}
+& & \textbf{Passes} & \textbf{Sig.} & \textbf{Median $p$} & \textbf{Sig.} \\
+\hline
+\multirow{4}{*}{BFCL} & Mistral-24B & 1/5 & {\color{red}$\times$} & 0.6848 & {\color{red}$\times$} \\
+& GLM-4.7-Flash & 3/5 & {\color{green}\checkmark} & 0.5130 & {\color{red}$\times$} \\
+& Qwen3-14B & 1/5 & {\color{red}$\times$} & 0.4650 & {\color{red}$\times$} \\
+& Qwen3-32B & 2/5 & {\color{red}$\times$} & 0.5744 & {\color{red}$\times$} \\
+\cline{1-6}
+\multirow{4}{*}{SWE-bench} & Mistral-24B & 1/5 & {\color{red}$\times$} & 0.6274 & {\color{red}$\times$} \\
+& GLM-4.7-Flash & 3/5 & {\color{green}\checkmark} & 0.5914 & {\color{red}$\times$} \\
+& Qwen3-14B & 1/5 & {\color{red}$\times$} & 0.7073 & {\color{red}$\times$} \\
+& Qwen3-32B & 0/5 & {\color{red}$\times$} & 0.4895 & {\color{red}$\times$} \\
+\noalign{\hrule height 1.5pt}
+\end{tabular}
+\end{table}
 
-
-
-
-
-\subsection{Existing Anti-Distillation Methods}
-
-
-\partitle{Proactive watermarking}
-Proactive watermarking embeds signals controlled into teacher outputs, allowing student models to learn and retain these features during distillation. Detecting these signals in student outputs then provides evidence for identifying and verifying distillation. For example, watermarks can be embedded at the token level: ADFP~\cite{xu2026antidistillation} uses a proxy model to estimate how token selection affects watermark learning and adjusts the teacher’s sampling distribution accordingly to improve watermark detectability. Watermarks can also be embedded at the behavioral level: Agentwm~\cite{wang2026protecting} uses functionally equivalent tool paths to embed behavioral watermarks into model execution traces, while Agentguide~\cite{huang2025agent} and SeqWM~\cite{an2026sequential} embed watermarks into model action sequences.
-
-\partitle{Passive fingerprinting}
-Passive post-hoc fingerprinting requires no prior embedding of identification signals into teacher outputs. Instead, it retrospectively analyzes similarities between a student model and a candidate teacher to determine whether a distillation relationship exists. Specifically, PoS Templates~\cite{wadhwa2025taught} and SCOUT~\cite{jang2026retrospective} analyze syntactic patterns in generated text; Data-Free KD~\cite{shi2026knowledge} uses model statistics and internal representations for detection; and DistillDetect~\cite{rawat2026reference} compares the likelihood scores assigned to text by the student and reference models. At the behavioral and reasoning levels, AgentEcho~\cite{yang2026agents} examines similarities between tool-calling traces, while Reasoning PF~\cite{panfilov2026stealing} investigates a model’s continuation when private reasoning traces are supplied as prefilled context.
-
-
-\subsection{Systematic Limitations}
-\subsubsection{Overview}
-We systematically evaluate representative anti-distillation methods in terms of their cost, evidentiary strength, and primary limitations. As summarized in Table~\ref{tab:anti-distillation-comparison}, the two families exhibit distinct shared limitations. Watermarking methods can provide stronger evidence, but adding and checking watermarks introduces extra cost. Existing watermarks are also not robust and can be weakened by data processing methods such as data dilution. Fingerprinting methods are not enough to prove that unauthorized distillation occurred. Overall, existing methods cannot provide acceptable cost, strong robustness, and reliable evidence at the same time.
+\begin{table}[!t]
+\centering
+\caption{AgentWM robustness to data flooding.}
+\label{tab:baseline-robustness}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l l | c c@{}}
+\noalign{\hrule height 1.5pt}
+\textbf{Dataset} & \textbf{Student Model $\mathcal{M}_s$} & \textbf{D1} & \textbf{D5} \\
+\hline
+\multirow{4}{*}{BFCL} & Mistral-24B & $0/5$ {\color{red}$\times$} & $0/5$ {\color{red}$\times$} \\
+& GLM-4.7-Flash & $0/5$ {\color{red}$\times$} & $0/5$ {\color{red}$\times$} \\
+& Qwen3-14B & $2/5$ {\color{red}$\times$} & $0/5$ {\color{red}$\times$} \\
+& Qwen3-32B & $1/5$ {\color{red}$\times$} & $0/5$ {\color{red}$\times$} \\
+\hline
+\multirow{4}{*}{SWE-bench} & Mistral-24B & $1/5$ {\color{red}$\times$} & $1/5$ {\color{red}$\times$} \\
+& GLM-4.7-Flash & $2/5$ {\color{red}$\times$} & $0/5$ {\color{red}$\times$} \\
+& Qwen3-14B & $0/5$ {\color{red}$\times$} & $1/5$ {\color{red}$\times$} \\
+& Qwen3-32B & $0/5$ {\color{red}$\times$} & $1/5$ {\color{red}$\times$} \\
+\noalign{\hrule height 1.5pt}
+\end{tabular*}
+\end{table}
+\partitle{Baseline robustness}
+We evaluate AgentWM under the D1 and D5 mixtures of watermarked and clean
+trajectories. We calibrate the clean data to the unwatermarked tool-variant
+distribution $P_c$ before mixing. All 16 settings fall below the requirement
+of three detected passes (Table~\ref{tab:baseline-robustness}).
+In particular, both GLM-4.7-Flash configurations that pass in the unmixed
+setting fail after 1:1 mixing. The other six unmixed configurations already
+fail detection, so their mixed results do not independently establish a
+loss caused by dilution. Mixing with data calibrated to $P_c$ pulls tool
+frequencies away from the watermarked distribution $P_{\mathtt{wm}}$,
+weakening the signal under this protocol.
 
 \begin{figure*}[!t]
     \centering
@@ -531,20 +414,20 @@ We systematically evaluate representative anti-distillation methods in terms of 
     \label{fig:adfp-agent-utility}
 \end{figure*}
 
-\subsubsection{Limitations of Proactive Watermarking}
-Proactive watermarking embeds controlled signals into teacher outputs and can
-therefore provide stronger evidence of distillation. However, existing methods
-still have limitations in utility, cost, and robustness. ADFP~\cite{xu2026antidistillation} changes the token-sampling process and requires an additional proxy model during decoding. Such token-level changes may corrupt structured outputs in agent settings. We evaluate ADFP with $\lambda=140$ on 20 Tau2 tasks using Qwen3-14B as the teacher and Qwen3-8B as the proxy. The tool-call error rate increases from $22/133$ ($16.5\%$) in the clean setting
-to $31/131$ ($23.7\%$) with ADFP. As shown in Figure~\ref{fig:adfp-agent-utility}, ADFP trajectories may invoke nonexistent tools or produce incorrect arguments. ADFP is also sensitive to data flooding: in the partially fingerprinted data experiment in Section~5.2 and Figure~6 of the original paper, mixing fingerprinted and clean outputs at a 1:1 ratio yields $p>0.05$ in all four unsupervised evaluation settings, so the fingerprint is no longer statistically significant~\cite{xu2026antidistillation}. ADFP is also sensitive to data flooding in Section~5.2 and Figure~6 of the original paper, mixing watermarked data and clean data at a 1:1 ratio yields $p>0.05$ in all four unsupervised evaluation settings, so the fingerprint is no longer statistically significant.
-
-AgentWM~\cite{wang2026protecting} introduces behavioral signals with relatively low embedding cost, but its effectiveness drops greatly when the teacher and
-student use different base models. Its signals can also be weakened by
-watermark dilution as shown in Table~\ref{tab:baseline-robustness}. AgentGuide~\cite{huang2025agent} and SeqWM~\cite{an2026sequential} embed signals in agent action sequences for later tracing. We use SeqWM as a representative baseline to test whether such signals survive distillation.
-As shown by our baseline results in Section~\ref{sec:detection-effectiveness} and Table~\ref{tab:baseline-effectiveness}, AgentWM succeeds only for the GLM-4.7-Flash student, while SeqWM fails to detect any of the tested distilled students. Therefore, existing proactive watermarking methods cannot simultaneously preserve agent utility, remain robust to model and data changes, and keep deployment costs within an acceptable range.
-
-
-\subsubsection{Limitations of Passive Fingerprinting}
-Passive fingerprinting requires no changes to teacher outputs, but its similarity-based evidence can reflect shared solutions or answer format and is sensitive to many factors, so it provides weak evidence of distillation. PoS Templates~\cite{wadhwa2025taught} relies on syntactic patterns inherited from the teacher, but these patterns may be weakened by further fine-tuning, data augmentation, multi-teacher distillation, or shared training data. Data-Free KD~\cite{shi2026knowledge} requires white-box access to the student model's weights. DistillDetect~\cite{rawat2026reference} relies on student logits and calibrated reference models, making it difficult to use through a standard black-box API. SCOUT~\cite{jang2026retrospective} supports black-box detection, but may confuse related models, and its fingerprints can be overwritten by later training. Therefore, these methods are sensitive to post-training changes and mainly provide indirect similarity-based evidence rather than strong evidence of unauthorized distillation.
+\partitle{Tool-call utility under token watermarking}
+ADFP~\cite{xu2026antidistillation} changes token sampling using an additional
+proxy model during decoding. We evaluate ADFP with $\lambda=140$ on 20 Tau2
+tasks using Qwen3-14B as the teacher and Qwen3-8B as the proxy.
+The tool-call error rate increases from $22/133$ ($16.5\%$) in the clean
+setting to $31/131$ ($23.7\%$) with ADFP.
+Figure~\ref{fig:adfp-agent-utility} shows examples of nonexistent tools and
+incorrect arguments. This is a utility case study at the tested parameter
+setting, rather than a characterization of all watermark strengths.
+Separately, the original ADFP paper reports sensitivity to dilution:
+in its partially fingerprinted data experiment (Section~5.2, Figure~6),
+a 1:1 mixture of fingerprinted and clean outputs yields $p>0.05$ in all
+four unsupervised evaluation settings~\cite{xu2026antidistillation}.
+That dilution result is prior evidence, not an experiment conducted here.
 
 \begin{figure*}[h]
     \centering
@@ -565,7 +448,8 @@ Passive fingerprinting requires no changes to teacher outputs, but its similarit
 
 
 
-\partitle{Vulnerabilities in token-level n-gram matching}
+\subsection{Vulnerabilities in Token-Level N-gram Matching}
+\label{sec:textual-similarity}
 For Reasoning PF~\cite{panfilov2026stealing} prefill the model's
 reasoning with a short teacher prefix. They use n-gram overlap between
 the target model's visible answer and the teacher reference as evidence of distillation. Yet the target model generates the
@@ -598,7 +482,8 @@ evidence of learning from a specific teacher.
 % 见 figure/generate_ngram_vulnerability_composite.py 顶部“自行微调”参数区。
 % figure* 表示跨双栏；[!t] 表示优先放在页顶。
 
-\partitle{Vulnerabilities in execution graph similarity}
+\subsection{Vulnerabilities in Agent Execution Graph Similarity}
+\label{sec:dependency-ambiguity}
 AgentEcho's Action Graph Similarity(AGS) averages optional-tool agreement
 $S_{\mathtt{node}}$, sequence similarity $S_{\mathtt{seq}}$, and dependency
 similarity $S_{\mathtt{dep}}$ \citep{yang2026agents}. Tool behavior adds

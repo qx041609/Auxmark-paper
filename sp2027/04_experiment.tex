@@ -85,32 +85,9 @@ In this section, all student models are trained on the original  dataset $\mathc
 
 
 
-\begin{table}[!t]
-\centering
-\caption{Baseline effectiveness. Agentwm is significant at $\geq3/5$ passes; SeqWM at median $p<0.05$.}
-\label{tab:baseline-effectiveness}
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{l l | c c | c c}
-\noalign{\hrule height 1.5pt}
-\multirow{2}{*}{\textbf{Dataset}} & \multirow{2}{*}{\textbf{Student Model $\mathcal{M}_s$}} & \multicolumn{2}{c|}{\textbf{Agentwm}} & \multicolumn{2}{c}{\textbf{SeqWM}} \\
-\cline{3-6}
-& & \textbf{Passes} & \textbf{Sig.} & \textbf{Median $p$} & \textbf{Sig.} \\
-\hline
-\multirow{4}{*}{BFCL} & Mistral-24B & 1/5 & {\color{red}$\times$} & 0.6848 & {\color{red}$\times$} \\
-& GLM-4.7-Flash & 3/5 & {\color{green}\checkmark} & 0.5130 & {\color{red}$\times$} \\
-& Qwen3-14B & 1/5 & {\color{red}$\times$} & 0.4650 & {\color{red}$\times$} \\
-& Qwen3-32B & 2/5 & {\color{red}$\times$} & 0.5744 & {\color{red}$\times$} \\
-\cline{1-6}
-\multirow{4}{*}{SWE-bench} & Mistral-24B & 1/5 & {\color{red}$\times$} & 0.6274 & {\color{red}$\times$} \\
-& GLM-4.7-Flash & 3/5 & {\color{green}\checkmark} & 0.5914 & {\color{red}$\times$} \\
-& Qwen3-14B & 1/5 & {\color{red}$\times$} & 0.7073 & {\color{red}$\times$} \\
-& Qwen3-32B & 0/5 & {\color{red}$\times$} & 0.4895 & {\color{red}$\times$} \\
-\noalign{\hrule height 1.5pt}
-\end{tabular}
-\end{table}
 
-\partitle{Baseline effectiveness} We evaluate the effectiveness of the two baseline schemes under the matched distillation setting and the details about baselines are in Appendix~\ref{sec:experimental-details}. As shown in Table~\ref{tab:baseline-effectiveness}, for Agentwm, only the GLM-4.7-Flash student model meets the passing criterion of $\geq 3/5$ passes, while all other students fail. For Seqwm, the median $p$-values across all tested models are greater than 0.05, failing to successfully detect any distilled models. As expected, baselines fail, because Seqwm is not designed for antidistillation, and Agentwm has weak watermark signals that requires identical teacher and student base models.
+
+\partitle{Baseline effectiveness} AgentWM and SeqWM show limited detectability under our tested distillation configurations. Section~\ref{sec:systematization-findings} discusses this finding; Appendix~\ref{sec:watermark-limitations} reports the per-model results and decision rules. Because the methods use different detection statistics, these results do not constitute a comparison at a common false-positive rate.
 
 \subsection{Harmlessness}
 \label{sec:harmlessness}

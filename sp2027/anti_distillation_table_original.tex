@@ -1,0 +1,157 @@
+% Original comparison table, preserved for design reference.
+% Source: sp2027/08_appendix.tex at commit 877c47f.
+% Not included in 00_main.tex. The original label is retained; do not include
+% alongside the current table without changing one of their labels.
+
+\begin{table*}[!t]
+\centering
+\caption{Comparison of representative anti-distillation methods.}
+\label{tab:anti-distillation-comparison}
+\begin{threeparttable}
+\scriptsize
+% Spacing controls: increase/decrease these two values as needed.
+\setlength{\tabcolsep}{2.5pt}       % horizontal (column) spacing
+\renewcommand{\arraystretch}{1.08}  % vertical (row) spacing
+
+\begin{tabular}{@{}
+    >{\raggedright\arraybackslash}p{1.60cm}
+    >{\raggedright\arraybackslash}p{2.1cm}
+    >{\raggedright\arraybackslash}p{1.70cm}
+    >{\centering\arraybackslash}p{0.90cm}
+    >{\raggedright\arraybackslash}p{1.8cm}
+    >{\centering\arraybackslash}p{0.75cm}
+    >{\centering\arraybackslash}p{0.70cm}
+    >{\centering\arraybackslash}p{0.75cm}
+    >{\raggedright\arraybackslash}p{6.45cm}@{}}
+\noalign{\hrule height 1.5pt}
+\multirow{2}{1.60cm}{\textbf{Family}} &
+\multirow{2}{2.1cm}{\textbf{Shared limits}} &
+\multirow{2}{1.70cm}{\textbf{Method}} &
+\multirow{2}{0.90cm}{\centering\textbf{Acc.}} &
+\multirow{2}{1.8cm}{\textbf{Audit prior}} &
+\multicolumn{2}{c}{\textbf{Cost}} &
+\multirow{2}{0.75cm}{\centering\textbf{Evid.}} &
+\multirow{2}{6.45cm}{\textbf{Main limitation}} \\
+\cline{6-7}
+& & & & & \textbf{Inject.} & \textbf{Verify} & & \\
+\hline
+
+\multirow[c]{5}{1.60cm}{\raggedright Watermarking} &
+\multirow[c]{5}{2.15cm}{\raggedright
+Limited robustness; additional cost.} &
+ADFP &
+BB &
+Same tasks &
+High &
+Med. &
+Strong &
+High cost; sensitive to data dilution; utility loss$^{\star}$.\\
+
+& &
+AgentWM &
+BB &
+Same domain &
+Low &
+High &
+Strong &
+Weak cross-model robustness$^{\star}$; sensitive to data dilution$^{\star}$. \\
+
+& &
+AgentGuide &
+BB &
+-- &
+Med. &
+Low &
+Strong &
+Does not reliably survive distillation$^{\star}$. \\
+
+& &
+SeqWM &
+BB &
+-- &
+Med. &
+Low &
+Strong &
+Does not reliably survive distillation$^{\star}$. \\
+
+\rowcolor{gray!12}
+\cellcolor{white} &
+\cellcolor{white} &
+\textbf{AuxMark} &
+\textbf{BB} &
+\textbf{Suspected set} &
+\textbf{Med.} &
+\textbf{Med.} &
+\textbf{Strong} &
+\textbf{Requires traffic-based screening to select audit candidates.} \\
+
+\hline
+
+\multirow[c]{6}{1.60cm}{\raggedright Fingerprinting} &
+\multirow[c]{6}{2.15cm}{\raggedright
+No strong evidence of distillation.} &
+PoS Templates &
+BB/GB &
+-- &
+-- &
+Low &
+Weak &
+Sensitive to post-training and shared training data. \\
+
+& &
+Data-Free KD &
+WB &
+-- &
+-- &
+Low &
+Weak &
+Requires access to the student model's weights. \\
+
+& &
+DistillDetect &
+GB &
+Reference models &
+-- &
+Low &
+Weak &
+Requires student logits and calibrated reference models. \\
+
+& &
+SCOUT &
+BB &
+-- &
+-- &
+Low &
+Weak &
+Confuses related models; fingerprints may be overwritten. \\
+
+& &
+AgentEcho &
+BB &
+-- &
+-- &
+High &
+Weak &
+High AGS across different graph structures.$^{\star}$. \\
+
+& &
+Reasoning PF &
+BB/GB &
+-- &
+-- &
+Low &
+Weak &
+High overlap may result from shared solutions or formatting$^{\star}$. \\
+
+\noalign{\hrule height 1.5pt}
+\end{tabular}
+
+\begin{tablenotes}[flushleft]
+\scriptsize
+\item[] BB: black-box access; GB: gray-box access; WB: white-box access.
+Low, Med., and High denote relative costs.
+Weak denotes indirect or non-distillation-specific evidence; Strong denotes
+secret-signal-based attribution. $\star$ indicates a limitation identified by us.
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}
