@@ -554,7 +554,7 @@ As shown by our baseline results in Section~\ref{sec:detection-effectiveness} an
 
 
 \subsubsection{Limitations of Passive Fingerprinting}
-
+Passive fingerprinting requires no changes to teacher outputs, but its evidence is usually indirect and may not remain stable under model or data changes. PoS Templates~\cite{wadhwa2025taught} relies on syntactic patterns inherited from the teacher, but these patterns may be weakened by further fine-tuning, data augmentation, multi-teacher distillation, or shared training data. Data-Free KD~\cite{shi2026knowledge} requires white-box access to the student model's weights. DistillDetect~\cite{rawat2026reference} relies on student logits and calibrated reference models, making it difficult to use through a standard black-box API. SCOUT~\cite{jang2026retrospective} supports black-box detection, but may confuse related models, and its fingerprints can be overwritten by later training. Therefore, these methods are sensitive to post-training changes and mainly provide indirect similarity-based evidence rather than strong evidence of unauthorized distillation.
 
 
 
