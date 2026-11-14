@@ -345,8 +345,8 @@ Impact of identification accuracy. The horizontal axis denotes the training shar
 & & & & & \textbf{Inject.} & \textbf{Verify} & & \\
 \hline
 
-\multirow[c]{5}{1.60cm}{\raggedright Watermarking} &
-\multirow[c]{5}{2.15cm}{\raggedright
+\multirow[c]{4}{1.60cm}{\raggedright Watermarking} &
+\multirow[c]{4}{2.15cm}{\raggedright
 Limited robustness; additional cost.} &
 ADFP &
 BB &
@@ -354,7 +354,7 @@ Same tasks &
 High &
 Med. &
 Strong &
-High cost; sensitive to data dilution; utility loss$^{\star}$.\\
+High cost; sensitive to data dilution; \textcolor[HTML]{D46A6A}{utility loss}.\\
 
 & &
 AgentWM &
@@ -363,16 +363,7 @@ Same domain &
 Low &
 High &
 Strong &
-Weak cross-model robustness$^{\star}$; sensitive to data dilution$^{\star}$. \\
-
-& &
-AgentGuide &
-BB &
--- &
-Med. &
-Low &
-Strong &
-Does not reliably survive distillation$^{\star}$. \\
+\textcolor[HTML]{D46A6A}{Weak cross-model robustness}; \textcolor[HTML]{D46A6A}{sensitive to data dilution}. \\
 
 & &
 SeqWM &
@@ -381,7 +372,7 @@ BB &
 Med. &
 Low &
 Strong &
-Does not reliably survive distillation$^{\star}$. \\
+\textcolor[HTML]{D46A6A}{Does not reliably survive distillation}. \\
 
 \rowcolor{gray!12}
 \cellcolor{white} &
@@ -441,7 +432,7 @@ BB &
 -- &
 High &
 Weak &
-High AGS across different graph structures.$^{\star}$. \\
+\textcolor[HTML]{D46A6A}{High AGS across different graph structures}. \\
 
 & &
 Reasoning PF &
@@ -450,7 +441,7 @@ BB/GB &
 -- &
 Low &
 Weak &
-High overlap may result from shared solutions or formatting$^{\star}$. \\
+\textcolor[HTML]{D46A6A}{High overlap may result from shared solutions or formatting}. \\
 
 \noalign{\hrule height 1.5pt}
 \end{tabular}
@@ -460,7 +451,7 @@ High overlap may result from shared solutions or formatting$^{\star}$. \\
 \item[] BB: black-box access; GB: gray-box access; WB: white-box access.
 Low, Med., and High denote relative costs.
 Weak denotes indirect or non-distillation-specific evidence; Strong denotes
-secret-signal-based attribution. $\star$ indicates a limitation identified by us.
+secret-signal-based attribution. \textcolor[HTML]{D46A6A}{Light red text} marks limitations identified by us.
 \end{tablenotes}
 \end{threeparttable}
 \end{table*}
@@ -548,8 +539,7 @@ to $31/131$ ($23.7\%$) with ADFP. As shown in Figure~\ref{fig:adfp-agent-utility
 
 AgentWM~\cite{wang2026protecting} introduces behavioral signals with relatively low embedding cost, but its effectiveness drops greatly when the teacher and
 student use different base models. Its signals can also be weakened by
-watermark dilution as shown in Table~\ref{tab:baseline-robustness}. AgentGuide~\cite{huang2025agent} and SeqWM~\cite{an2026sequential} require additional watermark embedding or
-verification, while their signals may not reliably survive distillation.
+watermark dilution as shown in Table~\ref{tab:baseline-robustness}. AgentGuide~\cite{huang2025agent} and SeqWM~\cite{an2026sequential} embed signals in agent action sequences for later tracing. We use SeqWM as a representative baseline to test whether such signals survive distillation.
 As shown by our baseline results in Section~\ref{sec:detection-effectiveness} and Table~\ref{tab:baseline-effectiveness}, AgentWM succeeds only for the GLM-4.7-Flash student, while SeqWM fails to detect any of the tested distilled students. Therefore, existing proactive watermarking methods cannot simultaneously preserve agent utility, remain robust to model and data changes, and keep deployment costs within an acceptable range.
 
 
