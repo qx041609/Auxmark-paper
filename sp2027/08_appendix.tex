@@ -543,7 +543,7 @@ We systematically evaluate representative anti-distillation methods in terms of 
 \subsubsection{Limitations of Proactive Watermarking}
 Proactive watermarking embeds controlled signals into teacher outputs and can
 therefore provide stronger evidence of distillation. However, existing methods
-still have limitations in utility, cost, and robustness. ADFP~\cite{xu2026antidistillation} changes the token-sampling process and requires an additional proxy model during decoding. Such token-level changes may corrupt structured outputs in agent settings. We evaluate ADFP with $\lambda=140$ on 20 Tau2 tasks using Qwen3-14B as the teacher and Qwen3-8B as the student. The tool-call error rate increases from $22/133$ ($16.5\%$) in the clean setting
+still have limitations in utility, cost, and robustness. ADFP~\cite{xu2026antidistillation} changes the token-sampling process and requires an additional proxy model during decoding. Such token-level changes may corrupt structured outputs in agent settings. We evaluate ADFP with $\lambda=140$ on 20 Tau2 tasks using Qwen3-14B as the teacher and Qwen3-8B as the proxy. The tool-call error rate increases from $22/133$ ($16.5\%$) in the clean setting
 to $31/131$ ($23.7\%$) with ADFP. As shown in Figure~\ref{fig:adfp-agent-utility}, ADFP trajectories may invoke nonexistent tools or produce incorrect arguments. ADFP is also sensitive to data flooding: in the partially fingerprinted data experiment in Section~5.2 and Figure~6 of the original paper, mixing fingerprinted and clean outputs at a 1:1 ratio yields $p>0.05$ in all four unsupervised evaluation settings, so the fingerprint is no longer statistically significant~\cite{xu2026antidistillation}. ADFP is also sensitive to data flooding in Section~5.2 and Figure~6 of the original paper, mixing watermarked data and clean data at a 1:1 ratio yields $p>0.05$ in all four unsupervised evaluation settings, so the fingerprint is no longer statistically significant.
 
 AgentWM~\cite{wang2026protecting} introduces behavioral signals with relatively low embedding cost, but its effectiveness drops greatly when the teacher and
@@ -556,167 +556,112 @@ As shown by our baseline results in Section~\ref{sec:detection-effectiveness} an
 \subsubsection{Limitations of Passive Fingerprinting}
 Passive fingerprinting requires no changes to teacher outputs, but its evidence is usually indirect and may not remain stable under model or data changes. PoS Templates~\cite{wadhwa2025taught} relies on syntactic patterns inherited from the teacher, but these patterns may be weakened by further fine-tuning, data augmentation, multi-teacher distillation, or shared training data. Data-Free KD~\cite{shi2026knowledge} requires white-box access to the student model's weights. DistillDetect~\cite{rawat2026reference} relies on student logits and calibrated reference models, making it difficult to use through a standard black-box API. SCOUT~\cite{jang2026retrospective} supports black-box detection, but may confuse related models, and its fingerprints can be overwritten by later training. Therefore, these methods are sensitive to post-training changes and mainly provide indirect similarity-based evidence rather than strong evidence of unauthorized distillation.
 
-
-
-
-
-
-\subsection{Vulnerabilities in Token-Level N-gram Matching}
-\label{sec:textual-similarity}
-
-\citet{panfilov2026stealing} study visible-answer overlap after prefilling a model's reasoning channel with a short teacher reasoning prefix. Their
-Appendix~B.2 evaluates 30 Humanity's Last Exam problems using shared
-1-, 2-, and 3-grams against the first 100 tokens of the reference answer,
-with best-of-$k$ sampling up to $k=100$. The visible answer is generated
-entirely by the target model. Their Figures~11--23 illustrate 13 public
-examples with problem statements, teacher reasoning excerpts, and
-visible-answer excerpts. Using selected public cases, we test whether
-alternative prefixes and shared solution patterns can produce high
-overlap with the same teacher reference.
-
-We use a fixed local overlap implementation. For each candidate $a$ and
-reference $b$, we tokenize both texts with the same regex tokenizer and
-retain up to their first 100 tokens. Let $G_n(x)$ denote the set of distinct
-$n$-grams in the retained tokens of $x$. We compute
-\begin{equation}
-    s_{\mathtt{ngram}}(a,b)
-    =
-    \frac{\sum_{n=1}^{3}|G_n(a)\cap G_n(b)|}
-         {\sum_{n=1}^{3}|G_n(b)|}.
-    \label{eq:local-ngram-proxy}
-\end{equation}
-
-\partitle{Alternative prefixes and comparisons across model versions}
-On the geometry problem in Figure~11 of \citet{panfilov2026stealing},
-Kimi-K2.6, which was publicly released before Claude Opus~4.8
-\citep{team2025kimi,anthropic2026opus48},
-obtains mean/best-of-4 scores of $0.274/0.565$ with the
-teacher opening \texttt{This is a known}, compared with $0.373/0.662$
-under \texttt{This is an unfamiliar} and $0.250/0.415$ without a prefix.
-The best local score of $0.662$ approaches the reported $0.80$ overlap
-between prefilled Kimi-K3 and Opus~4.8.
-Within this fixed scoring setup, the alternative prefix produces a larger
-increase than the authentic prefix across both metrics.
-The selected $0.662$ answer shares the opening derivation order $C,F,E,D,B$
-with the Opus~4.8 reference, as shown in Figure~\ref{fig:geometry-answer-comparison}.
-The sampled Opus~4.6 answers use tables or
-different orders; the highest score among these answers is $0.343$ against the
-same reference. Thus, this local formatting match is not exclusive to the
-teacher prefix or to the sampled Claude-family answers.
-
-\partitle{Convergence on standard solutions}
-For the linear differential equation in Figure~13 of
-\citet{panfilov2026stealing}, a standard solution uses a $\cosh$ integrating
-factor. Without a teacher prefix,
-GPT-OSS-120B reaches a mean overlap of $0.500$ and a best-of-4 score of
-$0.537$. Kimi-K2.6 similarly scores $0.501$ without a prefix and $0.502$
-with the teacher prefix. The unprefilled local scores are numerically close
-to the reported $0.50$ overlap between prefilled Kimi-K3 and Opus~4.8.
-The unprefilled answer excerpts are shown in Figure~\ref{fig:ode-answer-comparison}.
-Our results show that substantial local overlap can arise in standard
-solutions with conventional terminology and ordering, while the teacher
-prefix adds little in the Kimi-K2.6 comparison.
-
-\partitle{Response steering and sampling}
-Visible-answer overlap must also be interpreted in light of how responses
-are generated, presented, and selected. In our geometry evaluation of Kimi-K3,
-all 20 completions across five prefix
-conditions re-derive the solution, and none states the answer within its
-first 50 reasoning tokens, unlike the early answer in the reference trace.
-Higher visible overlap can therefore coexist with a different observed
-reasoning pattern. At the level of answer presentation, even correct
-solutions can receive very low scores when little matching text is
-available: for the problem in Figure~15 of \citet{panfilov2026stealing},
-four correct answers constrained to at most
-15 words each score $0.005$. Such sensitivity to presentation also matters
-when interpreting best-of-$k$ results, which report the largest overlap
-in a sampling pool. Formatting cues can therefore raise the reported score
-through occasional high-overlap completions without representing typical
-output behavior.
-\begin{figure*}[!t]
+\begin{figure*}[h]
     \centering
-\includegraphics[width=0.72\textwidth]{figure/geometry_answer_comparison.pdf}
-    \caption{Excerpts from the original answers to the geometry problem in
-    Figure~11 of \citet{panfilov2026stealing}.
-    Green shading marks the shared $C,F,E,D,B$ derivation order.
-    For each candidate model, we show the highest-overlap answer from four
-    samples.}
-    \label{fig:geometry-answer-comparison}
-
-    
-\includegraphics[width=0.72\textwidth]{figure/ode_answer_comparison.pdf}
-    \caption{Excerpts from the original answers to the differential-equation
-    problem in Figure~13 of \citet{panfilov2026stealing}.
-    Green shading marks the shared $\cosh t$ integrating factor.
-    Each candidate has the highest reported overlap among four unprefilled
-    samples.}
-    \label{fig:ode-answer-comparison}
+    % 修改 0.98\textwidth 可调整整张图在论文中的宽度；\centering 使其水平居中。
+    \includegraphics[width=0.98\textwidth]{figure/ngram_vulnerability_composite.pdf}
+    \caption{Limitations of Reasoning Prefill. Panels (a) and (c) show original
+    answer excerpts for the geometry and differential-equation problems;
+    green shading marks the shared $C,F,E,D,B$ derivation order and
+    $\cosh t$ integrating factor, respectively. Panels (b)
+    and (d) show local overlap scores against the Opus~4.8 references.
+    \textcolor[HTML]{86BAD4}{$\blacksquare$} denotes local mean scores or reported scores; \textcolor[HTML]{CBE6EF}{$\blacksquare$}
+    denotes geometry best-of-4 scores; and
+    \textcolor[HTML]{D36C4F}{$\blacklozenge$} denotes the GPT-OSS-120B
+    best-of-4 score.}
+    \label{fig:ngram-vulnerability}
 \end{figure*}
-\subsection{Vulnerabilities in Agent Execution Graph Similarity}
-\label{sec:dependency-ambiguity}
-AgentEcho's Action Graph Similarity (AGS) averages optional-tool agreement
-$S_{\mathtt{node}}$, sequential-pattern similarity $S_{\mathtt{seq}}$,
-and dependency-pattern similarity $S_{\mathtt{dep}}$
-\citep{yang2026agents}. Moving from text to tool behavior introduces
-structural evidence, but its interpretation depends on which graph
-properties the metrics preserve.
 
-\partitle{Scale invariance and structural ambiguity}
+
+
+
+\partitle{Vulnerabilities in token-level n-gram matching}
+For Reasoning PF~\cite{panfilov2026stealing} prefill the model's
+reasoning with a short teacher prefix. They use n-gram overlap between
+the target model's visible answer and the teacher reference as evidence of distillation. Yet the target model generates the
+visible answer itself. High overlap may also come from the wording of a prefix
+or from models using the same standard solution. We study two public problems:
+one compares different prefixes and model versions, and the other tests overlap
+from a common solution. We use the first 100 tokens of each answer and score
+the share of distinct reference 1--3-grams also found in the candidate.
+
+Figure~\ref{fig:ngram-vulnerability} summarizes the results. On the geometry
+problem, Kimi-K2.6, which was released before Claude Opus~4.8
+\citep{team2025kimi,anthropic2026opus48}, gets mean/best-of-4 scores of
+$0.373/0.662$ with the alternative prefix \texttt{This is an unfamiliar},
+higher than $0.274/0.565$ with the teacher prefix and $0.250/0.415$ without a
+prefix. Its highest-scoring answer follows the same $C,F,E,D,B$ order as the
+Opus~4.8 reference. In contrast, the sampled Opus~4.6 answers reach at most
+$0.343$ and use tables or a different order. The alternative prefix gives
+higher overlap than the teacher prefix, and a model released before Opus~4.8
+can produce the same order. This match alone cannot identify the teacher.
+
+On the differential-equation problem, GPT-OSS-120B gets mean/best-of-4 scores
+of $0.500/0.537$ without a prefix. Kimi-K2.6 scores $0.501$ without a prefix
+and $0.502$ with the teacher prefix. These unprefixed scores are close to the
+reported $0.50$ overlap for prefilled Kimi-K3. All these answers use the
+standard $\cosh t$ integrating factor, which leads to similar terms and steps.
+Thus, a common solution can produce high N-gram overlap even without a teacher
+prefix. Together, the two problems show that high overlap alone is weak
+evidence of learning from a specific teacher.
+
+% 组合图内部的四个面板、柱宽、字号、数字/菱形位置和间隙：
+% 见 figure/generate_ngram_vulnerability_composite.py 顶部“自行微调”参数区。
+% figure* 表示跨双栏；[!t] 表示优先放在页顶。
+
+\partitle{Vulnerabilities in execution graph similarity}
+AgentEcho's Action Graph Similarity(AGS) averages optional-tool agreement
+$S_{\mathtt{node}}$, sequence similarity $S_{\mathtt{seq}}$, and dependency
+similarity $S_{\mathtt{dep}}$ \citep{yang2026agents}. Tool behavior adds
+structural evidence, but these scores may miss important graph properties.
+
 For a dependency graph $G$, $S_{\mathtt{dep}}$ compares
 $\phi(G)=(r_{\mathtt{reuse}},d_{\mathtt{max}},r_{\mathtt{fanout}})$ by cosine
-similarity \citep[Appendix~B.4]{yang2026agents}. These features describe
-the fraction of calls after the first that receive dependency inputs,
-the longest dependency path, and the fraction of
-source nodes with multiple outgoing dependency edges. Cosine similarity
-ignores feature-vector magnitude. Consider two graphs with 11 nodes:
-one contains a single dependency edge, whereas the other is a complete
-10-edge chain. With path length measured in edges,
+similarity \citep[Appendix~B.4]{yang2026agents}. The features measure the
+share of later calls with dependency inputs, the longest dependency path,
+and the share of source nodes with multiple outgoing edges. Cosine similarity
+ignores vector magnitude. Consider two 11-node graphs: $G_s$ has one
+dependency edge, while $G_c$ is a 10-edge chain. Measuring path length in edges,
 \begin{equation}
-    \phi(G_{\mathtt{single}})=(0.1,1,0),\qquad
-    \phi(G_{\mathtt{chain}})=(1,10,0)
-    =10\phi(G_{\mathtt{single}}).
+    \phi(G_c)=(1,10,0)=10(0.1,1,0)=10\phi(G_s).
     \label{eq:dependency-counterexample}
 \end{equation}
-Their $S_{\mathtt{dep}}$ is exactly 1 despite large differences in reuse
-and dependency depth. Hence, a perfect score does
-not guarantee closely matching dependency structures.
+Their $S_{\mathtt{dep}}$ is exactly 1 despite their different reuse and
+dependency depth. A perfect score therefore need not mean similar graphs.
 
 \partitle{Evidence from tool trajectories}
-We audit 75 trajectories from five models on 15 tasks and compare all
-ten model pairs within each task, yielding 150 comparisons.
-The mean $S_{\mathtt{dep}}$ is $0.885$,
-and 121 comparisons score at least $0.9$. Among these, 53 have dependency
-edge counts differing by at least three, and 49 pair a successful
-trajectory with a failed one. In \texttt{retail-37}, a failed trajectory
-with one dependency edge and a successful trajectory with 12 edges score
-$0.991$. We further verify candidate dependency edges with an LLM judge,
+We audit 75 trajectories from five models on 15 tasks. Comparing all ten
+model pairs per task yields 150 comparisons: mean $S_{\mathtt{dep}}$ is
+$0.885$, and 121 scores reach at least $0.9$. Among these, 53 pairs differ by at
+least three dependency edges, and 49 pair success with failure. In
+\texttt{retail-37}, a failed trajectory with one edge and a successful one
+with 12 edges score $0.991$. We check candidate edges with an LLM judge,
 using anonymized values and a prompt adapted from the published protocol
-\citep[Appendix~B.1]{yang2026agents}.
-Both the score and the edge-count discrepancy remain unchanged for this
-example.
-Thus, near-perfect dependency similarity persists despite substantial
-structural differences, even after LLM-based edge verification.
+\citep[Appendix~B.1]{yang2026agents}; the score and edge-count gap remain
+unchanged.
+Thus, near-perfect scores can hide large structural differences even after
+edge verification.
 
 \partitle{Behavioral convergence after reasoning distillation}
 \label{sec:reasoning-distillation-convergence}
-Inspired by the reference-based formulation of \citet{rawat2026reference},
-we measure changes in behavioral similarity relative to the base checkpoint.
-We use the Qwen3.5-9B base model as the reference checkpoint and evaluate
-its publicly released reasoning-distilled variant.\footnote{Model card:
+Following the reference-based approach of \citet{rawat2026reference}, we
+compare the Qwen3.5-9B base model with its public reasoning-distilled
+variant.\footnote{Model card:
 \href{https://huggingface.co/Jackrong/Qwen3.5-9B-Claude-4.6-Opus-Reasoning-Distilled-v2-GGUF}{Jackrong's
 reasoning-distilled Qwen3.5-9B (GGUF)}.}
-The model card identifies Claude Opus~4.6 as the teacher.
-Our audit of 12,592 publicly available examples from the model card's
-listed datasets finds no structured tool trajectories.
-We use the same agent harness
-and user simulator for 15 $\tau$-bench-style tasks, with one rollout per
-model and task. Claude Sonnet~4.5 (thinking), Kimi-K2 (thinking), and
-GPT-OSS-120B serve as comparison models.
+Its model card names Claude Opus~4.6 as the teacher, but our audit of 12,592
+listed public examples finds no structured tool trajectories. We use the
+same agent harness and user simulator for 15 $\tau$-bench-style tasks,
+with one rollout per model and task. Comparison models are Claude
+Sonnet~4.5 (thinking), Kimi-K2 (thinking), and GPT-OSS-120B.
 
 \begin{table}[!t]
     \centering
     \scriptsize
     \setlength{\tabcolsep}{2pt}
+    \caption{Changes in AGS and its components after reasoning
+    distillation on the same 15 tasks.
+    Component values are rounded independently.}
     \resizebox{\columnwidth}{!}{%
     \begin{tabular}{lrrrrrr}
         \hline
@@ -730,27 +675,21 @@ GPT-OSS-120B serve as comparison models.
         \hline
     \end{tabular}
     }
-    \caption{Changes in AGS and its components after reasoning
-    distillation on the same 15 tasks.
-    Component values are rounded independently.}
     \label{tab:reasoning-distillation-similarity}
 \end{table}
 
-Table~\ref{tab:reasoning-distillation-similarity} shows that AGS increases
-toward all three models, alongside a rise in task success from
-$4/15$ to $12/15$. The gains are dominated by $S_{\mathtt{seq}}$, which
-increases by $0.425$--$0.750$.
-In contrast, $S_{\mathtt{dep}}$ increases by $0.077$--$0.086$, while
-$S_{\mathtt{node}}$ decreases toward both Claude and GPT-OSS.
-Thus, these gains primarily reflect convergence in local execution
-statistics and do not uniquely identify teacher-specific tool-use inheritance.
+Table~\ref{tab:reasoning-distillation-similarity} shows that AGS rises
+toward all three models as task success grows from $4/15$ to $12/15$.
+Most of the gain comes from $S_{\mathtt{seq}}$ ($+0.425$--$+0.750$);
+$S_{\mathtt{dep}}$ rises only $0.077$--$0.086$, and $S_{\mathtt{node}}$
+falls toward Claude and GPT-OSS. These gains mainly reflect similar local
+execution patterns, not unique evidence of teacher-specific tool use.
 
 \partitle{Implications for attribution}
-These cases expose ambiguity in interpreting high unwatermarked similarity
-as evidence of a specific training source. They motivate controls for shared
-solutions, response presentation, and general behavioral improvement,
-alongside calibrated false-positive rates. Our watermarking framework
-provides private verification signals tied to recorded teacher interactions.
+High unwatermarked similarity alone does not identify a training source.
+Attribution needs controls for shared solutions, response format, and general
+behavioral improvement, as well as calibrated false-positive rates. Our
+watermark ties private verification signals to recorded teacher interactions.
 
 \section{Detailed Watermarking Protocols}
 
