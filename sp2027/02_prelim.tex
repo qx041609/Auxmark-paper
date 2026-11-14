@@ -12,13 +12,7 @@ Model distillation \cite{hinton2015distilling,kang2026distilling,luo2026agentark
 
 \subsection{Model Watermarking}
 
-To protect the intellectual property of a teacher agent $\mathcal{M}_t$, the model owner employs a secret key $k$ to embed watermark signals in real time during the generation of trajectories $\tau$. After attackers query the model to obtain a watermarked dataset $\mathcal{D}$, they attempts to clone the teacher's capabilities by training an base model $\mathcal{M}_c$ on $\mathcal{D}$ via a distillation algorithm to get the student model $\mathcal{M}_s$. Then model owner audits suspicious student models using a private probe set $\mathcal{P}_k$. A practical anti-distillation watermark should satisfy the following three  requirements:
-
-\partitle{Effectiveness} An effective watermark must reliably transfer to the student model during distillation while maintaining a minimal false positive rate on independent models. During verification, the owner queries the suspicious model using the probe set $\mathcal{P}_k$ and computes a $p$-value to evaluate the watermark signal. A distilled student model $\mathcal{M}_s$ should exhibit statistically significant evidence of the watermark, satisfying $p\mathtt{-value} < p$, whereas a clean model $\mathcal{M}_{c}$ should yield $p\mathtt{-value} > p$.
-
-\partitle{Harmlessness} The real-time watermarking mechanism should not degrade the normal operation of the teacher model $\mathcal{M}_t$. This entails two main aspects: task utility and inference efficiency. Specifically, the watermarked teacher model must maintain a success rate on the same tasks comparable to its unwatermarked counterpart, and the watermark embedding process should not significantly inflate the length or computational cost of the generated trajectories.
-
-\partitle{Robustness} The watermark must resist data modifications applied by attackers. Even if the attacker alters the dataset through data flooding, semantic rewriting, truncation, and adaptive cleaning attacks. the watermark signal should remain detectable in the student model.
+To protect the intellectual property of a teacher agent $\mathcal{M}_t$, the model owner employs a secret key $k$ to embed watermark signals in real time during the generation of trajectories $\tau$. After attackers query the model to obtain a watermarked dataset $\mathcal{D}$, they attempts to clone the teacher's capabilities by training an base model $\mathcal{M}_c$ on $\mathcal{D}$ via a distillation algorithm to get the student model $\mathcal{M}_s$. Then model owner audits suspicious student models using a private probe set $\mathcal{P}_k$.
 
 \subsection{Access and Threat Model}
 

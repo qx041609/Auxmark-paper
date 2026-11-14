@@ -7,12 +7,11 @@
 % [narrow background: we should talk about some anti-distillation approaches documented by mainstream providers, and how they still get evaded. also,
 % the providers report shows a key missing piece: although they can detect and stop unauthorized distillation campaigns through traffic monitoring, knowing which traces are potentially collected, they don't have a way to prove a suspect student model was trained on these output -- i..e, a forensic tracing technique is missing.
 % ]
-Mainstream providers (e.g., OpenAI, Anthropic and Google) already provided technical reports on their anti-distllation campaign~\cite{}. \mingxun{cite} The deployed solutions are typically based on a combination of \emph{traffic screening}, \emph{account controls}, and \emph{output safeguards} to counter unauthorized distillation~\cite{}, similar to the conventional anti-scraping techniques used in web services~\cite{}.
-\mingxun{TODO: cite}
+Mainstream providers (e.g., OpenAI, Anthropic and Google) already provided technical reports on their anti-distllation campaign~\cite{OpenAIkey, googleGTIGThreat, anthropicDetectingPreventing}. The deployed solutions are typically based on a combination of \emph{traffic screening}, \emph{account controls}, and \emph{output safeguards} to counter unauthorized distillation~\cite{anthropicDetectingPreventing}, similar to the conventional anti-scraping techniques used in web services~\cite{li2026webcloak, wilson2025predictive}.
 For example, providers can identify and block suspicious traffic patterns if their behaviors are coordinated and automated, or if they are associated with known malicious accounts.
 Moreover, providers can also restrict access to reasoning traces and other useful training materials, rewrite or remove them from the output to prevent potential collection. 
-However, it has been well documented that these defenses are not foolproof. Distillers can evade these controls through proxy networks, mix collection with ordinary traffic, and even actively acquire user interactions from third-party service relays. Moreover, the reasoning traces and other critical materials are constantly being leaked through various channels even with access restrictions.
- \mingxun{cite the stealing reasoning trace paper, and some jail breaking paper that leaks the system prompt}
+However, it has been well documented that these defenses are not foolproof. Distillers can evade these controls through proxy networks, mix collection with ordinary traffic, and even actively acquire user interactions from third-party service relays. Moreover, the reasoning traces and other critical materials are constantly being leaked through various channels even with access restrictions\cite{panfilov2026stealing, hui2024pleak}.
+
 
 % Writing guidance: first describe fully passive comparisons between the suspect
 % student and teacher; then describe active embedding of learnable signals.
