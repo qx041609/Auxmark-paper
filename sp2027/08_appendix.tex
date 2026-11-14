@@ -450,14 +450,14 @@ That dilution result is prior evidence, not an experiment conducted here.
 
 \subsection{Vulnerabilities in Token-Level N-gram Matching}
 \label{sec:textual-similarity}
-For Reasoning PF~\cite{panfilov2026stealing} prefill the model's
-reasoning with a short teacher prefix. They use n-gram overlap between
-the target model's visible answer and the teacher reference as evidence of distillation. Yet the target model generates the
-visible answer itself. High overlap may also come from the wording of a prefix
-or from models using the same standard solution. We study two public problems:
-one compares different prefixes and model versions, and the other tests overlap
-from a common solution. We use the first 100 tokens of each answer and score
-the share of distinct reference 1--3-grams also found in the candidate.
+Reasoning PF~\cite{panfilov2026stealing} prefixes a model's reasoning with a
+short teacher trace and uses n-gram overlap between the resulting answer and
+the teacher reference as evidence of distillation. This comparison depends
+on which features of the answer contribute to the overlap. Prefix wording,
+presentation choices, and conventional mathematical expressions may all
+affect the score. We examine these effects in two public problems. Our local
+measure uses the first 100 tokens of each answer and computes the share of
+distinct reference 1--3-grams found in the candidate.
 
 Figure~\ref{fig:ngram-vulnerability} summarizes the results. On the geometry
 problem, Kimi-K2.6, which was released before Claude Opus~4.8
