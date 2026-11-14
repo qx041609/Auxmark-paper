@@ -157,20 +157,24 @@ decision rules; they do not establish that every watermark signal disappears.
 Appendix~\ref{sec:watermark-limitations} gives the configurations, per-model
 results, and a separate ADFP case study on tool-call utility.
 
-\partitle{Finding 2: Passive similarity can reflect shared solutions and
-behavior rather than a specific training source}
-We examine reasoning-prefill overlap and AgentEcho's action-graph metrics.
-In selected public reasoning problems, conventional solutions and alternative
-prefixes produce substantial answer overlap under our local scoring proxy.
-This exposes alternative explanations for the overlap; it does not establish
-the evaluated models' training histories.
-For AgentEcho, we construct structurally different graphs with identical
-dependency-similarity scores. This collision concerns the dependency
-component, not the entire aggregate score.
-Our trajectory audit also finds high dependency similarity across different
-execution structures. Separately, a reasoning-distilled model becomes more
-similar to several comparison models, so the increase does not uniquely
-identify a teacher.
+\partitle{Finding 2: Similarity scores can give ambiguous evidence of a training source}
+Passive fingerprinting uses similarities between models to infer a training
+relationship. But the selected patterns may capture shared conventions or
+miss meaningful differences. On two public reasoning problems, prefix changes
+and conventional solutions yield substantial answer overlap under our local
+n-gram measure. An alternative prefix can yield higher overlap than the
+teacher prefix, while a standard mathematical solution can yield high overlap
+even without a reasoning prefix.
+
+The problem also extends to tool-use structure. For AgentEcho, we construct
+graphs with very different dependencies that receive identical
+dependency-similarity scores. Beyond these constructed examples, our
+trajectory audit finds high scores across structurally different executions.
+
+We also find that a reasoning-distilled model becomes more similar to several
+comparison models. The largest increase is toward Kimi-K2, although the
+model card names Claude Opus~4.6 as the teacher. Such changes can be difficult
+to interpret against the overlapping training histories of modern models.
 Appendices~\ref{sec:textual-similarity} and~\ref{sec:dependency-ambiguity}
 provide the counterexamples, controls, and measurements.
 
